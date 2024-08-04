@@ -13,8 +13,6 @@ if __name__ == "__main__":
 
     banco = DataBase("../data/database.db")
     if banco.connect():
-        # banco.create_table()
-        # banco.insert_data("Erick")
         banco.consult_data()
         banco.disconnect()
 
