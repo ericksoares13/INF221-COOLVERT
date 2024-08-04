@@ -10,7 +10,7 @@ class DataBase:
         self.db = None
 
     def connect(self):
-        self.db = QSqlDatabase.addDatabase("QSQLITE")  # Define o tipo de banco de dados
+        self.db = QSqlDatabase.addDatabase("QSQLITE")
         self.db.setDatabaseName(self.db_name)
 
         if not self.db.open():
@@ -21,7 +21,6 @@ class DataBase:
         return True
 
     def create_table(self):
-        """Cria uma tabela no banco de dados."""
         if not self.db.isOpen():
             print(invalidConnection)
             return
@@ -42,7 +41,6 @@ class DataBase:
             print("Tabela criada com sucesso.")
 
     def insert_data(self, nome):
-        """Insere dados na tabela."""
         if not self.db.isOpen():
             print(invalidConnection)
             return
@@ -57,7 +55,6 @@ class DataBase:
             print("Dados inseridos com sucesso.")
 
     def consult_data(self):
-        """Consulta e exibe os dados da tabela."""
         if not self.db.isOpen():
             print(invalidConnection)
             return
