@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Inicial</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .bg-image {
+            background-image: url('{{ url_for('static', filename='images/background.jpg') }}');
+            height: 88%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+
+        .content {
+            background-color: #E5E5E5;
+            height: 12%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+
+        .btn-custom {
+            width: 180px;
+            height: 62px;
+            font-size: 18px; 
+            font-weight: bold;
+        }
+
+        .bt1 {
+            color: #FFFFFF;
+            background-color: #005082;
+        }
+
+        .bt2 {
+            color: #005082;
+            background-color: #ECF1F4;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="bg-image"></div>
+
+<div class="content">
+    <form action="/cadastrar" method="POST">
+        <button type="submit" class="btn btn-lg btn-custom bt1">Cadastrar</button>
+    </form>
+    <form action="/entrar" method="POST">
+        <button type="submit" class="btn btn-lg btn-custom bt2">Entrar</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
