@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .back-arrow {
+            display: inline-block;     
+            margin-top: 60px;       
+            position: relative;
+            left: 16px;
+        }
+
+        .login{
+            width: 333px;
+            color: #0e0e2c;
+            font-family: 'Raleway', sans-serif;
+            font-size: 24;
+            margin-top: 44px;
+            position: relative;
+            letter-spacing: -1px;
+            left: 27px;
+        }
+        
+        .extrabold{
+            font-weight: 800;            
+        }
+
+        .medium{
+            font-weight: 500;            
+        }
+
+        label[id="emailLabel"] {
+            display: block; 
+            margin-bottom: 8px;  
+            font-family: 'Roboto', sans-serif;
+            font-size: 14;
+            color: #868686;            
+            margin-top: 236px;
+            position: relative;
+            left: 27px;
+        }
+        
+        label[id="senhaLabel"] {
+            display: block; 
+            margin-bottom: 8px;  
+            font-family: 'Roboto', sans-serif;
+            font-size: 14;
+            color: #868686;            
+            margin-top: 33px;
+            position: relative;
+            left: 27px;
+        }
+
+        input[type="email" ] {
+            width: 320px;
+            height: 30px;
+            padding: 10px;
+            position: relative;
+            left: 27px;
+            border: 1px solid #ccc;
+            background-color: #ecf1f4;
+            border-radius: 8px;  
+            font-size: 16; 
+        }
+
+        input[type="email" ]::placeholder {
+            color: #868686;
+        }
+
+        input[type="password" ] {
+            width: 320px;
+            height: 30px;
+            padding: 10px;
+            position: relative;
+            left: 27px;
+            border: 1px solid #ccc;
+            background-color: #ecf1f4;
+            border-radius: 8px;  
+            font-size: 16; 
+        }
+
+        input[type="password" ]::placeholder {
+            color: #868686;
+        }
+
+        .senhaEsquecida{
+            width: 312px;
+            margin-top: 15px;
+            position: relative;
+            font-family: 'Roboto', sans-serif;
+            left: 33px;
+            color: #005082;  
+            font-size: 14; 
+            letter-spacing: -0.5px;
+        }
+        
+        .botaoEntrar {
+            width: 375px;
+            margin-top: 128px;
+            position: relative;
+            left: 25px;
+            padding: 10px 20px;
+            font-size: 16;
+            font-weight: bold;
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            color: #fff;
+            background-color: #005082;
+            border: 2px solid #005082;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .semCadastro{
+            width: 312px;
+            margin-top: 20px;
+            position: relative;
+            font-family: 'Roboto', sans-serif;
+            left: 75px;
+            color: #005082;  
+            font-size: 14; 
+            letter-spacing: -0.5px;
+        }
+    </style>
+</head>
+
+<body>
+    <i class="fas fa-arrow-left back-arrow"></i>
+    <div class="login">
+        <h2 class="extrabold">Entrar na sua conta</h2>
+    </div>
+
+    <form>
+        <div>
+          <label id="emailLabel" for="emailLogin">Email</label>
+          <input type="email" class="form-control" id="emailLogin" aria-labelledby="emailLabel" placeholder="exemplo@gmail.com">
+        </div>
+        <div>
+          <label id="senhaLabel" for="senhaLogin">Senha</label>
+          <input type="password" class="form-control" id="senhaLogin" aria-labelledby="senhaLabel" placeholder="***********">
+        </div>
+        <div class="senhaEsquecida">
+            <p class="medium">Esqueci minha senha</p>
+        </div>
+        <button type="submit" class="botaoEntrar">ENTRAR</button>
+        <div class="semCadastro">
+            <p class="medium">Não possui uma conta? Cadastre-se aqui</p>
+        </div>
+    </form>
+</body>
+</html>
