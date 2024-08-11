@@ -11,3 +11,6 @@ class Pessoa(bd.Model):
 
     def __repr__(self):
         return f'<({self.id}) {self.nome} {self.email} {self.senha} {self.tipo}>'
+    
+    def verifica_senha(self, senha):
+        return self.senha == senha
