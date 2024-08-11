@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .button {
+            width: 400px;
+            height: 60px;
+            position: absolute;
+            top: 800px;
+            left: 15px;
+            border-radius: 8px;
+            padding: 12px 24px;
+            gap: 8px;
+            background-color: #005082;
+            color: white;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            line-height: 16.44px;
+            letter-spacing: 4%;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .form-group {
+            width: 430px;
+            padding: 10px 20px;
+            border-radius: 8px 0 0 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .form-group label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 800;
+            font-size: 14px;
+            width: 430px;
+            color: #8c9091;
+            line-height: 16.44px;
+            letter-spacing: 4%;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            height: 48px;
+            padding: 12px 16px;
+            padding-right: 40px; /* Espaço para o ícone */
+            border-radius: 8px;
+            background-color: #ECF1F4;
+            box-sizing: border-box;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 800;
+            font-size: 14px;
+            line-height: 16.44px;
+            letter-spacing: 4%;
+        }
+
+        .form-group input::placeholder {
+            color: rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group input:focus::placeholder {
+            opacity: 0;
+        }
+
+        .form-group .toggle-icon {
+            position: absolute;
+            right: 35px;
+            top: 60%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: rgba(0, 80, 130, 0.51);
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: rgba(0, 0, 0, 0.68);
+            cursor: pointer;
+        }
+
+        h1 {
+            width: 333px;
+            height: 28px;
+            gap: 0px;
+            opacity: 1;
+            font-family: 'Raleway', sans-serif;
+            font-size: 24px;
+            font-weight: 1000;
+            line-height: 28.18px;
+            letter-spacing: 0.05em;
+            text-align: left;
+            color: #0E0E2C;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            margin-left: 20px;
+        }
+
+        .content {
+            position: relative;
+            padding-top: 40px; /* Ajuste para espaço para o botão de voltar */
+        }
+    </style>
+</head>
+<body>
+
+<div class="content">
+    <i class="fas fa-arrow-left back-button" onclick="goBack()"></i>
+    <h1>Cadastro</h1>
+    <form action="/cadastro" method="POST">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" class="form-control" id="email" placeholder="exemplo@gmail.com">
+        </div>
+        <div class="form-group">
+            <label for="username">Nome de usuário</label>
+            <input type="text" name="username" class="form-control" id="username">
+        </div>
+        <div class="form-group">
+            <label for="password">Senha</label>
+            <input type="password" name="password" class="form-control" id="password" placeholder="********">
+            <i class="fas fa-eye toggle-icon" id="toggle-password"></i>
+        </div>
+        <div class="form-group">
+            <label for="confirm-password">Confirme a senha</label>
+            <input type="password" name="confirm-password" class="form-control" id="confirm-password" placeholder="********">
+            <i class="fas fa-eye toggle-icon" id="toggle-confirm-password"></i>
+        </div>
+        <button type="submit" class="btn btn-lg button">CADASTRAR</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function setupPasswordToggle(toggleId, passwordId) {
+        const toggle = document.getElementById(toggleId);
+        const passwordField = document.getElementById(passwordId);
+
+        toggle.addEventListener('click', () => {
+            const type = passwordField.type === 'password' ? 'text' : 'password';
+            passwordField.type = type;
+            toggle.classList.toggle('fa-eye');
+            toggle.classList.toggle('fa-eye-slash');
+        });
+    }
+
+    setupPasswordToggle('toggle-password', 'password');
+    setupPasswordToggle('toggle-confirm-password', 'confirm-password');
+
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>
