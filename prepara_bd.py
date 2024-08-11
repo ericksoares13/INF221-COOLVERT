@@ -1,16 +1,10 @@
-from app.models.BancoDeDados import BancoDeDados
+from app import app, bd
+from app.models.Pessoa import Pessoa
 
 if __name__ == '__main__':
-    bd = BancoDeDados('./instance/app.db')
+    with app.app_context():
+        bd.create_all()
     
-    cria_tabela_pessoa_query = '''
-    CREATE TABLE IF NOT EXISTS Pessoa (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nome TEXT NOT NULL,
-        senha TEXT NOT NULL,
-        tipo TEXT NOT NULL
-    );
-    '''
-    
-    bd.cria_tabela(cria_tabela_pessoa_query)
-    bd.insere_pessoa('Joaozinho', '123', 'M')
+        #nova_pessoa = Pessoa(nome="João", email="joao@example.com", senha="1234", tipo="M")
+        #bd.session.add(nova_pessoa)
+        #bd.session.commit()
