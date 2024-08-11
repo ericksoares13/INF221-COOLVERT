@@ -133,25 +133,43 @@
     <h1>Cadastro</h1>
     <form action="/cadastro" method="POST">
         <div class="form-group">
-            <label for="email">Email</label>
-            <input type="text" name="email" class="form-control" id="email" placeholder="exemplo@gmail.com" required>
+            <label for="email">Email *</label>
+            <input type="text" name="email" class="form-control" id="email" placeholder="exemplo@gmail.com" value="{{ email }}">
         </div>
         <div class="form-group">
-            <label for="username">Nome de usuário</label>
-            <input type="text" name="username" class="form-control" id="username" required>
+            <label for="username">Nome de usuário *</label>
+            <input type="text" name="username" class="form-control" id="username" value="{{ username }}">
         </div>
         <div class="form-group">
-            <label for="password">Senha</label>
-            <input type="password" name="password" class="form-control" id="password" placeholder="********" required>
+            <label for="password">Senha *</label>
+            <input type="password" name="password" class="form-control" id="password" placeholder="********" value="{{ password }}">
             <i class="fas fa-eye toggle-icon" id="toggle-password"></i>
         </div>
         <div class="form-group">
-            <label for="confirm-password">Confirme a senha</label>
-            <input type="password" name="confirm-password" class="form-control" id="confirm-password" placeholder="********" required>
+            <label for="confirm_password">Confirme a senha *</label>
+            <input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="********" value="{{ confirm_password }}">
             <i class="fas fa-eye toggle-icon" id="toggle-confirm-password"></i>
         </div>
         <button type="submit" class="btn btn-lg button">CADASTRAR</button>
     </form>
+</div>
+
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Erro</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="errorMessage">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -171,11 +189,25 @@
     }
 
     setupPasswordToggle('toggle-password', 'password');
-    setupPasswordToggle('toggle-confirm-password', 'confirm-password');
+    setupPasswordToggle('toggle-confirm-password', 'confirm_password');
 
     function goBack() {
-        window.history.back();
+        window.location.href = '/';
     }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const required_fields_error = "{{ required_fields_error }}";
+        if (required_fields_error) {
+            document.getElementById('errorMessage').textContent = required_fields_error;
+            $('#errorModal').modal('show');
+        }
+        const pasword_error = "{{ pasword_error }}";
+        if (pasword_error) {
+            document.getElementById('errorMessage').textContent = pasword_error;
+            $('#errorModal').modal('show');
+        }
+    });
 </script>
 </body>
 </html>
