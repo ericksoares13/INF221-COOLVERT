@@ -7,10 +7,8 @@ def index():
 
 @app.route('/cadastrar', methods=['POST'])
 def cadastrar():
-    print("teste")
     return '', 204
 
 @app.route('/entrar', methods=['POST'])
 def entrar():
-    print("teste")
     return '', 204
