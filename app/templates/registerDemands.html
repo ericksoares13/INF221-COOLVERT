@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criação da Demanda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: white;
+        }
+
+        p {
+            width: 370px;
+            height: 45px;
+            top: 143px;
+            left: 24px;
+        }
+
+        h2 {
+            width: 300px;
+            height: 35px;
+            font-weight: 800;
+            font-size: 27px;
+            line-height: 28.18px;
+            color: #0E0E2C;
+        }
+
+        label {
+            margin-top: 9px;
+            margin-bottom: 3px;
+            display: block;
+            color: #333;
+        }
+
+        input[type="text"], input[type="number"], textarea {
+            width: 380px;
+            padding: 12px;
+            margin-top: 5px;
+            margin-bottom: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #ECF1F4
+        }
+
+        .checkbox-group, .radio-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 7px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group label, .radio-group label {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        .checkbox-group input, .radio-group input {
+            transform: scale(1.7);
+            margin-right: 7px;
+            margin-left: 5px;
+            background-color: deeppink;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 30px;
+        }
+
+        .slider-switch {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ECF1F4;;
+            transition: .4s;
+            border-radius: 34px;
+            border: 1px solid #ccc;
+            width: 50px;
+            height: 29px;
+        }
+
+        .slider-switch:before {
+            position: absolute;
+            content: "";
+            height: 25px;
+            width: 25px;
+            left: 2px;
+            bottom: 1px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        .slider {
+            width: 98%;
+        }
+
+        .slider-values {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .min-value {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        .max-value {
+            width: 100%;
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        .current-value {
+            font-weight: 600;
+            color: #000000;
+        }
+
+        input:checked + .slider-switch {
+            background-color: #3473ef;
+        }
+
+        input:checked + .slider-switch:before {
+            transform: translateX(20px);
+        }
+
+        .btn {
+            background-color: #0055b3;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+         .content {
+            position: relative;
+            padding-top: 50px; /* Ajuste para espaço para o botão de voltar */
+        }
+
+        .back-button {
+            position: absolute;
+            top: 5px;
+            font-size: 24px;
+            color: rgba(0, 0, 0, 0.68);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #003f8c;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+    <i class="fas fa-arrow-left back-button" onclick="goBack()"></i>
+    </div>
+    <h2>Criação da demanda</h2>
+    <p>Estabeleça os critérios do evento que você busca, eles serão visíveis para os músicos!</p>
+
+    <label for="data-show">Data do show</label>
+    <input type="text" id="data-show" name="data-show" placeholder="dd/mm/aaaa">
+
+    <label for="raio-procurado">Raio procurado</label>
+    <input type="range" id="raio-procurado" name="raio-procurado" min="0" max="200" class="slider">
+    <div class="slider-values">
+        <span class="min-value">0 km</span>
+         <span class="current-value">100</span>
+        <span class="max-value">200 km</span>
+    </div>
+
+    <label>Estilo musical</label>
+    <div class="checkbox-group">
+        <label><input type="checkbox" name="estilo" value="rock"> Rock</label>
+        <label><input type="checkbox" name="estilo" value="sertanejo"> Sertanejo</label>
+        <label><input type="checkbox" name="estilo" value="eletronico"> Eletrônico</label>
+        <label><input type="checkbox" name="estilo" value="pop"> Pop</label>
+        <label><input type="checkbox" name="estilo" value="forro"> Forró</label>
+        <label><input type="checkbox" name="estilo" value="axe"> Axé</label>
+        <label><input type="checkbox" name="estilo" value="mpb"> MPB</label>
+        <label><input type="checkbox" name="estilo" value="funk"> Funk</label>
+        <label><input type="checkbox" name="estilo" value="bossanova"> Bossa Nova</label>
+    </div>
+
+    <label for="equipamento-som">Fornece equipamento de som?</label>
+    <label class="switch">
+        <input type="checkbox" id="equipamento-som">
+        <span class="slider-switch"></span>
+    </label>
+
+    <label for="publico-esperado">Público médio esperado</label>
+    <input type="number" id="publico-esperado" name="publico-esperado" placeholder="Número de pessoas">
+
+    <label for="duracao-show">Duração esperada do show</label>
+    <input type="text" id="duracao-show" name="duracao-show" placeholder="Ex.: 2 horas">
+
+    <label>Pagamento</label>
+    <div class="radio-group">
+        <label><input type="radio" name="pagamento" value="fixo"> Fixo</label>
+        <label><input type="radio" name="pagamento" value="couvert"> Couvert</label>
+        <label><input type="radio" name="pagamento" value="apos-evento"> Após o evento</label>
+        <label><input type="radio" name="pagamento" value="antecipado"> Antecipado</label>
+    </div>
+
+    <button class="btn">CRIAR DEMANDA</button>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var slider = document.getElementById('raio-procurado');
+        var currentValue = document.querySelector('.current-value');
+        currentValue.textContent = slider.value;
+        slider.addEventListener('input', function() {
+            currentValue.textContent = slider.value;
+        });
+    });
+    </script>
+
+</body>
+</html>
