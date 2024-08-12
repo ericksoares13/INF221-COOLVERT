@@ -94,6 +94,13 @@
             color: rgba(0, 80, 130, 0.51);
         }
 
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear,
+        input[type="password"]::-webkit-clear-button,
+        input[type="password"]::-webkit-reveal-button {
+            display: none;
+        }
+
         .back-button {
             position: absolute;
             top: 20px;
@@ -124,6 +131,31 @@
             position: relative;
             padding-top: 40px; /* Ajuste para espaço para o botão de voltar */
         }
+
+        #password-requirements li {
+            display: flex;
+            align-items: center;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            color: #8c9091;
+            padding-left: 55px;
+            position: relative;
+        }
+
+        #password-requirements li i {
+            position: absolute;
+            left: 35px;
+            font-size: 16px;
+            color: #8c9091;
+        }
+
+        #password-requirements li.invalid i {
+            position: absolute;
+            left: 38px;
+            font-size: 16px;
+            color: #8c9091;
+        }
     </style>
 </head>
 <body>
@@ -143,12 +175,19 @@
         <div class="form-group">
             <label for="password">Senha *</label>
             <input type="password" name="password" class="form-control" id="password" placeholder="********" value="{{ password }}">
-            <i class="fas fa-eye toggle-icon" id="toggle-password"></i>
+            <i class="fas fa-eye-slash toggle-icon" id="toggle-password"></i>
         </div>
+        <ul id="password-requirements" class="list-unstyled mt-2">
+            <li id="length" class="invalid"><i class="fas fa-times"></i>Pelo menos 8 caracteres</li>
+            <li id="lowercase" class="invalid"><i class="fas fa-times"></i>Pelo menos uma letra minúscula</li>
+            <li id="uppercase" class="invalid"><i class="fas fa-times"></i>Pelo menos uma letra maiúscula</li>
+            <li id="number" class="invalid"><i class="fas fa-times"></i>Pelo menos um número</li>
+            <li id="special" class="invalid"><i class="fas fa-times"></i>Pelo menos um caractere especial</li>
+        </ul>
         <div class="form-group">
             <label for="confirm_password">Confirme a senha *</label>
             <input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="********" value="{{ confirm_password }}">
-            <i class="fas fa-eye toggle-icon" id="toggle-confirm-password"></i>
+            <i class="fas fa-eye-slash toggle-icon" id="toggle-confirm-password"></i>
         </div>
         <button type="submit" class="btn btn-lg button">CADASTRAR</button>
     </form>
@@ -194,8 +233,7 @@
     function goBack() {
         window.location.href = '/';
     }
-</script>
-<script>
+
     document.addEventListener('DOMContentLoaded', (event) => {
         const invalid_email_error = "{{ invalid_email_error }}";
         if (invalid_email_error) {
@@ -222,6 +260,42 @@
             document.getElementById('errorMessage').textContent = pasword_error;
             $('#errorModal').modal('show');
         }
+    });
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        function updatePasswordRequirements() {
+            const senha = document.getElementById('password').value;
+
+            const lengthCriteria = senha.length >= 8;
+            document.getElementById('length').classList.toggle('valid', lengthCriteria);
+            document.getElementById('length').classList.toggle('invalid', !lengthCriteria);
+            document.getElementById('length').querySelector('i').className = lengthCriteria ? 'fas fa-check' : 'fas fa-times';
+
+            const lowercaseCriteria = /[a-z]/.test(senha);
+            document.getElementById('lowercase').classList.toggle('valid', lowercaseCriteria);
+            document.getElementById('lowercase').classList.toggle('invalid', !lowercaseCriteria);
+            document.getElementById('lowercase').querySelector('i').className = lowercaseCriteria ? 'fas fa-check' : 'fas fa-times';
+
+            const uppercaseCriteria = /[A-Z]/.test(senha);
+            document.getElementById('uppercase').classList.toggle('valid', uppercaseCriteria);
+            document.getElementById('uppercase').classList.toggle('invalid', !uppercaseCriteria);
+            document.getElementById('uppercase').querySelector('i').className = uppercaseCriteria ? 'fas fa-check' : 'fas fa-times';
+
+            const numberCriteria = /\d/.test(senha);
+            document.getElementById('number').classList.toggle('valid', numberCriteria);
+            document.getElementById('number').classList.toggle('invalid', !numberCriteria);
+            document.getElementById('number').querySelector('i').className = numberCriteria ? 'fas fa-check' : 'fas fa-times';
+
+            const specialCriteria = /[@$!%*?&]/.test(senha);
+            document.getElementById('special').classList.toggle('valid', specialCriteria);
+            document.getElementById('special').classList.toggle('invalid', !specialCriteria);
+            document.getElementById('special').querySelector('i').className = specialCriteria ? 'fas fa-check' : 'fas fa-times';
+        }
+
+        document.getElementById('password').addEventListener('input', updatePasswordRequirements);
+        document.getElementById('confirm_password').addEventListener('input', updatePasswordRequirements);
+
+        updatePasswordRequirements();
     });
 </script>
 </body>
