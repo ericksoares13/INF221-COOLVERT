@@ -46,14 +46,42 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
-            background-color: #ECF1F4
+            background-color: #ECF1F4;
         }
 
-        .checkbox-group, .radio-group {
+        input[type="date"] {
+            -webkit-appearance: none; /* Remove estilo padrão do WebKit */
+            -moz-appearance: none; /* Remove estilo padrão do Firefox */
+            appearance: none; /* Remove estilo padrão dos navegadores */
+            width: 380px;
+            padding: 12px;
+            margin-top: 5px;
+            margin-bottom: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #ECF1F4;
+            color: #333;
+        }
+
+        .checkbox-group {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 7px;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
+        }
+
+        .radio-group div {
+            display: flex;
+            flex-direction: column;
+            row-gap: 7px;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            column-gap: 100px;
+            margin-bottom: 20px;
         }
 
         .checkbox-group label, .radio-group label {
@@ -64,9 +92,28 @@
 
         .checkbox-group input, .radio-group input {
             transform: scale(1.7);
-            margin-right: 7px;
+            margin-right: 12px;
             margin-left: 5px;
-            background-color: deeppink;
+            background-color: #ECF1F4;
+        }
+
+        input[type="checkbox"], input[type="radio"] {
+            width: 15px;
+            height: 15px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: #ECF1F4;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        input[type="checkbox"]:checked, input[type="radio"]:checked {
+            background-color: #3473ef;
+            border: 1px solid #ccc;
         }
 
         .switch {
@@ -89,7 +136,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #ECF1F4;;
+            background-color: #ECF1F4;
             transition: .4s;
             border-radius: 34px;
             border: 1px solid #ccc;
@@ -147,12 +194,14 @@
         .btn {
             background-color: #0055b3;
             color: white;
-            padding: 10px;
+            padding: 12px;
             border: none;
-            border-radius: 5px;
-            width: 100%;
+            border-radius: 8px;
+            width: 99%;
             font-size: 16px;
+            font-weight: 800;
             cursor: pointer;
+            margin: 5px auto;
         }
 
          .content {
@@ -181,7 +230,7 @@
     <p>Estabeleça os critérios do evento que você busca, eles serão visíveis para os músicos!</p>
 
     <label for="data-show">Data do show</label>
-    <input type="text" id="data-show" name="data-show" placeholder="dd/mm/aaaa">
+    <input type="date" id="data-show" name="data-show" placeholder="dd/mm/aaaa">
 
     <label for="raio-procurado">Raio procurado</label>
     <input type="range" id="raio-procurado" name="raio-procurado" min="0" max="200" class="slider">
@@ -218,10 +267,14 @@
 
     <label>Pagamento</label>
     <div class="radio-group">
-        <label><input type="radio" name="pagamento" value="fixo"> Fixo</label>
-        <label><input type="radio" name="pagamento" value="couvert"> Couvert</label>
-        <label><input type="radio" name="pagamento" value="apos-evento"> Após o evento</label>
-        <label><input type="radio" name="pagamento" value="antecipado"> Antecipado</label>
+        <div>
+            <label><input type="radio" name="pagamento1" value="fixo"> Fixo</label>
+            <label><input type="radio" name="pagamento1" value="couvert"> Couvert</label>
+        </div>
+        <div>
+            <label><input type="radio" name="pagamento2" value="apos-evento"> Após o evento</label>
+            <label><input type="radio" name="pagamento2" value="antecipado"> Antecipado</label>
+        </div>
     </div>
 
     <button class="btn">CRIAR DEMANDA</button>
