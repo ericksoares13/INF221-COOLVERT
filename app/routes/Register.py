@@ -76,4 +76,4 @@ def cadastro():
             confirm_password=confirm_password,
         )
 
-    return render_template("index.html")
+    return render_template("userType.html")
