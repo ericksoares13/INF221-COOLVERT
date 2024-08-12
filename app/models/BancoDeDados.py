@@ -9,10 +9,7 @@ class BancoDeDados:
         with app.app_context():
             pessoa = Pessoa.query.filter_by(email=obj['email']).first()
             if pessoa and pessoa.verifica_senha(obj['senha']):
-                if Pessoa.tipo == 'M':
-                    return Musico.query.filter_by(id=pessoa.id).first()
-                else:
-                    return Contratante.query.filter_by(id=pessoa.id).first()
+                return pessoa
             else: 
                 return None
     
@@ -45,7 +42,6 @@ class BancoDeDados:
             novo_musico = Musico(id=obj['id'], nome_pessoal=obj['nome_pessoal'], nome_artistico=obj['nome_artistico'])
             bd.session.add(novo_musico)
             bd.session.commit()
-            return novo_musico
             
     @staticmethod
     def CriaContratante(obj):
@@ -55,7 +51,18 @@ class BancoDeDados:
             novo_contratante = Contratante(id=obj['id'], nome_estabelecimento=obj['nome_estabelecimento'], cidade=obj['cidade'])
             bd.session.add(novo_contratante)
             bd.session.commit()
-            return novo_contratante
+        
+    @staticmethod
+    def VerificaEstiloMusical(nome):
+        with app.app_context():
+            return False if EstiloMusical.query.filter_by(nome=nome).first() else True
+        
+    @staticmethod
+    def CriaEstiloMusical(nome):
+        with app.app_context():
+            estiloMusical = EstiloMusical(nome=nome)
+            bd.session.add(estiloMusical)
+            bd.session.commit()
             
     @staticmethod
     def CriaDemanda(obj):
@@ -71,3 +78,39 @@ class BancoDeDados:
             contratante.demandas.append(nova_demanda)
             bd.session.add(nova_demanda)
             bd.session.commit()
+    
+    @staticmethod
+    def GetDemandas(id_dono=None):
+        with app.app_context():
+            if id_dono is None:
+                return list(Demanda.query.all())
+            else:
+                return list(Demanda.query.filter_by(dono=id_dono).all())
+            
+    @staticmethod
+    def CriaMatch(obj):
+        with app.app_context():
+            match = Match(id_musico=obj['id_musico'], id_demanda=obj['id_demanda'])
+            bd.session.add(match)
+            bd.session.commit()
+            return match.id
+        
+    @staticmethod
+    def GetMusicos(id_demanda):
+        with app.app_context():
+            return [ id[0] for id in Match.query.with_entities(Match.id_musico).filter_by(id_demanda=id_demanda).all() ]
+        
+    @staticmethod
+    def EnviaMensagem(obj):
+        with app.app_context():
+            mensagem = Mensagem(match=obj['match'], dono=obj['dono'], mensagem=obj['mensagem'])
+            bd.session.add(mensagem)
+            bd.session.commit()
+    
+    @staticmethod
+    def GetChat(id_match):
+        with app.app_context():
+            return sorted(list(Mensagem.query.filter_by(match=id_match).all()), key=lambda x: x.horario)
+    
+        
+    

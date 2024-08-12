@@ -5,7 +5,7 @@ from datetime import date
 
 if __name__ == '__main__':
     with app.app_context():
-        #bd.create_all() # Usado quando vai criar novas tabelas
+        bd.create_all() # Usado quando vai criar novas tabelas
         
         #Musico
         musico_obj = {
@@ -43,6 +43,7 @@ if __name__ == '__main__':
             'senha': '654321'
         }
         
+        
         if BancoDeDados.VerificaEmail(musico_obj['email']):
             musico = BancoDeDados.CriaMusico(musico_obj)
 
@@ -60,6 +61,34 @@ if __name__ == '__main__':
         else: 
             print("Email ou senha incorretos.")
             
+        #Estilos Musicais
+        if BancoDeDados.VerificaEstiloMusical('Rock'):
+            BancoDeDados.CriaEstiloMusical('Rock')
+            
+        if BancoDeDados.VerificaEstiloMusical('Pop'):
+            BancoDeDados.CriaEstiloMusical('Pop')
+            
+        if BancoDeDados.VerificaEstiloMusical('MPB'):
+            BancoDeDados.CriaEstiloMusical('MPB')
+            
+        if BancoDeDados.VerificaEstiloMusical('Sertanejo'):
+            BancoDeDados.CriaEstiloMusical('Sertanejo')
+            
+        if BancoDeDados.VerificaEstiloMusical('Forró'):
+            BancoDeDados.CriaEstiloMusical('Forró')
+            
+        if BancoDeDados.VerificaEstiloMusical('Funk'):
+            BancoDeDados.CriaEstiloMusical('Funk')
+            
+        if BancoDeDados.VerificaEstiloMusical('Eletrônico'):
+            BancoDeDados.CriaEstiloMusical('Eletrônico')
+            
+        if BancoDeDados.VerificaEstiloMusical('Axé'):
+            BancoDeDados.CriaEstiloMusical('Axé')
+                
+        if BancoDeDados.VerificaEstiloMusical('Bossa Nova'):
+            BancoDeDados.CriaEstiloMusical('Bossa Nova')
+            
         #Demanda
         demanda_obj = {
             'data_show': date(2024, 9, 1),
@@ -73,22 +102,45 @@ if __name__ == '__main__':
             'dono': contratante.id
         }
         
-        BancoDeDados.CriaDemanda(demanda_obj)
+        BancoDeDados.CriaDemanda(demanda_obj) # execute apenas pra não ficar repetindo
+        print('Demandas:')
+        demandas = BancoDeDados.GetDemandas(contratante.id)
+        for demanda in demandas:
+            print(demanda)
+            
+        #Match
+        musico = BancoDeDados.Login({'email': 'katyperry@diva.com', 'senha': '123slay'})
         
-        '''
-        estilosMusicais = [ 
-            EstiloMusical(nome='Rock'), 
-            EstiloMusical(nome='Pop'), 
-            EstiloMusical(nome='MPB'), 
-            EstiloMusical(nome='Sertanejo'),
-            EstiloMusical(nome='Forró'),
-            EstiloMusical(nome='Funk'),
-            EstiloMusical(nome='Eletrônico'),
-            EstiloMusical(nome='Axé'),
-            EstiloMusical(nome='Bossa Nova'),
-        ]
+        match_obj = {
+            'id_musico': musico.id,
+            'id_demanda': demandas[0].id
+        }
+        match_id = BancoDeDados.CriaMatch(match_obj)
         
-        for estilo in estilosMusicais:
-            bd.session.add(estilo)
-        '''
+        #Candidatos a demanda 
+        candidatos = BancoDeDados.GetMusicos(demandas[0].id)
+        print('Candidatos:')
+        for candidato in candidatos:
+            print(candidato)
         
+        #Mensagem
+        mensagem_obj1 = {
+            'match': match_id,
+            'dono': musico.id,
+            'mensagem': 'Sou foda, o resto é moda.'
+        }
+        
+        mensagem_obj2 = {
+            'match': match_id,
+            'dono': contratante.id,
+            'mensagem': 'QUEEN!!!'
+        }
+        
+        BancoDeDados.EnviaMensagem(mensagem_obj1)
+        BancoDeDados.EnviaMensagem(mensagem_obj2)
+        
+        #Chat 
+        chat = BancoDeDados.GetChat(match_id)
+        print('Mensagens:')
+        for mensagem in chat: 
+            print(mensagem)
