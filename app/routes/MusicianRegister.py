@@ -1,5 +1,7 @@
 from app import app
-from flask import render_template, redirect, url_for
+from flask import render_template, request, redirect, url_for
+from validate_docbr import CPF
+import re
 
 
 @app.route("/cadastrarMusico", methods=["POST"])
@@ -10,21 +12,42 @@ def cadastrar_musico():
     telefone = request.form.get("telefone")
     descricao = request.form.get("descricao")
 
-    if cnpj != "" and not CPF().validate(cpf):
+    print(nome, nome_artistico, cpf, telefone, descricao)
+
+    if cpf != "" and not CPF().validate(cpf):
         return render_template(
-            "hirerRegister.html",
-            error="CNPJ inválido.",
+            "musicianRegister.html",
+            error="CPF inválido.",
             nome=nome,
-            cnpj=cnpj,
+            nome_artistico=nome_artistico,
+            cpf=cpf,
             telefone=telefone,
-            cep=cep,
-            estado=estado,
-            cidade=cidade,
-            bairro=bairro,
-            numero=numero,
-            complemento=complemento,
+            descricao=descricao,
         )
-    return render_template("musicianRegister.html")
+
+    if telefone != "" and not re.match(r"^\(\d{2}\) \d{5}-\d{4}$", telefone):
+        return render_template(
+            "musicianRegister.html",
+            error="Celular inválido.",
+            nome=nome,
+            nome_artistico=nome_artistico,
+            cpf=cpf,
+            telefone=telefone,
+            descricao=descricao,
+        )
+
+    if nome == "" or cpf == "" or telefone == "":
+        return render_template(
+            "musicianRegister.html",
+            error="Campos obrigatórios não preenchidos.",
+            nome=nome,
+            nome_artistico=nome_artistico,
+            cpf=cpf,
+            telefone=telefone,
+            descricao=descricao,
+        )
+
+    return redirect(url_for("index"))
 
 
 @app.route("/cadastrarMusico", methods=["GET"])

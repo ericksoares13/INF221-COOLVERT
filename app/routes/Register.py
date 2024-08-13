@@ -1,7 +1,9 @@
 import re
 
 from app import app
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, session
+
+from app.models.BancoDeDados import BancoDeDados
 
 REGISTER_HTML = "register.html"
 
@@ -27,14 +29,14 @@ def cadastro():
             user_type=user_type,
         )
 
-    # if email.strip() != '' and verificarSeJaExiste:
-    #     return render_template(REGISTER_HTML,
-    #                            error='Email digitado já está em uso.',
-    #                            email=email,
-    #                            username=username,
-    #                            password=password,
-    #                            confirm_password=confirm_password,
-    #                            user_type=user_type)
+    if email.strip() != '' and not BancoDeDados.VerificaEmail(email):
+        return render_template(REGISTER_HTML,
+                               error='Email digitado já está em uso.',
+                               email=email,
+                               username=username,
+                               password=password,
+                               confirm_password=confirm_password,
+                               user_type=user_type)
 
     # if username.strip() != '' and verificarSeJaExiste:
     #     return render_template(REGISTER_HTML,
@@ -85,6 +87,15 @@ def cadastro():
             confirm_password=confirm_password,
             user_type=user_type,
         )
+
+    pessoa_id = BancoDeDados.CriaPessoa({
+        'nome': username,
+        'email': email,
+        'senha': password,
+        'tipo': 'M' if user_type is "musico" else 'C'
+    })
+
+    session['pessoa_id'] = pessoa_id
 
     if user_type == "musico":
         return redirect(url_for("get_cadastrar_musico"))
