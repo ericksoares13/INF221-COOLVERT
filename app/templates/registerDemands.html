@@ -235,8 +235,8 @@
         <label for="data_show">Data do show</label>
         <input type="text" id="data_show" name="data_show" placeholder="dd/mm/aaaa" value="{{ data_show }}">
 
-        <label for="raio-procurado">Raio procurado</label>
-        <input type="range" id="raio-procurado" name="raio-procurado" min="0" max="200" class="slider">
+        <label for="raio_procurado">Raio procurado</label>
+        <input type="range" id="raio_procurado" name="raio_procurado" min="0" max="200" class="slider" value="{{ raio_procurado }}">
         <div class="slider-values">
             <span class="min-value">0 km</span>
              <span class="current-value">100</span>
@@ -245,38 +245,38 @@
 
         <label>Estilo musical</label>
         <div class="checkbox-group">
-            <label><input type="checkbox" name="estilo" value="rock"> Rock</label>
-            <label><input type="checkbox" name="estilo" value="sertanejo"> Sertanejo</label>
-            <label><input type="checkbox" name="estilo" value="eletronico"> Eletrônico</label>
-            <label><input type="checkbox" name="estilo" value="pop"> Pop</label>
-            <label><input type="checkbox" name="estilo" value="forro"> Forró</label>
-            <label><input type="checkbox" name="estilo" value="axe"> Axé</label>
-            <label><input type="checkbox" name="estilo" value="mpb"> MPB</label>
-            <label><input type="checkbox" name="estilo" value="funk"> Funk</label>
-            <label><input type="checkbox" name="estilo" value="bossanova"> Bossa Nova</label>
+            <label><input type="checkbox" name="estilo" value="rock" {% if 'rock' in estilo %}checked{% endif %}> Rock</label>
+            <label><input type="checkbox" name="estilo" value="sertanejo" {% if 'sertanejo' in estilo %}checked{% endif %}> Sertanejo</label>
+            <label><input type="checkbox" name="estilo" value="eletronico" {% if 'eletronico' in estilo %}checked{% endif %}> Eletrônico</label>
+            <label><input type="checkbox" name="estilo" value="pop" {% if 'pop' in estilo %}checked{% endif %}> Pop</label>
+            <label><input type="checkbox" name="estilo" value="forro" {% if 'forro' in estilo %}checked{% endif %}> Forró</label>
+            <label><input type="checkbox" name="estilo" value="axe" {% if 'axe' in estilo %}checked{% endif %}> Axé</label>
+            <label><input type="checkbox" name="estilo" value="mpb" {% if 'mpb' in estilo %}checked{% endif %}> MPB</label>
+            <label><input type="checkbox" name="estilo" value="funk" {% if 'funk' in estilo %}checked{% endif %}> Funk</label>
+            <label><input type="checkbox" name="estilo" value="bossanova" {% if 'bossanova' in estilo %}checked{% endif %}> Bossa Nova</label>
         </div>
 
-        <label for="equipamento-som">Fornece equipamento de som?</label>
+        <label for="equipamento_som">Fornece equipamento de som?</label>
         <label class="switch">
-            <input type="checkbox" id="equipamento-som">
+            <input type="checkbox" id="equipamento_som" name="equipamento_som" value= "on" {% if equipamento_som == 'on' %}checked{% endif %}>
             <span class="slider-switch"></span>
         </label>
 
-        <label for="publico-esperado">Público médio esperado</label>
-        <input type="number" id="publico-esperado" name="publico-esperado" placeholder="Número de pessoas">
+        <label for="publico_esperado">Público médio esperado</label>
+        <input type="number" id="publico_esperado" name="publico_esperado" placeholder="Número de pessoas" value="{{ publico_esperado }}">
 
-        <label for="duracao-show">Duração esperada do show</label>
-        <input type="text" id="duracao-show" name="duracao-show" placeholder="Ex.: 2 horas">
+        <label for="duracao_show">Duração esperada do show</label>
+        <input type="text" id="duracao_show" name="duracao_show" placeholder="Ex.: 2 horas" value="{{ duracao_show }}">
 
         <label>Pagamento</label>
         <div class="radio-group">
             <div>
-                <label><input type="radio" name="pagamento1" value="fixo"> Fixo</label>
-                <label><input type="radio" name="pagamento1" value="couvert"> Couvert</label>
+                <label><input type="radio" name="pagamento" value="fixo" {% if 'fixo' == pagamento %}checked{% endif %}> Fixo</label>
+                <label><input type="radio" name="pagamento" value="couvert" {% if 'couvert' == pagamento %}checked{% endif %}> Couvert</label>
             </div>
             <div>
-                <label><input type="radio" name="pagamento2" value="apos-evento"> Após o evento</label>
-                <label><input type="radio" name="pagamento2" value="antecipado"> Antecipado</label>
+                <label><input type="radio" name="modo_pagamento" value="apos_evento" {% if 'apos_evento' == modo_pagamento %}checked{% endif %}> Após o evento</label>
+                <label><input type="radio" name="modo_pagamento" value="antecipado" {% if 'antecipado' == modo_pagamento %}checked{% endif %}> Antecipado</label>
             </div>
         </div>
 
@@ -291,7 +291,7 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var slider = document.getElementById('raio-procurado');
+        var slider = document.getElementById('raio_procurado');
         var currentValue = document.querySelector('.current-value');
         currentValue.textContent = slider.value;
         slider.addEventListener('input', function() {
@@ -325,14 +325,9 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
         document.addEventListener('DOMContentLoaded', (event) => {
-            const invalid_date = "{{ invalid_date }}";
-            if (invalid_date) {
-                document.getElementById('errorMessage').textContent = invalid_date;
-                $('#errorModal').modal('show');
-            }
-            const required_fields = "{{ required_fields }}";
-            if (required_fields) {
-                document.getElementById('errorMessage').textContent = required_fields;
+            const error = "{{ error }}";
+            if (error) {
+                document.getElementById('errorMessage').textContent = error;
                 $('#errorModal').modal('show');
             }
         });
