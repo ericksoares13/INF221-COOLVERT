@@ -60,6 +60,7 @@ if __name__ == '__main__':
             print("Login realizado com sucesso!")
         else: 
             print("Email ou senha incorretos.")
+        print()
             
         #Estilos Musicais
         if BancoDeDados.VerificaEstiloMusical('Rock'):
@@ -96,8 +97,8 @@ if __name__ == '__main__':
             'fornece_equipamento': True,
             'publico_esperado': 100000,
             'duracao_show': '4h',
-            'pagamento_fixo': True,
-            'antecipado': True, 
+            'tipo_pagamento': 'Fixo', # ou 'Couvert'
+            'momento_pagamento': 'Antecipado', # ou 'Após o evento'
             'estilos': ['Rock', 'Pop'],
             'dono': contratante.id
         }
@@ -107,6 +108,9 @@ if __name__ == '__main__':
         demandas = BancoDeDados.GetDemandas(contratante.id)
         for demanda in demandas:
             print(demanda)
+            estilos_demanda = BancoDeDados.GetEstilosMusicais(demanda.id)
+            print(f'Estilos musicais: {estilos_demanda}')
+        print()
             
         #Match
         musico = BancoDeDados.Login({'email': 'katyperry@diva.com', 'senha': '123slay'})
@@ -122,6 +126,7 @@ if __name__ == '__main__':
         print('Candidatos:')
         for candidato in candidatos:
             print(candidato)
+        print()
         
         #Mensagem
         mensagem_obj1 = {
@@ -144,3 +149,78 @@ if __name__ == '__main__':
         print('Mensagens:')
         for mensagem in chat: 
             print(mensagem)
+        print()
+            
+        #Perfil
+        perfil_obj = {
+            'id': musico.id,
+            'nome_instagram': 'katyperry',
+            'link_instagram': 'https://www.instagram.com/KatyPerry',
+            'link_spotify': 'https://open.spotify.com/intl-pt/artist/6jJ0s89eD6GaHleKKya26X?si=iHGz_WvQQi-4q0KoAGoaqw',
+            'link_youtube': 'www.youtube.com/@KatyPerry',
+            'descricao': "Não precisa, I'm the queen."
+        }
+        
+        BancoDeDados.CriaPerfil(perfil_obj)
+        perfil = BancoDeDados.GetPerfil(musico.id)
+        print(f'Perfil Katy Perry:')
+        print(perfil)
+        print()
+        
+        
+        #Imagens
+        imagem_obj1 = {
+            'dono': musico.id,
+            'nome': 'imagem1',
+            'tipo_foto': 'Perfil'
+        }
+        
+        imagem_obj2 = {
+            'dono': musico.id,
+            'nome': 'imagem2',
+            'tipo_foto': 'Instagram'
+        }
+        
+        imagem_obj3 = {
+            'dono': musico.id,
+            'nome': 'imagem3',
+            'tipo_foto': 'portfólio'
+        }
+        
+        imagem_obj4 = {
+            'dono': musico.id,
+            'nome': 'imagem4',
+            'tipo_foto': 'portfólio'
+        }
+        
+        BancoDeDados.CriaImagem(imagem_obj1)
+        BancoDeDados.CriaImagem(imagem_obj2)
+        BancoDeDados.CriaImagem(imagem_obj3)
+        BancoDeDados.CriaImagem(imagem_obj4)
+        
+        get_imagens_obj1 = {
+            'dono': musico.id,
+            'tipo_foto': None
+        }
+        
+        get_imagens_obj2 = {
+            'dono': musico.id,
+            'tipo_foto': 'portfólio'
+        }
+        
+        print(f'Todas as imagens de Katy Perry:')
+        imagens = BancoDeDados.GetImagens(get_imagens_obj1)
+        for imagem in imagens:
+            print(imagens)
+        print()
+        
+        print(f'Apenas as imagens de portfólio da Katy Perry:')
+        imagens = BancoDeDados.GetImagens(get_imagens_obj2)
+        for imagem in imagens:
+            print(imagens)
+        print()
+            
+        imagem = BancoDeDados.GetImagemPerfil(musico.id)
+        print(f'Foto de perfil da Katy Perry:')
+        print(imagem)
+        print()

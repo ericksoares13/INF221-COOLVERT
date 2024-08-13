@@ -69,13 +69,11 @@ class BancoDeDados:
         with app.app_context():
             nova_demanda = Demanda(data_show=obj['data_show'], raio_procurado=obj['raio_procurado'], fornece_equipamento=obj['fornece_equipamento'], 
                                    publico_esperado=obj['publico_esperado'], duracao_show=obj['duracao_show'], dono=obj['dono'],
-                                   tipo_pagamento=TipoPagamentoEnum.FIXO if obj['pagamento_fixo'] else TipoPagamentoEnum.COUVERT, 
-                                   momento_pagamento=MomentoPagamentoEnum.ANTECIPADO if obj['antecipado'] else MomentoPagamentoEnum.APOS_EVENTO)
+                                   tipo_pagamento=TipoPagamentoEnum(obj['tipo_pagamento']), momento_pagamento=MomentoPagamentoEnum(obj['momento_pagamento']))
             for nome_estilo in obj['estilos']:
                 estilo_musical = EstiloMusical.query.filter_by(nome=nome_estilo).first()
                 nova_demanda.estilos.append(estilo_musical)
             contratante = Contratante.query.get(obj['dono'])
-            contratante.demandas.append(nova_demanda)
             bd.session.add(nova_demanda)
             bd.session.commit()
     
@@ -86,6 +84,15 @@ class BancoDeDados:
                 return list(Demanda.query.all())
             else:
                 return list(Demanda.query.filter_by(dono=id_dono).all())
+    
+    @staticmethod
+    def GetEstilosMusicais(id_demanda):
+        with app.app_context():
+            estilos = DemandaEstilos.query.filter_by(demanda=id_demanda).all()
+            estilos_musicais = []
+            for estilo in estilos:
+                estilos_musicais.append(EstiloMusical.query.with_entities(EstiloMusical.nome).filter_by(id=estilo.estilo_musical).first()[0])
+            return estilos_musicais
             
     @staticmethod
     def CriaMatch(obj):
@@ -111,6 +118,41 @@ class BancoDeDados:
     def GetChat(id_match):
         with app.app_context():
             return sorted(list(Mensagem.query.filter_by(match=id_match).all()), key=lambda x: x.horario)
+        
+    @staticmethod
+    def CriaPerfil(obj):
+        with app.app_context():
+            perfil = Perfil(id=obj['id'], nome_instagram=obj['nome_instagram'], link_instagram=obj['link_instagram'],
+                          link_spotify=obj['link_spotify'], link_youtube=obj['link_youtube'], descricao=obj['descricao'])
+            bd.session.add(perfil)
+            bd.session.commit()
+    
+    @staticmethod
+    def GetPerfil(dono):
+        with app.app_context():
+            return Perfil.query.get(dono)
+    
+    @staticmethod
+    def CriaImagem(obj):
+        with app.app_context():
+            imagem = Imagem(dono=obj['dono'], nome=obj['nome'], tipo_foto=TipoFotoEnum(obj['tipo_foto']))
+            bd.session.add(imagem)
+            bd.session.commit()
+            
+    @staticmethod
+    def GetImagens(obj):
+        with app.app_context():
+            imagens = list(Imagem.query.filter_by(dono=obj['dono']).all())
+            if obj['tipo_foto'] == None:
+                return imagens
+            else:
+                tipo_foto = TipoFotoEnum(obj['tipo_foto'])
+                return [ imagem for imagem in imagens if imagem.tipo_foto == tipo_foto ]
+            
+    @staticmethod
+    def GetImagemPerfil(dono):
+        with app.app_context():
+            return Imagem.query.filter_by(dono=dono).filter_by(tipo_foto=TipoFotoEnum.PERFIL).first()
     
         
     

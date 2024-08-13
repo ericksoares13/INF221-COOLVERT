@@ -39,5 +39,5 @@ class Demanda(bd.Model):
 class DemandaEstilos(bd.Model):
     __tablename__ = 'demanda_estilos'
 
-    demanda_id = bd.Column(bd.Integer, bd.ForeignKey('demanda.id'), primary_key=True)
-    estilo_musical_id = bd.Column(bd.Integer, bd.ForeignKey('estiloMusical.id'), primary_key=True)
+    demanda = bd.Column(bd.Integer, bd.ForeignKey('demanda.id'), primary_key=True)
+    estilo_musical = bd.Column(bd.Integer, bd.ForeignKey('estiloMusical.id'), primary_key=True)

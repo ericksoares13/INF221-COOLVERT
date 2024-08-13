@@ -7,7 +7,5 @@ class Contratante(bd.Model):
     nome_estabelecimento = bd.Column(bd.String(80), nullable=False)
     cidade = bd.Column(bd.String(80), nullable=False)
     
-    demandas = bd.relationship('Demanda', backref='contratante', lazy=True)
-    
     def __repr__(self):
         return f'<({self.id}) {self.nome_estabelecimento}>'
