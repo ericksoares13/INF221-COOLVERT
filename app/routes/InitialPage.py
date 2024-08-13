@@ -9,12 +9,12 @@ def index():
 
 @app.route("/cadastrar", methods=["POST"])
 def cadastrar():
-    return redirect(url_for("cadastro"))
+    return redirect(url_for("get_cadastro"))
 
 
 @app.route("/cadastrar", methods=["GET"])
 def get_cadastrar():
-    return redirect(url_for("cadastro"))
+    return redirect(url_for("get_cadastro"))
 
 
 @app.route("/entrar", methods=["POST"])

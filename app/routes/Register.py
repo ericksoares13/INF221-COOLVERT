@@ -87,9 +87,9 @@ def cadastro():
         )
 
     if user_type == "musico":
-        return redirect(url_for("musicoRegister.html"))
+        return redirect(url_for("get_cadastrar_musico"))
     else:
-        return redirect(url_for("contratanteRegister.html"))
+        return redirect(url_for("get_cadastrar_contratante"))
 
 
 @app.route("/cadastro", methods=["GET"])
