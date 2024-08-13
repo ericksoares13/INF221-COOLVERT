@@ -1,4 +1,5 @@
 from app import app
+from app.models.BancoDeDados import BancoDeDados
 from flask import render_template, request
 from datetime import datetime
 import re
@@ -13,8 +14,6 @@ def cadastrar_demanda():
     duracao_show = request.form.get('duracao_show')
     pagamento = request.form.get('pagamento')
     modo_pagamento = request.form.get('modo_pagamento')
-
-    print(modo_pagamento)
 
     if (data_show == ""):
         return render_template('registerDemands.html',
