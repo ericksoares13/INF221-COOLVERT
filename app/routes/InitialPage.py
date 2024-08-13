@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template
+from flask import render_template, redirect, url_for
 
 
 @app.route("/")
@@ -9,12 +9,12 @@ def index():
 
 @app.route("/cadastrar", methods=["POST"])
 def cadastrar():
-    return render_template("register.html")
+    return redirect(url_for("cadastro"))
 
 
 @app.route("/cadastrar", methods=["GET"])
 def get_cadastrar():
-    return render_template("register.html")
+    return redirect(url_for("cadastro"))
 
 
 @app.route("/entrar", methods=["POST"])

@@ -1,7 +1,7 @@
 import re
 
 from app import app
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for
 
 REGISTER_HTML = "register.html"
 
@@ -63,7 +63,7 @@ def cadastro():
         or username.strip() == ""
         or password.strip() == ""
         or confirm_password.strip() == ""
-        or user_type.strip() == ""
+        or user_type is None
     ):
         return render_template(
             REGISTER_HTML,
@@ -86,7 +86,10 @@ def cadastro():
             user_type=user_type,
         )
 
-    return render_template("userType.html")
+    if user_type == "musico":
+        return redirect(url_for("musicoRegister.html"))
+    else:
+        return redirect(url_for("contratanteRegister.html"))
 
 
 @app.route("/cadastro", methods=["GET"])
