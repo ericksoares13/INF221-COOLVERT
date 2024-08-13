@@ -19,7 +19,7 @@ def cadastro():
     ):
         return render_template(
             REGISTER_HTML,
-            invalid_email_error="Email inválido.",
+            error="Email inválido.",
             email=email,
             username=username,
             password=password,
@@ -29,7 +29,7 @@ def cadastro():
 
     # if email.strip() != '' and verificarSeJaExiste:
     #     return render_template(REGISTER_HTML,
-    #                            used_email_error='Email digitado já está em uso.',
+    #                            error='Email digitado já está em uso.',
     #                            email=email,
     #                            username=username,
     #                            password=password,
@@ -38,7 +38,7 @@ def cadastro():
 
     # if username.strip() != '' and verificarSeJaExiste:
     #     return render_template(REGISTER_HTML,
-    #                            used_email_error='Nome de usuário digitado já está em uso.',
+    #                            error='Nome de usuário digitado já está em uso.',
     #                            email=email,
     #                            username=username,
     #                            password=password,
@@ -50,7 +50,7 @@ def cadastro():
     ):
         return render_template(
             REGISTER_HTML,
-            invalid_password_error="Senha não atende os requisitos necessários.",
+            error="Senha não atende os requisitos necessários.",
             email=email,
             username=username,
             password=password,
@@ -67,7 +67,7 @@ def cadastro():
     ):
         return render_template(
             REGISTER_HTML,
-            required_fields_error="Campos obrigatórios não preenchidos.",
+            error="Campos obrigatórios não preenchidos.",
             email=email,
             username=username,
             password=password,
@@ -78,7 +78,7 @@ def cadastro():
     if password != confirm_password:
         return render_template(
             REGISTER_HTML,
-            pasword_error="As senhas não coincidem.",
+            error="As senhas não coincidem.",
             email=email,
             username=username,
             password=password,
