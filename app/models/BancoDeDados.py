@@ -1,7 +1,7 @@
-from app import app, bd
-from flask import Flask, g
-from app.models import *
 import bcrypt
+from app import app, bd
+from app.models import *
+from sqlalchemy import func
 
 class BancoDeDados: 
     @staticmethod
@@ -33,6 +33,13 @@ class BancoDeDados:
             novo_usuario = Usuario(id=obj['id'], celular=obj['celular'], documento=obj['documento'])
             bd.session.add(novo_usuario)
             bd.session.commit()
+            
+    @staticmethod
+    def CriaDadosBancario(obj):
+        with app.app_context():
+            novo_cartao = DadosBancario(id=obj['id'], num_cartao=obj['num_cartao'], nome_cartao=obj['nome_cartao'], cod_seguranca=obj['cod_seguranca'], validade=obj['validade'])
+            bd.session.add(novo_cartao)
+            bd.session.commit()
     
     @staticmethod
     def CriaMusico(obj):
@@ -42,6 +49,7 @@ class BancoDeDados:
             novo_musico = Musico(id=obj['id'], nome_pessoal=obj['nome_pessoal'], nome_artistico=obj['nome_artistico'])
             bd.session.add(novo_musico)
             bd.session.commit()
+            return obj['id']
             
     @staticmethod
     def CriaContratante(obj):
@@ -51,6 +59,7 @@ class BancoDeDados:
             novo_contratante = Contratante(id=obj['id'], nome_estabelecimento=obj['nome_estabelecimento'], cidade=obj['cidade'])
             bd.session.add(novo_contratante)
             bd.session.commit()
+            return obj['id']
         
     @staticmethod
     def VerificaEstiloMusical(nome):
@@ -152,7 +161,42 @@ class BancoDeDados:
     @staticmethod
     def GetImagemPerfil(dono):
         with app.app_context():
-            return Imagem.query.filter_by(dono=dono).filter_by(tipo_foto=TipoFotoEnum.PERFIL).first()
-    
+            return Imagem.query.filter_by(dono=dono, tipo_foto=TipoFotoEnum.PERFIL).first()
         
+    @staticmethod
+    def CriaAvaliacao(obj):
+        with app.app_context():
+            avaliacao = Avaliacao(dono=obj['dono'], perfil=obj['perfil'], parte_avaliacao=ParteAvaliacaoEnum(obj['parte_avaliacao']), estrelas=obj['estrelas'], comentario=obj['comentario'])
+            bd.session.add(avaliacao)
+            bd.session.commit()
+            
+    @staticmethod
+    def GetAvaliacao(obj):
+        with app.app_context():
+            return Avaliacao.query.get((obj['dono'], obj['perfil'], ParteAvaliacaoEnum(obj['parte_avaliacao'])))
     
+    @staticmethod
+    def ExcluiAvaliacao(avaliacao):
+        with app.app_context():
+            bd.session.delete(avaliacao)
+            bd.session.commit()
+            
+    @staticmethod
+    def GetAvaliacoes(obj):
+        with app.app_context():
+            avaliacoes = list(Avaliacao.query.filter_by(perfil=obj['perfil']).all())
+            if obj['parte_avaliacao'] == None:
+                return avaliacoes
+            else:
+                parte_avaliacao = ParteAvaliacaoEnum(obj['parte_avaliacao'])
+                return [ avaliacao for avaliacao in avaliacoes if avaliacao.parte_avaliacao == parte_avaliacao ]
+            
+    @staticmethod
+    def GetMediaEstrelas(id_perfil):
+        with app.app_context():
+            return  bd.session.query(func.avg(Avaliacao.estrelas)).filter(Avaliacao.perfil == id_perfil).scalar()
+        
+    @staticmethod
+    def GetNumAvaliacoes(id_perfil):
+        with app.app_context():
+            return  bd.session.query(func.count(Avaliacao.perfil)).filter(Avaliacao.perfil == id_perfil).scalar()

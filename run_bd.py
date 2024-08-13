@@ -31,6 +31,14 @@ if __name__ == '__main__':
             'cidade': 'Rio de Janeiro, RJ'
         }
         
+        #Dados Bancários 
+        dadosBancarios_obj = {
+            'num_cartao': '1111 2222 3333 4444',
+            'nome_cartao': 'Rock In Rio',
+            'cod_seguranca': 123,
+            'validade': '01/30'
+        }
+        
         #Login errado - Katy Perry
         login_obj1 = {
             'email': 'katyperry@diva.com',
@@ -45,10 +53,11 @@ if __name__ == '__main__':
         
         
         if BancoDeDados.VerificaEmail(musico_obj['email']):
-            musico = BancoDeDados.CriaMusico(musico_obj)
+            musico_id = BancoDeDados.CriaMusico(musico_obj)
 
         if BancoDeDados.VerificaEmail(contratante_obj['email']):
-            contratante = BancoDeDados.CriaContratante(contratante_obj)
+            contratante_id = BancoDeDados.CriaContratante(contratante_obj)
+            dadosBancarios_obj['id'] = contratante_id
           
         if BancoDeDados.Login(login_obj1):
             print("Login realizado com sucesso!")
@@ -224,3 +233,75 @@ if __name__ == '__main__':
         print(f'Foto de perfil da Katy Perry:')
         print(imagem)
         print()
+        
+        #Avaliação
+        #* Estou exemplificando de Contratante pra músico mas pode ser o contrário
+        avaliacao_obj1 = { 
+            'dono': contratante.id,
+            'perfil': perfil.id,
+            'parte_avaliacao': 'Pagamento',
+            'estrelas': 5, 
+            'comentario': 'Pagou certinho'
+        }
+        
+        avaliacao_obj2 = { 
+            'dono': contratante.id,
+            'perfil': perfil.id,
+            'parte_avaliacao': 'Pontualidade',
+            'estrelas': 4, 
+            'comentario': 'Chegou na hora'
+        }
+        # Outras 'parte_avaliacao': {"Qualidade equipamento de som", "Veracidade das informações", "Divulgação do show"}
+        
+        BancoDeDados.CriaAvaliacao(avaliacao_obj1)
+        BancoDeDados.CriaAvaliacao(avaliacao_obj2)
+        
+        procura_avaliacao_obj1 = {
+            'dono': contratante.id,
+            'perfil': perfil.id,
+            'parte_avaliacao': 'Qualidade equipamento de som',
+        }
+        
+        procura_avaliacao_obj2 = {
+            'dono': contratante.id,
+            'perfil': perfil.id,
+            'parte_avaliacao': 'Pontualidade',
+        }
+        
+        avaliacao = BancoDeDados.GetAvaliacao(procura_avaliacao_obj1)
+        if avaliacao is None: 
+            print('Não encontrou avaliação!')
+        avaliacao = BancoDeDados.GetAvaliacao(procura_avaliacao_obj2)
+        if avaliacao is not None: 
+            print(f'Encontrou avaliação: {avaliacao}')
+        print()
+        
+        print(f'Número de avaliações do perfil {perfil.id}: {BancoDeDados.GetNumAvaliacoes(perfil.id)}')
+        print(f'Média de estrelas das avaliações do perfil {perfil.id}: {BancoDeDados.GetMediaEstrelas(perfil.id)}')
+        print()
+        
+        avaliacoes_obj1 = {
+            'perfil': perfil.id,
+            'parte_avaliacao': None # Retorna todas as avaliações daquele perfil
+        }
+        
+        avaliacoes_obj2 = {
+            'perfil': perfil.id,
+            'parte_avaliacao': 'Pontualidade' # Retorna apenas de um tipo específico
+        }
+        
+        avaliacoes = BancoDeDados.GetAvaliacoes(avaliacoes_obj1)
+        print(f'Todas as avaliações do perfil {perfil.id}:')
+        for avaliacao in avaliacoes:
+            print(avaliacao)
+        print()
+        
+        avaliacoes = BancoDeDados.GetAvaliacoes(avaliacoes_obj2)
+        print(f'Avaliações sobre "Pontualidade" do perfil {perfil.id}:')
+        for avaliacao in avaliacoes:
+            print(avaliacao)
+        print()
+        
+        BancoDeDados.ExcluiAvaliacao(avaliacoes[0])
+        if BancoDeDados.GetAvaliacao(procura_avaliacao_obj2) is None:
+            print('Avaliação deletada com sucesso!')

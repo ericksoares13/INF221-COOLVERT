@@ -7,3 +7,4 @@ from app.models.Demanda import Demanda, EstiloMusical, TipoPagamentoEnum, Moment
 from app.models.Match import Match
 from app.models.Mensagem import Mensagem
 from app.models.Perfil import Perfil, TipoFotoEnum, Imagem
+from app.models.Avaliacao import Avaliacao, ParteAvaliacaoEnum
