@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns="http://www.w3.org/1999/html">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body, html {
+            font-family: 'Raleway', sans-serif;
             height: 100%;
             margin: 0;
             display: flex;
@@ -18,14 +20,13 @@
             width: 400px;
             height: 60px;
             position: absolute;
-            top: 800px;
+            top: 850px;
             left: 15px;
             border-radius: 8px;
             padding: 12px 24px;
             gap: 8px;
             background-color: #005082;
             color: white;
-            font-family: 'Raleway', sans-serif;
             font-weight: 800;
             font-size: 18px;
             line-height: 16.44px;
@@ -42,7 +43,7 @@
             width: 360px;
             left: 32px;
             border-radius: 8px;
-            gap: 8px;
+            gap: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -51,11 +52,10 @@
         }
 
         .form-group label {
-            font-family: 'Raleway', sans-serif;
             font-weight: 800;
-            font-size: 14px;
+            font-size: 16px;
             width: 430px;
-            color: #8c9091;
+            color: #212529;
             line-height: 16.44px;
             letter-spacing: 4%;
             margin-bottom: 8px;
@@ -69,7 +69,6 @@
             background-color: #ECF1F4;
             border-color: #e2e7ea;
             box-sizing: border-box;
-            font-family: 'Raleway', sans-serif;
             font-weight: 800;
             font-size: 16px;
             line-height: 16.44px;
@@ -111,17 +110,14 @@
         }
 
         h1 {
-            width: 333px;
-            height: 28px;
-            gap: 0px;
-            opacity: 1;
-            font-family: 'Raleway', sans-serif;
-            font-size: 24px;
-            font-weight: 1000;
+            width: 300px;
+            height: 35px;
+            font-weight: 800;
+            font-size: 27px;
             line-height: 28.18px;
-            letter-spacing: 0.05em;
-            text-align: left;
             color: #0E0E2C;
+            gap: 0px;
+            text-align: left;
             margin-top: 40px;
             margin-bottom: 40px;
             margin-left: 32px;
@@ -137,10 +133,7 @@
             grid-template-columns: repeat(1, 2fr);
             margin-left: 40px;
             row-gap: 10px;
-            font-family: 'Raleway', sans-serif;
-            font-weight: 100;
-            font-size: 14px;
-            color: #8c9091;
+            font-weight: 500;
             line-height: 16.44px;
         }
 
@@ -178,7 +171,6 @@
             display: flex;
             align-items: center;
             font-family: 'Raleway', sans-serif;
-            font-weight: 600;
             font-size: 14px;
             color: #8c9091;
             padding-left: 55px;
@@ -189,21 +181,18 @@
             position: absolute;
             left: 35px;
             font-size: 16px;
-            color: #8c9091;
         }
 
         #password-requirements li.invalid i {
             position: absolute;
             left: 38px;
             font-size: 16px;
-            color: #8c9091;
         }
 
         .btn-secondary {
             background-color: #005082;
             color: white;
             border-radius: 8px;
-            font-family: 'Raleway', sans-serif;
             font-weight: 100;
             font-size: 18px;
         }
@@ -242,8 +231,16 @@
         </div>
         <div class="form-group"><label>Tipo de usuário *</label></div>
         <div class="radio-group">
-            <label><input type="radio" name="user_type" value="contratante">Contratante</label>
-            <label><input type="radio" name="user_type" value="musico">Músico</label>
+            <label>
+                <input type="radio" name="user_type" value="contratante"
+                    {% if user_type == 'contratante' %} checked {% endif %}>
+                Contratante
+            </label>
+            <label>
+                <input type="radio" name="user_type" value="musico"
+                    {% if user_type == 'musico' %} checked {% endif %}>
+                Músico
+            </label>
         </div>
         <button type="submit" class="btn btn-lg button">CADASTRAR</button>
     </form>
