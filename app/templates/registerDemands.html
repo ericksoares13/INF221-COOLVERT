@@ -12,7 +12,14 @@
             font-family: 'Raleway', sans-serif;
             margin: 0;
             padding: 20px;
+            padding-left: 22px;
             background-color: white;
+        }
+
+        html {
+            display: grid;
+            place-items: center;
+            background-color: #ECF1F4;
         }
 
         p {
@@ -47,21 +54,6 @@
             border-radius: 5px;
             font-size: 16px;
             background-color: #ECF1F4;
-        }
-
-        input[type="date"] {
-            -webkit-appearance: none; /* Remove estilo padrão do WebKit */
-            -moz-appearance: none; /* Remove estilo padrão do Firefox */
-            appearance: none; /* Remove estilo padrão dos navegadores */
-            width: 380px;
-            padding: 12px;
-            margin-top: 5px;
-            margin-bottom: 14px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            background-color: #ECF1F4;
-            color: #333;
         }
 
         .checkbox-group {
@@ -141,7 +133,7 @@
             border-radius: 34px;
             border: 1px solid #ccc;
             width: 50px;
-            height: 29px;
+            height: 30px;
         }
 
         .slider-switch:before {
@@ -150,14 +142,15 @@
             height: 25px;
             width: 25px;
             left: 2px;
-            bottom: 1px;
+            bottom: 2.5px;
             background-color: white;
             transition: .4s;
             border-radius: 50%;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
         }
 
         .slider {
-            width: 98%;
+            width: 99%;
         }
 
         .slider-values {
@@ -191,7 +184,7 @@
             transform: translateX(20px);
         }
 
-        .btn {
+        .button {
             background-color: #0055b3;
             color: white;
             padding: 12px;
@@ -202,6 +195,15 @@
             font-weight: 800;
             cursor: pointer;
             margin: 5px auto;
+        }
+
+        .btn-secondary {
+            background-color: #0055b3;
+            color: white;
+            border-radius: 8px;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 100;
+            font-size: 18px;
         }
 
          .content {
@@ -217,7 +219,7 @@
             cursor: pointer;
         }
 
-        .btn:hover {
+        .button:hover {
             background-color: #003f8c;
         }
     </style>
@@ -229,55 +231,57 @@
     <h2>Criação da demanda</h2>
     <p>Estabeleça os critérios do evento que você busca, eles serão visíveis para os músicos!</p>
 
-    <label for="data-show">Data do show</label>
-    <input type="date" id="data-show" name="data-show" placeholder="dd/mm/aaaa">
+    <form action="/cadastrarDemanda" method="POST">
+        <label for="data_show">Data do show</label>
+        <input type="text" id="data_show" name="data_show" placeholder="dd/mm/aaaa" value="{{ data_show }}">
 
-    <label for="raio-procurado">Raio procurado</label>
-    <input type="range" id="raio-procurado" name="raio-procurado" min="0" max="200" class="slider">
-    <div class="slider-values">
-        <span class="min-value">0 km</span>
-         <span class="current-value">100</span>
-        <span class="max-value">200 km</span>
-    </div>
-
-    <label>Estilo musical</label>
-    <div class="checkbox-group">
-        <label><input type="checkbox" name="estilo" value="rock"> Rock</label>
-        <label><input type="checkbox" name="estilo" value="sertanejo"> Sertanejo</label>
-        <label><input type="checkbox" name="estilo" value="eletronico"> Eletrônico</label>
-        <label><input type="checkbox" name="estilo" value="pop"> Pop</label>
-        <label><input type="checkbox" name="estilo" value="forro"> Forró</label>
-        <label><input type="checkbox" name="estilo" value="axe"> Axé</label>
-        <label><input type="checkbox" name="estilo" value="mpb"> MPB</label>
-        <label><input type="checkbox" name="estilo" value="funk"> Funk</label>
-        <label><input type="checkbox" name="estilo" value="bossanova"> Bossa Nova</label>
-    </div>
-
-    <label for="equipamento-som">Fornece equipamento de som?</label>
-    <label class="switch">
-        <input type="checkbox" id="equipamento-som">
-        <span class="slider-switch"></span>
-    </label>
-
-    <label for="publico-esperado">Público médio esperado</label>
-    <input type="number" id="publico-esperado" name="publico-esperado" placeholder="Número de pessoas">
-
-    <label for="duracao-show">Duração esperada do show</label>
-    <input type="text" id="duracao-show" name="duracao-show" placeholder="Ex.: 2 horas">
-
-    <label>Pagamento</label>
-    <div class="radio-group">
-        <div>
-            <label><input type="radio" name="pagamento1" value="fixo"> Fixo</label>
-            <label><input type="radio" name="pagamento1" value="couvert"> Couvert</label>
+        <label for="raio-procurado">Raio procurado</label>
+        <input type="range" id="raio-procurado" name="raio-procurado" min="0" max="200" class="slider">
+        <div class="slider-values">
+            <span class="min-value">0 km</span>
+             <span class="current-value">100</span>
+            <span class="max-value">200 km</span>
         </div>
-        <div>
-            <label><input type="radio" name="pagamento2" value="apos-evento"> Após o evento</label>
-            <label><input type="radio" name="pagamento2" value="antecipado"> Antecipado</label>
-        </div>
-    </div>
 
-    <button class="btn">CRIAR DEMANDA</button>
+        <label>Estilo musical</label>
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="estilo" value="rock"> Rock</label>
+            <label><input type="checkbox" name="estilo" value="sertanejo"> Sertanejo</label>
+            <label><input type="checkbox" name="estilo" value="eletronico"> Eletrônico</label>
+            <label><input type="checkbox" name="estilo" value="pop"> Pop</label>
+            <label><input type="checkbox" name="estilo" value="forro"> Forró</label>
+            <label><input type="checkbox" name="estilo" value="axe"> Axé</label>
+            <label><input type="checkbox" name="estilo" value="mpb"> MPB</label>
+            <label><input type="checkbox" name="estilo" value="funk"> Funk</label>
+            <label><input type="checkbox" name="estilo" value="bossanova"> Bossa Nova</label>
+        </div>
+
+        <label for="equipamento-som">Fornece equipamento de som?</label>
+        <label class="switch">
+            <input type="checkbox" id="equipamento-som">
+            <span class="slider-switch"></span>
+        </label>
+
+        <label for="publico-esperado">Público médio esperado</label>
+        <input type="number" id="publico-esperado" name="publico-esperado" placeholder="Número de pessoas">
+
+        <label for="duracao-show">Duração esperada do show</label>
+        <input type="text" id="duracao-show" name="duracao-show" placeholder="Ex.: 2 horas">
+
+        <label>Pagamento</label>
+        <div class="radio-group">
+            <div>
+                <label><input type="radio" name="pagamento1" value="fixo"> Fixo</label>
+                <label><input type="radio" name="pagamento1" value="couvert"> Couvert</label>
+            </div>
+            <div>
+                <label><input type="radio" name="pagamento2" value="apos-evento"> Após o evento</label>
+                <label><input type="radio" name="pagamento2" value="antecipado"> Antecipado</label>
+            </div>
+        </div>
+
+        <button type="submit" class="button">CRIAR DEMANDA</button>
+    </form>
 
     <script>
         function goBack() {
@@ -297,4 +301,41 @@
     </script>
 
 </body>
+
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Erro</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="errorMessage">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const invalid_date = "{{ invalid_date }}";
+            if (invalid_date) {
+                document.getElementById('errorMessage').textContent = invalid_date;
+                $('#errorModal').modal('show');
+            }
+            const required_fields = "{{ required_fields }}";
+            if (required_fields) {
+                document.getElementById('errorMessage').textContent = required_fields;
+                $('#errorModal').modal('show');
+            }
+        });
+</script>
+
 </html>
