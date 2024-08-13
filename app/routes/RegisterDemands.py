@@ -14,6 +14,7 @@ def cadastrar_demanda():
     duracao_show = request.form.get('duracao_show')
     pagamento = request.form.get('pagamento')
     modo_pagamento = request.form.get('modo_pagamento')
+    confirmacao = False
 
     if (data_show == ""):
         return render_template('registerDemands.html',
@@ -25,6 +26,7 @@ def cadastrar_demanda():
                                duracao_show=duracao_show,
                                pagamento=pagamento,
                                modo_pagamento=modo_pagamento,
+                               confirmacao=confirmacao,
                                error="Campos obrigatórios não preenchidos.")
 
 
@@ -41,6 +43,7 @@ def cadastrar_demanda():
                                    duracao_show=duracao_show,
                                    pagamento=pagamento,
                                    modo_pagamento=modo_pagamento,
+                                   confirmacao=confirmacao,
                                    error="A data informada é anterior ao dia atual.")
     except ValueError:
         return render_template('registerDemands.html',
@@ -52,6 +55,7 @@ def cadastrar_demanda():
                                     duracao_show=duracao_show,
                                     pagamento=pagamento,
                                     modo_pagamento=modo_pagamento,
+                                    confirmacao=confirmacao,
                                     error="A data informada é inválida.")
 
     if (len(estilos_marcados) == 0) or (publico_esperado == "") or (duracao_show == "") or pagamento is None or modo_pagamento is None:
@@ -64,7 +68,10 @@ def cadastrar_demanda():
                                    duracao_show=duracao_show,
                                    pagamento=pagamento,
                                    modo_pagamento=modo_pagamento,
+                                   confirmacao=confirmacao,
                                    error="Campos obrigatórios não preenchidos.")
+
+    confirmacao = True
 
     return render_template('registerDemands.html',
                            data_show=data_show,
@@ -74,7 +81,8 @@ def cadastrar_demanda():
                            publico_esperado=publico_esperado,
                            duracao_show=duracao_show,
                            pagamento=pagamento,
-                           modo_pagamento=modo_pagamento)
+                           modo_pagamento=modo_pagamento,
+                           confirmacao=confirmacao,)
 
 @app.route('/cadastrarDemanda', methods=['GET'])
 def get_cadastrar_demanda():

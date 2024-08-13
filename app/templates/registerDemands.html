@@ -208,7 +208,7 @@
 
          .content {
             position: relative;
-            padding-top: 50px; /* Ajuste para espaço para o botão de voltar */
+            padding-top: 50px;
         }
 
         .back-button {
@@ -226,16 +226,16 @@
 </head>
 <body>
     <div class="content">
-    <i class="fas fa-arrow-left back-button" onclick="goBack()"></i>
+        <i class="fas fa-arrow-left back-button" onclick="goBack()"></i>
     </div>
     <h2>Criação da demanda</h2>
     <p>Estabeleça os critérios do evento que você busca, eles serão visíveis para os músicos!</p>
 
     <form action="/cadastrarDemanda" method="POST">
-        <label for="data_show">Data do show</label>
+        <label for="data_show">Data do show *</label>
         <input type="text" id="data_show" name="data_show" placeholder="dd/mm/aaaa" value="{{ data_show }}">
 
-        <label for="raio_procurado">Raio procurado</label>
+        <label for="raio_procurado">Raio procurado *</label>
         <input type="range" id="raio_procurado" name="raio_procurado" min="0" max="200" class="slider" value="{{ raio_procurado }}">
         <div class="slider-values">
             <span class="min-value">0 km</span>
@@ -243,7 +243,7 @@
             <span class="max-value">200 km</span>
         </div>
 
-        <label>Estilo musical</label>
+        <label>Estilo musical *</label>
         <div class="checkbox-group">
             <label><input type="checkbox" name="estilo" value="rock" {% if 'rock' in estilo %}checked{% endif %}> Rock</label>
             <label><input type="checkbox" name="estilo" value="sertanejo" {% if 'sertanejo' in estilo %}checked{% endif %}> Sertanejo</label>
@@ -256,19 +256,19 @@
             <label><input type="checkbox" name="estilo" value="bossanova" {% if 'bossanova' in estilo %}checked{% endif %}> Bossa Nova</label>
         </div>
 
-        <label for="equipamento_som">Fornece equipamento de som?</label>
+        <label for="equipamento_som">Fornece equipamento de som? *</label>
         <label class="switch">
             <input type="checkbox" id="equipamento_som" name="equipamento_som" value= "on" {% if equipamento_som == 'on' %}checked{% endif %}>
             <span class="slider-switch"></span>
         </label>
 
-        <label for="publico_esperado">Público médio esperado</label>
+        <label for="publico_esperado">Público médio esperado *</label>
         <input type="number" id="publico_esperado" name="publico_esperado" placeholder="Número de pessoas" value="{{ publico_esperado }}">
 
-        <label for="duracao_show">Duração esperada do show</label>
+        <label for="duracao_show">Duração esperada do show *</label>
         <input type="text" id="duracao_show" name="duracao_show" placeholder="Ex.: 2 horas" value="{{ duracao_show }}">
 
-        <label>Pagamento</label>
+        <label>Pagamento *</label>
         <div class="radio-group">
             <div>
                 <label><input type="radio" name="pagamento" value="fixo" {% if 'fixo' == pagamento %}checked{% endif %}> Fixo</label>
@@ -320,6 +320,26 @@
     </div>
 </div>
 
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Confirmação</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Tem certeza de que deseja criar a demanda?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
+                <button type="button" class="btn btn-secondary" onclick="submitForm()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -327,9 +347,13 @@
 <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             const error = "{{ error }}";
+            const showConfirmation = "{{ confirmacao }}"
+
             if (error) {
                 document.getElementById('errorMessage').textContent = error;
                 $('#errorModal').modal('show');
+            } else if (showConfirmation) {
+                $('#confirmModal').modal('show');
             }
         });
 </script>
