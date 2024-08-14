@@ -9,4 +9,4 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 bd = SQLAlchemy(app)
 
 # Importar as rotas para registrar os endpoints
-from app.routes import InitialPage, Register, RegistroContratante, RegistroMusico
+from app.routes import InitialPage, Register, RegistroContratante, RegistroMusico, finalCadastro, login

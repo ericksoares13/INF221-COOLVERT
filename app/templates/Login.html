@@ -7,6 +7,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
         .back-arrow {
             display: inline-block;     
             margin-top: 60px;       
@@ -127,12 +132,13 @@
 </head>
 
 <body>
-    <i class="fas fa-arrow-left back-arrow"></i>
+    <a href="/setinhaLogin"> <i class="fas fa-arrow-left back-arrow"></i></a>
+   
     <div class="login">
         <h2 class="extrabold">Entrar na sua conta</h2>
     </div>
 
-    <form>
+    <form action="/entrarLogin" method="POST">
         <div>
           <label id="emailLabel" for="emailLogin">Email</label>
           <input type="email" class="form-control" id="emailLogin" aria-labelledby="emailLabel" placeholder="exemplo@gmail.com">
@@ -146,7 +152,8 @@
         </div>
         <button type="submit" class="botaoEntrar">ENTRAR</button>
         <div class="semCadastro">
-            <p class="medium">Não possui uma conta? Cadastre-se aqui</p>
+            <a href="vaiParaCadastro"><p class="medium">Não possui uma conta? Cadastre-se aqui</p></a>
+            
         </div>
     </form>
 </body>

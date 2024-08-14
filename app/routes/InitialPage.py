@@ -19,9 +19,9 @@ def get_cadastrar():
 
 @app.route("/entrar", methods=["POST"])
 def entrar():
-    return "", 204
+    return redirect(url_for("getFinalCadastro")) # mudar para login
 
 
 @app.route("/entrar", methods=["GET"])
 def get_entrar():
-    return "", 204
+    return redirect(url_for("getEntrarLogin"))

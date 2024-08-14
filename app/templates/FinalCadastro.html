@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Final Cadastro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Final Cadastro</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"></link>
+
     <style>
         .back-arrow {
             display: inline-block;     
@@ -74,33 +76,76 @@
             border-radius: 8px;
             cursor: pointer;
         }
-    </style>
+        </style>
 </head>
 <body>
-    <i class="fas fa-arrow-left back-arrow"></i>
-    <div class="cartao">
-        <h2 class="extrabold">Dados do cartão</h2>
+    <div class="container-fluid">
+        <a href="/setinhaFimCadastro"> <i class="fas fa-arrow-left back-arrow"></i></a>
+        <div class="cartao">
+            <h2 class="extrabold">Dados do cartão</h2>
+        </div>
+        <img src="../static/images/cartao.png" alt="Imagem de um cartão">
+    
+        <form action="/finalCadastro" method="POST">
+            <div>
+                <label for="numeroCartao">Número do cartão</label>
+                <input type="text" id="numeroCartao" aria-labelledby="numeroCartao" name="numeroCartao">
+            </div>
+            <div>
+                <label for="nomeCartao">Nome do titular</label>
+                <input type="text" id="nomeCartao" name="nomeCartao" aria-labelledby="nomeCartao">
+            </div>
+            <div>
+                <label for="dataExpiracao">Data de expiração</label>
+                <input type="text" name="dataExpiracao" id="dataExpiracao"  aria-labelledby="dataExpiracao">
+            </div>
+            <div>
+                <label for="codigoSeguranca">Código de segurança</label>
+                <input type="text" id="codigoSeguranca"aria-labelledby="codigoSeguranca" name="codigoSeguranca">
+            </div>
+            <button type="submit" class="botaoCadastrar">CADASTRAR</button>
+        </form>
     </div>
-    <img src="../static/images/cartao.png" alt="Imagem de um cartão">
+    
+        <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="errorModalLabel">Erro</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="errorMessage">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <form>
-        <div>
-          <label id="numeroLabel" for="numeroCartao">Número do cartão</label>
-          <input type="number" class="form-control" id="numeroCartao" aria-labelledby="numeroLabel">
-        </div>
-        <div>
-          <label id="nomeLabel" for="nomeCartao">Nome do titular</label>
-          <input type="name" class="form-control" id="nomeCartao" aria-labelledby="nomeLabel">
-        </div>
-        <div>
-          <label id="dataLabel" for="dataExpiracao">Data de expiração</label>
-          <input type="date" class="form-control" id="dataExpiracao" aria-labelledby="dataLabel">
-        </div>
-        <div>
-          <label id="codigoLabel" for="codigoSeguranca">Código de segurança</label>
-          <input type="number" class="form-control" id="codigoSeguranca" aria-labelledby="codigoLabel">
-        </div>
-        <button type="submit" class="botaoCadastrar">CADASTRAR</button>
-    </form>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js"></script>
+
+        <script>
+            $(document).ready(function(){
+                $("#numeroCartao").inputmask("9999 9999 9999 9999");
+                $("#codigoSeguranca").inputmask("999");
+                $("#dataExpiracao").inputmask("99/99");
+            });
+
+            document.addEventListener('DOMContentLoaded', (event) => {
+            const error = "{{ error }}";
+            if (error) {
+                document.getElementById('errorMessage').textContent = error;
+                $('#errorModal').modal('show');
+            }
+        });
+        </script>
 </body>
 </html>
