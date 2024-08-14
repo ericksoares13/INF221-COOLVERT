@@ -242,7 +242,7 @@
                 Músico
             </label>
         </div>
-        <button type="submit" class="btn btn-lg button">CADASTRAR</button>
+        <button type="submit" class="btn btn-lg button">PRÓXIMO</button>
     </form>
 </div>
 
@@ -288,29 +288,9 @@
     }
 
     document.addEventListener('DOMContentLoaded', (event) => {
-        const invalid_email_error = "{{ invalid_email_error }}";
-        if (invalid_email_error) {
-            document.getElementById('errorMessage').textContent = invalid_email_error;
-            $('#errorModal').modal('show');
-        }
-        const used_email_error = "{{ used_email_error }}";
-        if (used_email_error) {
-            document.getElementById('errorMessage').textContent = used_email_error;
-            $('#errorModal').modal('show');
-        }
-        const invalid_password_error = "{{ invalid_password_error }}";
-        if (invalid_password_error) {
-            document.getElementById('errorMessage').textContent = invalid_password_error;
-            $('#errorModal').modal('show');
-        }
-        const required_fields_error = "{{ required_fields_error }}";
-        if (required_fields_error) {
-            document.getElementById('errorMessage').textContent = required_fields_error;
-            $('#errorModal').modal('show');
-        }
-        const pasword_error = "{{ pasword_error }}";
-        if (pasword_error) {
-            document.getElementById('errorMessage').textContent = pasword_error;
+        const error = "{{ error }}";
+        if (error) {
+            document.getElementById('errorMessage').textContent = error;
             $('#errorModal').modal('show');
         }
     });
