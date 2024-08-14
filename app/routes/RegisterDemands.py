@@ -1,6 +1,6 @@
 from app import app
 from app.models.BancoDeDados import BancoDeDados
-from flask import render_template, request, session
+from flask import render_template, request, session, redirect, url_for
 from datetime import datetime, date
 
 @app.route('/cadastrarDemanda', methods=['POST'])
@@ -75,8 +75,8 @@ def cadastrar_demanda():
     dia, mes, ano = [int(x) for x in data_show.split('/')];
     contratante = session.get('contratante')
 
-    demanda_obj = {
-        'data_show': date(ano, mes, dia),
+    demanda = {
+        'data_show': (ano, mes, dia),
         'raio_procurado': raio_procurado,
         'fornece_equipamento': True if equipamento_som == "on" else False,
         'publico_esperado': publico_esperado,
@@ -87,7 +87,7 @@ def cadastrar_demanda():
         'dono': 2,
     }
 
-    BancoDeDados().CriaDemanda(demanda_obj)
+    session['demanda'] = demanda
 
     return render_template('registerDemands.html',
                            data_show=data_show,
@@ -103,3 +103,11 @@ def cadastrar_demanda():
 @app.route('/cadastrarDemanda', methods=['GET'])
 def get_cadastrar_demanda():
     return render_template("registerDemands.html")
+
+@app.route('/confirmarDemanda', methods=['POST'])
+def confirmar_demanda():
+    demanda = session.get('demanda', {})
+    ano, mes, dia = demanda.get('data_show')
+    demanda['data_show'] = date(ano, mes, dia)
+    BancoDeDados().CriaDemanda(demanda)
+    return redirect(url_for('index'))

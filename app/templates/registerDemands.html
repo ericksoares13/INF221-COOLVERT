@@ -342,7 +342,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
-                <button type="button" class="btn btn-secondary" onclick="submitForm()">Confirmar</button>
+                <form action="/confirmarDemanda" method="POST">
+                    <button type="submit" class="btn btn-secondary" onclick="submitForm()">Confirmar</button>
+                </form>
             </div>
         </div>
     </div>
