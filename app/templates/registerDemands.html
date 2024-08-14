@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criação da Demanda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 20px;
+            padding-left: 22px;
+            background-color: white;
+        }
+
+        .asterisk {
+            font-size: 20px; /* Aumenta o tamanho dos asteriscos */
+            color: black;      /* Muda a cor dos asteriscos */
+            font-weight: bold; /* Deixa os asteriscos em negrito */
+            margin-right: 2px; /* Adiciona um espaçamento à direita */
+            margin-top: 5px;
+        }
+
+        html {
+            display: grid;
+            place-items: center;
+            background-color: #ECF1F4;
+        }
+
+        p {
+            width: 370px;
+            height: 45px;
+            top: 143px;
+            left: 24px;
+        }
+
+        h2 {
+            width: 300px;
+            height: 35px;
+            font-weight: 800;
+            font-size: 27px;
+            line-height: 28.18px;
+            color: #0E0E2C;
+        }
+
+        label {
+            margin-top: 9px;
+            margin-bottom: 3px;
+            display: block;
+            color: #333;
+        }
+
+        input[type="text"], input[type="number"], textarea {
+            width: 380px;
+            padding: 12px;
+            margin-top: 5px;
+            margin-bottom: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #ECF1F4;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 7px;
+            margin-bottom: 18px;
+        }
+
+        .radio-group div {
+            display: flex;
+            flex-direction: column;
+            row-gap: 7px;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            column-gap: 100px;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group label, .radio-group label {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        .checkbox-group input, .radio-group input {
+            transform: scale(1.7);
+            margin-right: 12px;
+            margin-left: 5px;
+            background-color: #ECF1F4;
+        }
+
+        input[type="checkbox"], input[type="radio"] {
+            width: 15px;
+            height: 15px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: #ECF1F4;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        input[type="checkbox"]:checked, input[type="radio"]:checked {
+            background-color: #3473ef;
+            border: 1px solid #ccc;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 30px;
+        }
+
+        .slider-switch {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ECF1F4;
+            transition: .4s;
+            border-radius: 34px;
+            border: 1px solid #ccc;
+            width: 50px;
+            height: 30px;
+        }
+
+        .slider-switch:before {
+            position: absolute;
+            content: "";
+            height: 25px;
+            width: 25px;
+            left: 2px;
+            bottom: 2.5px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .slider {
+            width: 99%;
+        }
+
+        .slider-values {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .min-value {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        .max-value {
+            width: 100%;
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        .current-value {
+            font-weight: 600;
+            color: #000000;
+        }
+
+        input:checked + .slider-switch {
+            background-color: #3473ef;
+        }
+
+        input:checked + .slider-switch:before {
+            transform: translateX(20px);
+        }
+
+        .button {
+            background-color: #0055b3;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            width: 99%;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            margin: 5px auto;
+        }
+
+        .btn-secondary {
+            background-color: #0055b3;
+            color: white;
+            border-radius: 8px;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 100;
+            font-size: 18px;
+        }
+
+         .content {
+            position: relative;
+            padding-top: 50px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 5px;
+            font-size: 24px;
+            color: rgba(0, 0, 0, 0.68);
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #003f8c;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <i class="fas fa-arrow-left back-button" onclick="goBack()"></i>
+    </div>
+    <h2>Criação da demanda</h2>
+    <p>Estabeleça os critérios do evento que você busca, eles serão visíveis para os músicos!</p>
+
+    <form action="/cadastrarDemanda" method="POST">
+        <label for="data_show">Data do show <span class="asterisk">*</span></label>
+        <input type="text" id="data_show" name="data_show" placeholder="dd/mm/aaaa" value="{{ data_show }}">
+
+        <label for="raio_procurado">Raio procurado <span class="asterisk">*</span></label>
+        <input type="range" id="raio_procurado" name="raio_procurado" min="0" max="200" class="slider" value="{{ raio_procurado }}">
+        <div class="slider-values">
+            <span class="min-value">0 km</span>
+             <span class="current-value">100</span>
+            <span class="max-value">200 km</span>
+        </div>
+
+        <label>Estilo musical <span class="asterisk">*</span></label>
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="estilo" value="Rock" {% if 'Rock' in estilo %}checked{% endif %}> Rock</label>
+            <label><input type="checkbox" name="estilo" value="Sertanejo" {% if 'Sertanejo' in estilo %}checked{% endif %}> Sertanejo</label>
+            <label><input type="checkbox" name="estilo" value="Eletrônico" {% if 'Eletrônico' in estilo %}checked{% endif %}> Eletrônico</label>
+            <label><input type="checkbox" name="estilo" value="Pop" {% if 'Pop' in estilo %}checked{% endif %}> Pop</label>
+            <label><input type="checkbox" name="estilo" value="Forró" {% if 'Forró' in estilo %}checked{% endif %}> Forró</label>
+            <label><input type="checkbox" name="estilo" value="Axé" {% if 'Axé' in estilo %}checked{% endif %}> Axé</label>
+            <label><input type="checkbox" name="estilo" value="MPB" {% if 'MPB' in estilo %}checked{% endif %}> MPB</label>
+            <label><input type="checkbox" name="estilo" value="Funk" {% if 'Funk' in estilo %}checked{% endif %}> Funk</label>
+            <label><input type="checkbox" name="estilo" value="Bossa Nova" {% if 'Bossa Nova' in estilo %}checked{% endif %}> Bossa Nova</label>
+        </div>
+
+        <label for="equipamento_som">Fornece equipamento de som? <span class="asterisk">*</span></label>
+        <label class="switch">
+            <input type="checkbox" id="equipamento_som" name="equipamento_som" value= "on" {% if equipamento_som == 'on' %}checked{% endif %}>
+            <span class="slider-switch"></span>
+        </label>
+
+        <label for="publico_esperado">Público médio esperado <span class="asterisk">*</span></label>
+        <input type="number" id="publico_esperado" name="publico_esperado" placeholder="Número de pessoas" value="{{ publico_esperado }}">
+
+        <label for="duracao_show">Duração esperada do show <span class="asterisk">*</span></label>
+        <input type="text" id="duracao_show" name="duracao_show" placeholder="Ex.: 2 horas" value="{{ duracao_show }}">
+
+        <label>Pagamento <span class="asterisk">*</span></label>
+        <div class="radio-group">
+            <div>
+                <label><input type="radio" name="pagamento" value="fixo" {% if 'fixo' == pagamento %}checked{% endif %}> Fixo</label>
+                <label><input type="radio" name="pagamento" value="couvert" {% if 'couvert' == pagamento %}checked{% endif %}> Couvert</label>
+            </div>
+            <div>
+                <label><input type="radio" name="modo_pagamento" value="apos_evento" {% if 'apos_evento' == modo_pagamento %}checked{% endif %}> Após o evento</label>
+                <label><input type="radio" name="modo_pagamento" value="antecipado" {% if 'antecipado' == modo_pagamento %}checked{% endif %}> Antecipado</label>
+            </div>
+        </div>
+
+        <button type="submit" class="button">CRIAR DEMANDA</button>
+    </form>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var slider = document.getElementById('raio_procurado');
+        var currentValue = document.querySelector('.current-value');
+        currentValue.textContent = slider.value;
+        slider.addEventListener('input', function() {
+            currentValue.textContent = slider.value;
+        });
+    });
+    </script>
+
+</body>
+
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Erro</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="errorMessage">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Confirmação</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Tem certeza de que deseja criar a demanda?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
+                <form action="/confirmarDemanda" method="POST">
+                    <button type="submit" class="btn btn-secondary" onclick="submitForm()">Confirmar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const error = "{{ error }}";
+            const showConfirmation = "{{ confirmacao }}"
+
+            if (error) {
+                document.getElementById('errorMessage').textContent = error;
+                $('#errorModal').modal('show');
+            } else if (showConfirmation) {
+                $('#confirmModal').modal('show');
+            }
+        });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $("#data_show").inputmask("99/99/9999");
+    });
+</script>
+
+</html>
