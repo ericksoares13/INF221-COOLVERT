@@ -1,7 +1,8 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, session
 from app import app
 import re
 from datetime import date
+from app.models.BancoDeDados import BancoDeDados
 
 @app.route("/setinhaFimCadastro", methods=["GET"])
 def setinhaFimCadastro():
@@ -13,9 +14,12 @@ def getFinalCadastro():
 
 @app.route("/finalCadastro", methods=["POST"])
 def validaDados():
+    numero = request.form.get("numeroCartao")
+    nome = request.form.get("nomeCartao")
+    codSeg = request.form.get("codigoSeguranca")
     data = request.form.get("dataExpiracao")
-    mes, ano = map(int, data.split('/'))
 
+    mes, ano = map(int, data.split('/'))
     if ano <= 49: 
         ano += 2000
     else: ano += 1900
@@ -27,4 +31,22 @@ def validaDados():
             data=data,
         )
     
+    pessoa = session.get('pessoa')
+    tipo = pessoa['tipo']
+    if tipo == 'M':
+        pessoa_id = BancoDeDados.CriaMusico(pessoa)
+    else: pessoa_id = BancoDeDados.CriaContratante(pessoa)
+
+    dados_cartao = {
+        'id': pessoa_id,
+        'num_cartao': numero,
+        'nome_cartao': nome,
+        'cod_seguranca': codSeg,
+        'validade': data
+    }
+
+    BancoDeDados.CriaDadosBancario(dados_cartao)    
+
     return redirect(url_for("get_cadastro"))
+
+
