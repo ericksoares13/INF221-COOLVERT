@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            font-family: 'Raleway', sans-serif;
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .button {
+            width: 400px;
+            height: 60px;
+            position: absolute;
+            top: 850px;
+            left: 15px;
+            border-radius: 8px;
+            padding: 12px 24px;
+            gap: 8px;
+            background-color: #005082;
+            color: white;
+            font-weight: 800;
+            font-size: 18px;
+            line-height: 16.44px;
+            letter-spacing: 4%;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .form-group {
+            width: 360px;
+            left: 32px;
+            border-radius: 8px;
+            gap: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .form-group label {
+            font-weight: 800;
+            font-size: 16px;
+            width: 430px;
+            color: #212529;
+            line-height: 16.44px;
+            letter-spacing: 4%;
+            margin-bottom: 8px;
+            padding-left: 38px;
+        }
+
+        .form-group input {
+            height: 55px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            background-color: #ECF1F4;
+            border-color: #e2e7ea;
+            box-sizing: border-box;
+            font-weight: 800;
+            font-size: 16px;
+            line-height: 16.44px;
+            letter-spacing: 4%;
+        }
+
+        .form-group input::placeholder {
+            color: rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group input:focus::placeholder {
+            opacity: 0;
+        }
+
+        .form-group .toggle-icon {
+            position: absolute;
+            right: 15px;
+            top: 68%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: rgba(0, 80, 130, 0.51);
+        }
+
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear,
+        input[type="password"]::-webkit-clear-button,
+        input[type="password"]::-webkit-reveal-button {
+            display: none;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: rgba(0, 0, 0, 0.68);
+            cursor: pointer;
+        }
+
+        h1 {
+            width: 300px;
+            height: 35px;
+            font-weight: 800;
+            font-size: 27px;
+            line-height: 28.18px;
+            color: #0E0E2C;
+            gap: 0px;
+            text-align: left;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            margin-left: 32px;
+        }
+
+        .content {
+            position: relative;
+            padding-top: 40px;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(1, 2fr);
+            margin-left: 40px;
+            row-gap: 10px;
+            font-weight: 500;
+            line-height: 16.44px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        .radio-group input {
+            transform: scale(1.7);
+            margin-right: 15px;
+        }
+
+        input[type="radio"] {
+            width: 15px;
+            height: 15px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: #ECF1F4;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        input[type="radio"]:checked {
+            background-color: #005082;
+            border: 1px solid #ccc;
+        }
+
+        #password-requirements li {
+            display: flex;
+            align-items: center;
+            font-family: 'Raleway', sans-serif;
+            font-size: 14px;
+            color: #8c9091;
+            padding-left: 55px;
+            position: relative;
+        }
+
+        #password-requirements li i {
+            position: absolute;
+            left: 35px;
+            font-size: 16px;
+        }
+
+        #password-requirements li.invalid i {
+            position: absolute;
+            left: 38px;
+            font-size: 16px;
+        }
+
+        .btn-secondary {
+            background-color: #005082;
+            color: white;
+            border-radius: 8px;
+            font-weight: 100;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="content">
+    <i class="fas fa-arrow-left back-button" onclick="goBack()"></i>
+    <h1>Cadastro</h1>
+    <form action="/cadastro" method="POST">
+        <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="text" name="email" class="form-control" id="email" placeholder="exemplo@gmail.com" value="{{ email }}">
+        </div>
+        <div class="form-group">
+            <label for="username">Nome de usuário *</label>
+            <input type="text" name="username" class="form-control" id="username" value="{{ username }}">
+        </div>
+        <div class="form-group">
+            <label for="password">Senha *</label>
+            <input type="password" name="password" class="form-control" id="password" placeholder="********" value="{{ password }}">
+            <i class="fas fa-eye-slash toggle-icon" id="toggle-password"></i>
+        </div>
+        <ul id="password-requirements" class="list-unstyled mt-2">
+            <li id="length" class="invalid"><i class="fas fa-times"></i>Pelo menos 8 caracteres</li>
+            <li id="lowercase" class="invalid"><i class="fas fa-times"></i>Pelo menos uma letra minúscula</li>
+            <li id="uppercase" class="invalid"><i class="fas fa-times"></i>Pelo menos uma letra maiúscula</li>
+            <li id="number" class="invalid"><i class="fas fa-times"></i>Pelo menos um número</li>
+            <li id="special" class="invalid"><i class="fas fa-times"></i>Pelo menos um caractere especial</li>
+        </ul>
+        <div class="form-group">
+            <label for="confirm_password">Confirme a senha *</label>
+            <input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="********" value="{{ confirm_password }}">
+            <i class="fas fa-eye-slash toggle-icon" id="toggle-confirm-password"></i>
+        </div>
+        <div class="form-group"><label>Tipo de usuário *</label></div>
+        <div class="radio-group">
+            <label>
+                <input type="radio" name="user_type" value="contratante"
+                    {% if user_type == 'contratante' %} checked {% endif %}>
+                Contratante
+            </label>
+            <label>
+                <input type="radio" name="user_type" value="musico"
+                    {% if user_type == 'musico' %} checked {% endif %}>
+                Músico
+            </label>
+        </div>
+        <button type="submit" class="btn btn-lg button">PRÓXIMO</button>
+    </form>
+</div>
+
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Erro</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="errorMessage">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function setupPasswordToggle(toggleId, passwordId) {
+        const toggle = document.getElementById(toggleId);
+        const passwordField = document.getElementById(passwordId);
+
+        toggle.addEventListener('click', () => {
+            const type = passwordField.type === 'password' ? 'text' : 'password';
+            passwordField.type = type;
+            toggle.classList.toggle('fa-eye');
+            toggle.classList.toggle('fa-eye-slash');
+        });
+    }
+
+    setupPasswordToggle('toggle-password', 'password');
+    setupPasswordToggle('toggle-confirm-password', 'confirm_password');
+
+    function goBack() {
+        window.location.href = '/';
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const error = "{{ error }}";
+        if (error) {
+            document.getElementById('errorMessage').textContent = error;
+            $('#errorModal').modal('show');
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        function updatePasswordRequirements() {
+            const senha = document.getElementById('password').value;
+
+            const lengthCriteria = senha.length >= 8;
+            document.getElementById('length').classList.toggle('valid', lengthCriteria);
+            document.getElementById('length').classList.toggle('invalid', !lengthCriteria);
+            document.getElementById('length').querySelector('i').className = lengthCriteria ? 'fas fa-check' : 'fas fa-times';
+
+            const lowercaseCriteria = /[a-z]/.test(senha);
+            document.getElementById('lowercase').classList.toggle('valid', lowercaseCriteria);
+            document.getElementById('lowercase').classList.toggle('invalid', !lowercaseCriteria);
+            document.getElementById('lowercase').querySelector('i').className = lowercaseCriteria ? 'fas fa-check' : 'fas fa-times';
+
+            const uppercaseCriteria = /[A-Z]/.test(senha);
+            document.getElementById('uppercase').classList.toggle('valid', uppercaseCriteria);
+            document.getElementById('uppercase').classList.toggle('invalid', !uppercaseCriteria);
+            document.getElementById('uppercase').querySelector('i').className = uppercaseCriteria ? 'fas fa-check' : 'fas fa-times';
+
+            const numberCriteria = /\d/.test(senha);
+            document.getElementById('number').classList.toggle('valid', numberCriteria);
+            document.getElementById('number').classList.toggle('invalid', !numberCriteria);
+            document.getElementById('number').querySelector('i').className = numberCriteria ? 'fas fa-check' : 'fas fa-times';
+
+            const specialCriteria = /[@$!%*?&]/.test(senha);
+            document.getElementById('special').classList.toggle('valid', specialCriteria);
+            document.getElementById('special').classList.toggle('invalid', !specialCriteria);
+            document.getElementById('special').querySelector('i').className = specialCriteria ? 'fas fa-check' : 'fas fa-times';
+        }
+
+        document.getElementById('password').addEventListener('input', updatePasswordRequirements);
+        document.getElementById('confirm_password').addEventListener('input', updatePasswordRequirements);
+
+        updatePasswordRequirements();
+    });
+</script>
+</body>
+</html>
