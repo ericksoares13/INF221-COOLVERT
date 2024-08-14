@@ -88,14 +88,12 @@ def cadastro():
             user_type=user_type,
         )
 
-    pessoa_id = BancoDeDados.CriaPessoa({
+    session['pessoa'] = {
         'nome': username,
         'email': email,
         'senha': password,
-        'tipo': 'M' if user_type is "musico" else 'C'
-    })
-
-    session['pessoa_id'] = pessoa_id
+        'tipo': 'M' if user_type == "musico" else 'C'
+    }
 
     if user_type == "musico":
         return redirect(url_for("get_cadastrar_musico"))
