@@ -1,7 +1,9 @@
 import re
 
 from app import app
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, session
+
+from app.models.BancoDeDados import BancoDeDados
 
 REGISTER_HTML = "register.html"
 
@@ -19,7 +21,7 @@ def cadastro():
     ):
         return render_template(
             REGISTER_HTML,
-            invalid_email_error="Email inválido.",
+            error="Email inválido.",
             email=email,
             username=username,
             password=password,
@@ -27,18 +29,18 @@ def cadastro():
             user_type=user_type,
         )
 
-    # if email.strip() != '' and verificarSeJaExiste:
-    #     return render_template(REGISTER_HTML,
-    #                            used_email_error='Email digitado já está em uso.',
-    #                            email=email,
-    #                            username=username,
-    #                            password=password,
-    #                            confirm_password=confirm_password,
-    #                            user_type=user_type)
+    if email.strip() != '' and not BancoDeDados.VerificaEmail(email):
+        return render_template(REGISTER_HTML,
+                               error='Email digitado já está em uso.',
+                               email=email,
+                               username=username,
+                               password=password,
+                               confirm_password=confirm_password,
+                               user_type=user_type)
 
     # if username.strip() != '' and verificarSeJaExiste:
     #     return render_template(REGISTER_HTML,
-    #                            used_email_error='Nome de usuário digitado já está em uso.',
+    #                            error='Nome de usuário digitado já está em uso.',
     #                            email=email,
     #                            username=username,
     #                            password=password,
@@ -50,7 +52,7 @@ def cadastro():
     ):
         return render_template(
             REGISTER_HTML,
-            invalid_password_error="Senha não atende os requisitos necessários.",
+            error="Senha não atende os requisitos necessários.",
             email=email,
             username=username,
             password=password,
@@ -67,7 +69,7 @@ def cadastro():
     ):
         return render_template(
             REGISTER_HTML,
-            required_fields_error="Campos obrigatórios não preenchidos.",
+            error="Campos obrigatórios não preenchidos.",
             email=email,
             username=username,
             password=password,
@@ -78,13 +80,20 @@ def cadastro():
     if password != confirm_password:
         return render_template(
             REGISTER_HTML,
-            pasword_error="As senhas não coincidem.",
+            error="As senhas não coincidem.",
             email=email,
             username=username,
             password=password,
             confirm_password=confirm_password,
             user_type=user_type,
         )
+
+    session['pessoa'] = {
+        'nome': username,
+        'email': email,
+        'senha': password,
+        'tipo': 'M' if user_type == "musico" else 'C'
+    }
 
     if user_type == "musico":
         return redirect(url_for("get_cadastrar_musico"))
