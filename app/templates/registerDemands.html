@@ -16,6 +16,14 @@
             background-color: white;
         }
 
+        .asterisk {
+            font-size: 20px; /* Aumenta o tamanho dos asteriscos */
+            color: black;      /* Muda a cor dos asteriscos */
+            font-weight: bold; /* Deixa os asteriscos em negrito */
+            margin-right: 2px; /* Adiciona um espaçamento à direita */
+            margin-top: 5px;
+        }
+
         html {
             display: grid;
             place-items: center;
@@ -232,10 +240,10 @@
     <p>Estabeleça os critérios do evento que você busca, eles serão visíveis para os músicos!</p>
 
     <form action="/cadastrarDemanda" method="POST">
-        <label for="data_show">Data do show *</label>
+        <label for="data_show">Data do show <span class="asterisk">*</span></label>
         <input type="text" id="data_show" name="data_show" placeholder="dd/mm/aaaa" value="{{ data_show }}">
 
-        <label for="raio_procurado">Raio procurado *</label>
+        <label for="raio_procurado">Raio procurado <span class="asterisk">*</span></label>
         <input type="range" id="raio_procurado" name="raio_procurado" min="0" max="200" class="slider" value="{{ raio_procurado }}">
         <div class="slider-values">
             <span class="min-value">0 km</span>
@@ -243,7 +251,7 @@
             <span class="max-value">200 km</span>
         </div>
 
-        <label>Estilo musical *</label>
+        <label>Estilo musical <span class="asterisk">*</span></label>
         <div class="checkbox-group">
             <label><input type="checkbox" name="estilo" value="Rock" {% if 'Rock' in estilo %}checked{% endif %}> Rock</label>
             <label><input type="checkbox" name="estilo" value="Sertanejo" {% if 'Sertanejo' in estilo %}checked{% endif %}> Sertanejo</label>
@@ -256,19 +264,19 @@
             <label><input type="checkbox" name="estilo" value="Bossa Nova" {% if 'Bossa Nova' in estilo %}checked{% endif %}> Bossa Nova</label>
         </div>
 
-        <label for="equipamento_som">Fornece equipamento de som? *</label>
+        <label for="equipamento_som">Fornece equipamento de som? <span class="asterisk">*</span></label>
         <label class="switch">
             <input type="checkbox" id="equipamento_som" name="equipamento_som" value= "on" {% if equipamento_som == 'on' %}checked{% endif %}>
             <span class="slider-switch"></span>
         </label>
 
-        <label for="publico_esperado">Público médio esperado *</label>
+        <label for="publico_esperado">Público médio esperado <span class="asterisk">*</span></label>
         <input type="number" id="publico_esperado" name="publico_esperado" placeholder="Número de pessoas" value="{{ publico_esperado }}">
 
-        <label for="duracao_show">Duração esperada do show *</label>
+        <label for="duracao_show">Duração esperada do show <span class="asterisk">*</span></label>
         <input type="text" id="duracao_show" name="duracao_show" placeholder="Ex.: 2 horas" value="{{ duracao_show }}">
 
-        <label>Pagamento *</label>
+        <label>Pagamento <span class="asterisk">*</span></label>
         <div class="radio-group">
             <div>
                 <label><input type="radio" name="pagamento" value="fixo" {% if 'fixo' == pagamento %}checked{% endif %}> Fixo</label>

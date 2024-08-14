@@ -16,6 +16,14 @@
             flex-direction: column;
         }
 
+        .asterisk {
+            font-size: 20px; /* Aumenta o tamanho dos asteriscos */
+            color: black;      /* Muda a cor dos asteriscos */
+            font-weight: bold; /* Deixa os asteriscos em negrito */
+            margin-right: 2px; /* Adiciona um espaçamento à direita */
+            margin-top: 5px;
+        }
+
         .button {
             width: 400px;
             height: 60px;
@@ -205,15 +213,15 @@
     <h1>Cadastro</h1>
     <form action="/cadastro" method="POST">
         <div class="form-group">
-            <label for="email">Email *</label>
+            <label for="email">Email  <span class="asterisk">*</span></label>
             <input type="text" name="email" class="form-control" id="email" placeholder="exemplo@gmail.com" value="{{ email }}">
         </div>
         <div class="form-group">
-            <label for="username">Nome de usuário *</label>
+            <label for="username">Nome de usuário  <span class="asterisk">*</span></label>
             <input type="text" name="username" class="form-control" id="username" value="{{ username }}">
         </div>
         <div class="form-group">
-            <label for="password">Senha *</label>
+            <label for="password">Senha  <span class="asterisk">*</span></label>
             <input type="password" name="password" class="form-control" id="password" placeholder="********" value="{{ password }}">
             <i class="fas fa-eye-slash toggle-icon" id="toggle-password"></i>
         </div>
@@ -225,11 +233,11 @@
             <li id="special" class="invalid"><i class="fas fa-times"></i>Pelo menos um caractere especial</li>
         </ul>
         <div class="form-group">
-            <label for="confirm_password">Confirme a senha *</label>
+            <label for="confirm_password">Confirme a senha  <span class="asterisk">*</span></label>
             <input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="********" value="{{ confirm_password }}">
             <i class="fas fa-eye-slash toggle-icon" id="toggle-confirm-password"></i>
         </div>
-        <div class="form-group"><label>Tipo de usuário *</label></div>
+        <div class="form-group"><label>Tipo de usuário  <span class="asterisk">*</span></label></div>
         <div class="radio-group">
             <label>
                 <input type="radio" name="user_type" value="contratante"

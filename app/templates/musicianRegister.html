@@ -16,6 +16,14 @@
             flex-direction: column;
         }
 
+         .asterisk {
+            font-size: 20px; /* Aumenta o tamanho dos asteriscos */
+            color: black;      /* Muda a cor dos asteriscos */
+            font-weight: bold; /* Deixa os asteriscos em negrito */
+            margin-right: 2px; /* Adiciona um espaçamento à direita */
+            margin-top: 5px;
+        }
+
         .button {
             width: 400px;
             height: 60px;
@@ -142,7 +150,7 @@
         <h1>Cadastro</h1>
         <form action="/cadastrarMusico" method="POST">
             <div class="form-group">
-                <label for="nome">Nome pessoal *</label>
+                <label for="nome">Nome pessoal <span class="asterisk">*</span></label>
                 <input type="text" class="form-control" id="nome" name="nome" value="{{ nome }}">
             </div>
             <div class="form-group">
@@ -150,11 +158,11 @@
                 <input type="text" class="form-control" id="nome_artistico" name="nome_artistico" value="{{ nome_artistico }}">
             </div>
             <div class="form-group">
-                <label for="cpf">CPF *</label>
+                <label for="cpf">CPF  <span class="asterisk">*</span></label>
                 <input type="text" class="form-control" id="cpf" name="cpf" placeholder="XXX.XXX.XXX-XX" value="{{ cpf }}">
             </div>
             <div class="form-group">
-                <label for="telefone">Celular *</label>
+                <label for="telefone">Celular  <span class="asterisk">*</span></label>
                 <input type="text" class="form-control" id="telefone" name="telefone" placeholder="(DD) XXXXX-XXXX" value="{{ telefone }}">
             </div>
             <div class="form-group">
