@@ -73,7 +73,6 @@ def cadastrar_demanda():
     confirmacao = True
 
     dia, mes, ano = [int(x) for x in data_show.split('/')];
-    print(estilos_marcados)
     contratante = session.get('contratante')
 
     demanda_obj = {
