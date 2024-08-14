@@ -58,10 +58,7 @@ def cadastrar_musico():
         'descricao': descricao
     })
 
-    session['pessoa'] = {
-        'pessoa': musico,
-        'tipo': 'M'
-    }
+    session['pessoa'] = musico
 
     return redirect(url_for("index"))
 
