@@ -93,7 +93,7 @@ def cadastrar_contratante():
 
     session['pessoa'] = contratante
 
-    return redirect(url_for("index"))
+    return redirect(url_for("getFinalCadastro"))
 
 
 @app.route("/cadastrarContratante", methods=["GET"])
