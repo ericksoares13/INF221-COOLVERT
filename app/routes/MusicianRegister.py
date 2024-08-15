@@ -58,12 +58,9 @@ def cadastrar_musico():
         'descricao': descricao
     })
 
-    session['pessoa'] = {
-        'pessoa': musico,
-        'tipo': 'M'
-    }
+    session['pessoa'] = musico
 
-    return redirect(url_for("index"))
+    return redirect(url_for("getFinalCadastro"))
 
 
 @app.route("/cadastrarMusico", methods=["GET"])

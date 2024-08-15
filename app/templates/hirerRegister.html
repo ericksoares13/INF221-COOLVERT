@@ -16,6 +16,14 @@
             flex-direction: column;
         }
 
+        .asterisk {
+            font-size: 20px; /* Aumenta o tamanho dos asteriscos */
+            color: black;      /* Muda a cor dos asteriscos */
+            font-weight: bold; /* Deixa os asteriscos em negrito */
+            margin-right: 2px; /* Adiciona um espaçamento à direita */
+            margin-top: 10px;
+        }
+
         .button {
             width: 400px;
             height: 60px;
@@ -130,19 +138,19 @@
         <h1>Cadastro</h1>
         <form action="/cadastrarContratante" method="POST">
             <div class="form-group">
-                <label for="nome">Nome do estabelecimento *</label>
+                <label for="nome">Nome do estabelecimento <span class="asterisk">*</span></label>
                 <input type="text" class="form-control" id="nome" name="nome" value="{{ nome }}">
             </div>
             <div class="form-group">
-                <label for="cnpj">CNPJ *</label>
+                <label for="cnpj">CNPJ <span class="asterisk">*</span></label>
                 <input type="text" class="form-control" id="cnpj" name="cnpj" placeholder="XX.XXX.XXX/XXXX-XX" value="{{ cnpj }}">
             </div>
             <div class="form-group">
-                <label for="telefone">Celular *</label>
+                <label for="telefone">Celular <span class="asterisk">*</span></label>
                 <input type="text" class="form-control" id="telefone" name="telefone" placeholder="(DD) XXXXX-XXXX" value="{{ telefone }}">
             </div>
             <div class="form-group">
-                <label for="cep">CEP *</label>
+                <label for="cep">CEP <span class="asterisk">*</span></label>
                 <input type="text" class="form-control" id="cep" name="cep" placeholder="XXXXX-XXX" value="{{ cep }}" onblur="pesquisarCep()">
             </div>
             <div class="form-group">
@@ -158,7 +166,7 @@
                 <input type="text" class="form-control" id="bairro" name="bairro" value="{{ bairro }}" readonly>
             </div>
             <div class="form-group">
-                <label for="numero">Número *</label>
+                <label for="numero">Número  <span class="asterisk">*</span></label>
                 <input type="text" class="form-control" id="numero" name="numero" value="{{ numero }}">
             </div>
             <div class="form-group">

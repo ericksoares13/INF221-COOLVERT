@@ -91,12 +91,9 @@ def cadastrar_contratante():
         'complemento': complemento
     })
 
-    session['pessoa'] = {
-        'pessoa': contratante,
-        'tipo': 'C'
-    }
+    session['pessoa'] = contratante
 
-    return redirect(url_for("index"))
+    return redirect(url_for("getFinalCadastro"))
 
 
 @app.route("/cadastrarContratante", methods=["GET"])
