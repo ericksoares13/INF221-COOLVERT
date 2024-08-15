@@ -4,86 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela de Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"></link>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            font-family: 'Raleway', sans-serif;
+            flex-direction: column;
+        }
+        
         a {
             text-decoration: none;
             color: inherit;
         }
-
+        
         .back-arrow {
-            display: inline-block;     
-            margin-top: 60px;       
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: rgba(0, 0, 0, 0.68);
+            cursor: pointer;
+        }
+    
+        .content {
             position: relative;
-            left: 16px;
+            padding-top: 40px;
         }
 
-        .login{
-            width: 333px;
-            color: #0e0e2c;
-            font-family: 'Raleway', sans-serif;
-            font-size: 24;
-            margin-top: 44px;
-            position: relative;
-            letter-spacing: -1px;
-            left: 27px;
-        }
-        
-        .extrabold{
-            font-weight: 800;            
-        }
-
-        .medium{
-            font-weight: 500;            
+        h2 {
+            width: 300px;
+            height: 35px;
+            font-weight: 800;
+            font-size: 27px;
+            line-height: 28.18px;
+            color: #0E0E2C;
+            gap: 0px;
+            text-align: left;
+            margin-top: 40px;
+            margin-bottom: 250px;
+            margin-left: 32px;
         }
 
-        label[id="emailLabel"] {
+        label {
             display: block; 
-            margin-bottom: 8px;  
-            font-family: 'Roboto', sans-serif;
+            margin-bottom: 10px;  
             font-size: 14;
-            color: #868686;            
-            margin-top: 236px;
-            padding-left: 27px;
-        }
-        
-        label[id="senhaLabel"] {
-            display: block; 
-            margin-bottom: 8px;  
-            font-family: 'Roboto', sans-serif;
-            font-size: 14;
-            color: #868686;            
-            margin-top: 33px;
-            padding-left: 27px;
+            color: #212529;;            
+            padding-left: 30px;
+            font-weight: 800;
         }
 
-        input[type="email" ] {
-            width: 350px;
-            height: 30px;
-            padding: 10px;
-            position: relative;
-            left: 27px;
+        input[type="text" ] {
+            width: 360px;
+            height: 55px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin-bottom: 13px;
             border: 1px solid #ccc;
+            border-color: #e2e7ea;
             background-color: #ecf1f4;
-            border-radius: 8px;  
-            font-size: 16; 
+            box-sizing: border-box;
+            font-size: 16;
+            line-height: 16.44px;
+            letter-spacing: 4%;
+            position: relative;
+            left: 30px;
         }
 
-        input[type="email" ]::placeholder {
+        input[type="text" ]::placeholder {
             color: #868686;
         }
 
         input[type="password" ] {
-            width: 350px;
-            height: 30px;
-            padding: 10px;
-            position: relative;
-            left: 27px;
+            width: 360px;
+            height: 55px;
+            padding: 10px 16px;
+            border-radius: 8px;
             border: 1px solid #ccc;
+            border-color: #e2e7ea;
             background-color: #ecf1f4;
-            border-radius: 8px;  
-            font-size: 16; 
+            box-sizing: border-box;
+            font-size: 16;
+            line-height: 16.44px;
+            letter-spacing: 4%;
+            position: relative;
+            left: 30px;
         }
 
         input[type="password" ]::placeholder {
@@ -94,67 +103,142 @@
             width: 312px;
             margin-top: 15px;
             position: relative;
-            font-family: 'Roboto', sans-serif;
-            left: 33px;
+            font-weight: 800;
+            left: 30px;
             color: #005082;  
             font-size: 14; 
             letter-spacing: -0.5px;
         }
         
         .botaoEntrar {
-            width: 375px;
-            margin-top: 168px;
-            position: relative;
-            left: 25px;
-            padding: 10px 20px;
-            font-size: 16;
-            font-weight: bold;
-            font-family: 'Roboto', sans-serif;
-            text-align: center;
-            color: #fff;
-            background-color: #005082;
-            border: 2px solid #005082;
+            width: 400px;
+            height: 60px;
+            position: absolute;
+            margin-top: 200px;
+            left: 15px;
             border-radius: 8px;
+            padding: 12px 24px;
+            gap: 8px;
+            background-color: #005082;
+            color: white;
+            font-weight: 800;
+            font-size: 18px;
+            line-height: 16.44px;
+            letter-spacing: 4%;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            border: none;
             cursor: pointer;
         }
         
         .semCadastro{
             width: 312px;
-            margin-top: 20px;
+            margin-top: 289px;
             position: relative;
-            font-family: 'Roboto', sans-serif;
-            left: 75px;
+            left: 70px;
             color: #005082;  
             font-size: 14; 
+            font-weight: 800;
             letter-spacing: -0.5px;
+        }
+
+        .btn-secondary {
+            background-color: #005082;
+            color: white;
+            border-radius: 8px;
+            font-weight: 100;
+            font-size: 18px;
+        }
+
+        .toggle-icon {
+            position: absolute;
+            right: 53px;
+            top: 57%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: rgba(0, 80, 130, 0.51);
         }
     </style>
 </head>
 
 <body>
-    <a href="/setinhaLogin" > <i class="fas fa-arrow-left back-arrow"></i></a>
-   
-    <div class="login">
-        <h2 class="extrabold">Entrar na sua conta</h2>
+    <div class="content">
+        <a href="/setinhaLogin"> <i class="fas fa-arrow-left back-arrow"></i></a>
+    
+        <div>
+            <h2>Entrar na sua conta</h2>
+        </div>
+
+        <form action="/entrarLogin" method="POST">
+            <div>
+                <label for="emailLogin">Email *</label>
+                <input type="text" class="form-control" id="emailLogin" name="emailLogin" aria-labelledby="emailLogin" placeholder="exemplo@gmail.com" value="{{ emailLogin }}">
+            </div>
+            <div>
+                <label for="senhaLogin">Senha *</label>
+                <input type="password" class="form-control" id="senhaLogin" name="senhaLogin" aria-labelledby="senhaLogin" placeholder="***********" value="{{ senhaLogin }}">
+                <i class="fas fa-eye-slash toggle-icon" id="toggle-password"></i>
+            </div>
+            <div class="senhaEsquecida">
+                <p class="medium">Esqueci minha senha</p>
+            </div>
+            <button type="submit" class="botaoEntrar">ENTRAR</button>
+            <div class="semCadastro">
+                <a href="vaiParaCadastro"><p class="medium">Não possui uma conta? Cadastre-se aqui</p></a>
+            </div>
+        </form>
     </div>
 
-    <form action="/entrarLogin" method="POST">
-        <div>
-          <label id="emailLabel" for="emailLogin">Email</label>
-          <input type="email" class="form-control" id="emailLogin" aria-labelledby="emailLabel" placeholder="exemplo@gmail.com">
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Erro</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="errorMessage"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
         </div>
-        <div>
-          <label id="senhaLabel" for="senhaLogin">Senha</label>
-          <input type="password" class="form-control" id="senhaLogin" aria-labelledby="senhaLabel" placeholder="***********">
-        </div>
-        <div class="senhaEsquecida">
-            <p class="medium">Esqueci minha senha</p>
-        </div>
-        <button type="submit" class="botaoEntrar">ENTRAR</button>
-        <div class="semCadastro">
-            <a href="vaiParaCadastro"><p class="medium">Não possui uma conta? Cadastre-se aqui</p></a>
+    </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js"></script>
+
+        <script>
+            function setupPasswordToggle(toggleId, passwordId) {
+                const toggle = document.getElementById(toggleId);
+                const passwordField = document.getElementById(passwordId);
+
+                toggle.addEventListener('click', () => {
+                    const type = passwordField.type === 'password' ? 'text' : 'password';
+                    passwordField.type = type;
+                    
+                    if (passwordField.type == 'text') {
+                        passwordField.classList.add('input');
+                    }
+
+                    toggle.classList.toggle('fa-eye');
+                    toggle.classList.toggle('fa-eye-slash');
+            });
+            }
+            setupPasswordToggle('toggle-password', 'senhaLogin');
             
-        </div>
-    </form>
+            document.addEventListener('DOMContentLoaded', (event) => {
+            const error = "{{ error }}";
+            if (error) {
+                document.getElementById('errorMessage').textContent = error;
+                $('#errorModal').modal('show');
+            }
+        });
+        </script>
+    
 </body>
 </html>

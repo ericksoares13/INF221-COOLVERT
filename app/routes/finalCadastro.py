@@ -8,10 +8,6 @@ from app.models.BancoDeDados import BancoDeDados
 def setinhaFimCadastro():
     return redirect(url_for("get_cadastro"))
 
-@app.route("/finalCadastro", methods=["GET"])
-def getFinalCadastro():
-    return render_template("FinalCadastro.html")
-
 @app.route("/finalCadastro", methods=["POST"])
 def validaDados():
     numero = request.form.get("numeroCartao")
@@ -19,18 +15,31 @@ def validaDados():
     codSeg = request.form.get("codigoSeguranca")
     data = request.form.get("dataExpiracao")
 
+    if numero.strip() == "" or nome.strip() == "" or codSeg.strip() == "" or data.strip() == "":
+        return render_template(
+            "finalCadastro.html",
+            error="Campos obrigatórios não preenchidos.",
+            dataExpiracao=data,
+            nomeCartao=nome,
+            numeroCartao=numero,
+            codigoSeguranca=codSeg
+        )  
+
     mes, ano = map(int, data.split('/'))
     if ano <= 49: 
         ano += 2000
     else: ano += 1900
 
-    if not data.strip() == "" and (date.today().year > ano or (date.today().year == ano and date.today().month + 1 > mes) or mes + 1 > 12): 
+    if not data.strip() == "" and (date.today().year > ano or (date.today().year == ano and date.today().month > mes) or mes > 12): 
         return render_template(
             "finalCadastro.html",
             error="A data de expiração do cartão é inválida.",
-            data=data,
-        )
-    
+            dataExpiracao=data,
+            nomeCartao=nome,
+            numeroCartao=numero,
+            codigoSeguranca=codSeg
+        )  
+
     pessoa = session.get('pessoa')
     tipo = pessoa['tipo']
     if tipo == 'M':
@@ -45,8 +54,9 @@ def validaDados():
         'validade': data
     }
 
-    BancoDeDados.CriaDadosBancario(dados_cartao)    
+    BancoDeDados.CriaDadosBancario(dados_cartao)  
+    return redirect(url_for("getEntrarLogin"))
 
-    return redirect(url_for("get_cadastro"))
-
-
+@app.route("/finalCadastro", methods=["GET"])
+def getFinalCadastro():
+    return render_template("FinalCadastro.html")

@@ -60,7 +60,7 @@ def cadastrar_musico():
 
     session['pessoa'] = musico
 
-    return redirect(url_for("index"))
+    return redirect(url_for("getFinalCadastro"))
 
 
 @app.route("/cadastrarMusico", methods=["GET"])
