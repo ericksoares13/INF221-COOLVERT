@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY', 'default_secret_key')
+app.secret_key = os.environ.get("SECRET_KEY", "default_secret_key")
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -12,4 +12,4 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 bd = SQLAlchemy(app)
 
 # Importar as rotas para registrar os endpoints
-from app.routes import InitialPage, Register, HirerRegister, MusicianRegister, RegisterDemands, finalCadastro, login
+from app.routes import InitialPage, Register, HirerRegister, MusicianRegister, HirerHome
