@@ -12,19 +12,13 @@
             position: relative;
             width: 100%;
             max-width: 400px;
-            /* Largura máxima para simular uma tela de celular */
             height: 100vh;
-            /* Altura total da tela */
             margin: 0 auto;
             border: 2px solid #000;
-            /* Contorno da tela */
             border-radius: 20px;
-            /* Bordas arredondadas para simular um telefone */
             box-sizing: border-box;
             overflow: hidden;
-            /* Esconde o conteúdo que ultrapassar as bordas */
             background-color: #fff;
-            /* Cor de fundo da tela */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -68,20 +62,7 @@
             font-size: 20px;
         }
 
-        .notification {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 400px;
-            box-sizing: border-box;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
+        
         .bold-text {
             font-weight: bold;
         }
@@ -96,37 +77,7 @@
             border-radius: 0 0 20px 20px;
         }
 
-        .plus-button {
-            background: linear-gradient(45deg, #ff6f00, #ffca28);
-            border-radius: 30px;
-            color: white;
-            font-size: 24px;
-            width: 70px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            position: relative;
-            bottom: 5px;
-            z-index: 1;
-        }
-
-        .indicator-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(45deg, #ff6f00, #ffca28);
-            border-radius: 50%;
-            box-shadow:0 4px 10px rgba(0, 0, 0, 0.15);
-            color: white;
-            font-size: 18px;
-            width: 40px;
-            height: 30px;
-            margin-left: 10px;
-        }
-
+      
         .nav-button {
             background: none;
             border: none;
@@ -143,48 +94,17 @@
         }
 
 
-        .close-button {
-            background: none;
-            border: none;
-            font-size: 16px;
-            font-weight: bold;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            color: #999;
-        }
+    
 
-        .close-button:hover {
-            color: #0a0a0a;
-        }
     </style>
-    <script>
-        function closeNotification() {
-            const notificationDiv = document.querySelector('.notification');
-            if (notificationDiv) {
-                notificationDiv.style.display = 'none';
-            }
-        }
-    </script>
 </head>
 
 <body>
     <div class="phone-frame">
         <div class="content">
-            <h1>Suas demandas</h1>
+            <h1>Demandas</h1>
         </div>
-        <div class="notification">
-            <button class="close-button" onclick="closeNotification()">X</button>
-            <p class="bold-text">Você não fez nenhuma demanda</p>
-            <p>Clique no botão <span class="indicator-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                class="bi bi-plus-circle" viewBox="0 0 16 16">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                <path
-                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-            </svg></span> abaixo para criar uma nova demanda!</p>
-
-        </div>
+    
         <div class="nav-bar">
             <form action="/homeContratante" method="POST">
                 <button type="submit" class="nav-button">
@@ -203,16 +123,7 @@
                     </svg>
                 </button>
             </form>
-            <form action="/cadastrarDemanda" method="POST">
-                <button class="plus-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                        class="bi bi-plus-circle" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                        <path
-                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                    </svg>
-                </button>
-            </form>
+        
             <form action="/chat" method="POST">
                 <button class="nav-button">
                     <svg xmlns="http://www.w3.org/2000/svg"
