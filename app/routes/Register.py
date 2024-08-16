@@ -40,14 +40,14 @@ def cadastro():
             user_type=user_type,
         )
 
-    # if username.strip() != '' and verificarSeJaExiste:
-    #     return render_template(REGISTER_HTML,
-    #                            error='Nome de usuário digitado já está em uso.',
-    #                            email=email,
-    #                            username=username,
-    #                            password=password,
-    #                            confirm_password=confirm_password,
-    #                            user_type=user_type)
+    if username.strip() != '' and not BancoDeDados.VerificaNomeUsuario(username):
+        return render_template(REGISTER_HTML,
+                               error='Nome de usuário digitado já está em uso.',
+                               email=email,
+                               username=username,
+                               password=password,
+                               confirm_password=confirm_password,
+                               user_type=user_type)
 
     if password.strip() != "" and not re.match(
         r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$", password

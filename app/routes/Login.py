@@ -28,7 +28,7 @@ def valida_login_senha():
             senhaLogin=senha,
         )
 
-    login = {"email": email, "senha": senha}
+    login = {"identificador": email, "senha": senha}
 
     pessoa = BancoDeDados.Login(login)
     if pessoa is not None:
