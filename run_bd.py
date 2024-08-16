@@ -16,7 +16,8 @@ if __name__ == '__main__':
             'celular': '(31)987654321',
             'documento': '111.222.333-44',
             'nome_pessoal': 'Katherine Hudson',
-            'nome_artistico': 'Katy Perry'
+            'nome_artistico': 'Katy Perry',
+            'descricao': "Não precisa, I'm the queen."
         }
         
         #Contratante
@@ -26,9 +27,14 @@ if __name__ == '__main__':
             'nome': 'rockInRio',
             'tipo': 'C',
             'celular': '31123456789',
-            'documento': '12.345.678/0001-00',
+            'documento': '111.222.333-44',
             'nome_estabelecimento': 'Rock In Rio',
-            'cidade': 'Rio de Janeiro, RJ'
+            'cep': '05407-002',
+            'estado': 'RJ',
+            'cidade': 'Rio de Janeiro',
+            'bairro': 'Tijuca',
+            'numero': 123,
+            'complemento': 'Maior palco da cidade.',
         }
         
         #Dados Bancários 
@@ -41,16 +47,15 @@ if __name__ == '__main__':
         
         #Login errado - Katy Perry
         login_obj1 = {
-            'email': 'katyperry@diva.com',
+            'identificador': 'katyperry@diva.com',
             'senha': '654321'
         }
         
         #Login certo - Rock In Rio
         login_obj2 = {
-            'email': 'rockin@rio.com',
+            'identificador': 'rockin@rio.com',
             'senha': '654321'
-        }
-        
+        } 
         
         if BancoDeDados.VerificaEmail(musico_obj['email']):
             musico_id = BancoDeDados.CriaMusico(musico_obj)
@@ -64,6 +69,12 @@ if __name__ == '__main__':
         else: 
             print("Email ou senha incorretos.")
             
+        contratante = BancoDeDados.Login(login_obj2)
+        if contratante is not None:
+            print("Login realizado com sucesso!")
+        else: 
+            print("Email ou senha incorretos.")
+        login_obj2['identificador'] = 'rockInRio'
         contratante = BancoDeDados.Login(login_obj2)
         if contratante is not None:
             print("Login realizado com sucesso!")
@@ -122,7 +133,7 @@ if __name__ == '__main__':
         print()
             
         #Match
-        musico = BancoDeDados.Login({'email': 'katyperry@diva.com', 'senha': '123slay'})
+        musico = BancoDeDados.Login({'identificador': 'katyperry@diva.com', 'senha': '123slay'})
         
         match_obj = {
             'id_musico': musico.id,

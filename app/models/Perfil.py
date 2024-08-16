@@ -6,7 +6,7 @@ class Perfil(bd.Model):
     __tablename__ = 'perfil'
     
     id = bd.Column(bd.Integer, bd.ForeignKey('usuario.id'), primary_key=True)
-    descricao = bd.Column(bd.String(250), nullable=False)
+    descricao = bd.Column(bd.String(250), nullable=False)       # também foi adicionada a músico
     nome_instagram = bd.Column(bd.String(25), nullable=False)
     link_instagram = bd.Column(bd.String(200), nullable=False)
     link_spotify = bd.Column(bd.String(200), nullable=False)

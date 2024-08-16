@@ -5,7 +5,7 @@ class Pessoa(bd.Model):
     __tablename__ = 'pessoa'
     
     id = bd.Column(bd.Integer, primary_key=True, autoincrement=True)
-    nome = bd.Column(bd.String(80), nullable=False)
+    nome = bd.Column(bd.String(80), unique=True, nullable=False)
     email = bd.Column(bd.String(80), unique=True, nullable=False)
     senha = bd.Column(bd.LargeBinary(), nullable=False)
     tipo = bd.Column(bd.CHAR, nullable=False)

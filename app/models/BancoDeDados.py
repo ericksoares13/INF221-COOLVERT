@@ -7,7 +7,10 @@ class BancoDeDados:
     @staticmethod
     def Login(obj):
         with app.app_context():
-            pessoa = Pessoa.query.filter_by(email=obj['email']).first()
+            pessoa = None
+            pessoa = Pessoa.query.filter_by(email=obj['identificador']).first()
+            if pessoa is None:
+                pessoa = Pessoa.query.filter_by(nome=obj['identificador']).first()
             if pessoa and pessoa.verifica_senha(obj['senha']):
                 return pessoa
             else: 
@@ -17,6 +20,11 @@ class BancoDeDados:
     def VerificaEmail(email):
         with app.app_context():
             return False if Pessoa.query.filter_by(email=email).first() else True
+    
+    @staticmethod
+    def VerificaNomeUsuario(nome):
+        with app.app_context():
+            return False if Pessoa.query.filter_by(nome=nome).first() else True
         
     @staticmethod
     def CriaPessoa(obj):
@@ -46,7 +54,7 @@ class BancoDeDados:
         with app.app_context():
             obj['id'] = BancoDeDados.CriaPessoa(obj)
             BancoDeDados.CriaUsuario(obj)
-            novo_musico = Musico(id=obj['id'], nome_pessoal=obj['nome_pessoal'], nome_artistico=obj['nome_artistico'])
+            novo_musico = Musico(id=obj['id'], nome_pessoal=obj['nome_pessoal'], nome_artistico=obj['nome_artistico'], descricao=obj['descricao'])
             bd.session.add(novo_musico)
             bd.session.commit()
             return obj['id']
@@ -56,7 +64,8 @@ class BancoDeDados:
         with app.app_context():
             obj['id'] = BancoDeDados.CriaPessoa(obj)
             BancoDeDados.CriaUsuario(obj)
-            novo_contratante = Contratante(id=obj['id'], nome_estabelecimento=obj['nome_estabelecimento'], cidade=obj['cidade'])
+            novo_contratante = Contratante(id=obj['id'], nome_estabelecimento=obj['nome_estabelecimento'], cep=obj['cep'], estado=obj['estado'], 
+                                           cidade=obj['cidade'], bairro=obj['bairro'], numero=obj['numero'], complemento=obj['complemento'])
             bd.session.add(novo_contratante)
             bd.session.commit()
             return obj['id']
