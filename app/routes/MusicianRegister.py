@@ -3,8 +3,6 @@ from flask import render_template, request, redirect, url_for, session
 from validate_docbr import CPF
 import re
 
-from app.models.BancoDeDados import BancoDeDados
-
 MUSICIAN_HTML = "musicianRegister.html"
 
 
@@ -49,18 +47,20 @@ def cadastrar_musico():
             descricao=descricao,
         )
 
-    musico = session.get('pessoa', {})
-    musico.update({
-        'nome_pessoal': nome,
-        'nome_artistico': nome_artistico,
-        'documento': cpf,
-        'celular': telefone,
-        'descricao': descricao
-    })
+    musico = session.get("pessoa", {})
+    musico.update(
+        {
+            "nome_pessoal": nome,
+            "nome_artistico": nome_artistico,
+            "documento": cpf,
+            "celular": telefone,
+            "descricao": descricao,
+        }
+    )
 
-    session['pessoa'] = musico
+    session["pessoa"] = musico
 
-    return redirect(url_for("getFinalCadastro"))
+    return redirect(url_for("get_final_cadastro"))
 
 
 @app.route("/cadastrarMusico", methods=["GET"])

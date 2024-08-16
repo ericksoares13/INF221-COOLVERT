@@ -29,14 +29,16 @@ def cadastro():
             user_type=user_type,
         )
 
-    if email.strip() != '' and not BancoDeDados.VerificaEmail(email):
-        return render_template(REGISTER_HTML,
-                               error='Email digitado já está em uso.',
-                               email=email,
-                               username=username,
-                               password=password,
-                               confirm_password=confirm_password,
-                               user_type=user_type)
+    if email.strip() != "" and not BancoDeDados.VerificaEmail(email):
+        return render_template(
+            REGISTER_HTML,
+            error="Email digitado já está em uso.",
+            email=email,
+            username=username,
+            password=password,
+            confirm_password=confirm_password,
+            user_type=user_type,
+        )
 
     # if username.strip() != '' and verificarSeJaExiste:
     #     return render_template(REGISTER_HTML,
@@ -88,11 +90,11 @@ def cadastro():
             user_type=user_type,
         )
 
-    session['pessoa'] = {
-        'nome': username,
-        'email': email,
-        'senha': password,
-        'tipo': 'M' if user_type == "musico" else 'C'
+    session["pessoa"] = {
+        "nome": username,
+        "email": email,
+        "senha": password,
+        "tipo": "M" if user_type == "musico" else "C",
     }
 
     if user_type == "musico":

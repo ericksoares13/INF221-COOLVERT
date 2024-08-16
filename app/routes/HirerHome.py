@@ -1,34 +1,32 @@
 from app import app
-from flask import render_template, request, redirect, url_for, session
-from validate_docbr import CNPJ
-import re
+from flask import render_template, redirect, url_for
 
 
 @app.route("/homeContratante", methods=["POST"])
 def home_contratante():
-    return render_template("home_contratante.html")
+    return render_template("hirerHome.html")
 
 
 @app.route("/homeContratante", methods=["GET"])
 def get_home_contratante():
-    return render_template("home_contratante.html")
+    return render_template("hirerHome.html")
 
 
-@app.route("/procurar", methods=["POST"])
+@app.route("/procurarContratante", methods=["POST"])
 def procurar():
-    return render_template("home_contratante.html")
+    return render_template("hirerHome.html")
 
 
-@app.route("/procurar", methods=["GET"])
+@app.route("/procurarContratante", methods=["GET"])
 def get_procurar():
-    return render_template("home_contratante.html")
+    return render_template("hirerHome.html")
 
 
-@app.route("/cadastrarDemanda", methods=["POST"])
-def cadastrar_demanda():
-    return render_template("home_contratante.html")
+@app.route("/cadastroDemanda", methods=["POST"])
+def cadastro_demanda():
+    return redirect(url_for("get_cadastrar_demanda"))
 
 
-@app.route("/cadastrarDemanda", methods=["GET"])
-def get_cadastrar_demanda():
-    return render_template("home_contratante.html")
+@app.route("/cadastroDemanda", methods=["GET"])
+def get_cadastro_demanda():
+    return redirect(url_for("get_cadastrar_demanda"))

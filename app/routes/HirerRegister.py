@@ -78,22 +78,24 @@ def cadastrar_contratante():
             complemento=complemento,
         )
 
-    contratante = session.get('pessoa', {})
-    contratante.update({
-        'nome_estabelecimento': nome,
-        'documento': cnpj,
-        'celular': telefone,
-        'cep': cep,
-        'estado': estado,
-        'cidade': cidade,
-        'bairro': bairro,
-        'numero': numero,
-        'complemento': complemento
-    })
+    contratante = session.get("pessoa", {})
+    contratante.update(
+        {
+            "nome_estabelecimento": nome,
+            "documento": cnpj,
+            "celular": telefone,
+            "cep": cep,
+            "estado": estado,
+            "cidade": cidade,
+            "bairro": bairro,
+            "numero": numero,
+            "complemento": complemento,
+        }
+    )
 
-    session['pessoa'] = contratante
+    session["pessoa"] = contratante
 
-    return redirect(url_for("getFinalCadastro"))
+    return redirect(url_for("get_final_cadastro"))
 
 
 @app.route("/cadastrarContratante", methods=["GET"])
