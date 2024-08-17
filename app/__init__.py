@@ -12,6 +12,8 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 bd = SQLAlchemy(app)
 
 from app.routes import (
+    ChatHirer,
+    ChatMusician,
     EndRegister,
     HirerHome,
     HirerRegister,

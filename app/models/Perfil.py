@@ -27,6 +27,7 @@ class Imagem(bd.Model):
     dono = bd.Column(bd.Integer, bd.ForeignKey('usuario.id'), nullable=False)
     nome = bd.Column(bd.String(25), nullable=False, unique=True)
     tipo_foto = bd.Column(SQLAEnum(TipoFotoEnum), nullable=False)
+    caminho = bd.Column(bd.String(255), nullable=False)
 
     def __repr__(self):
         return f'<({self.id}) {self.nome} {self.tipo_foto}>'

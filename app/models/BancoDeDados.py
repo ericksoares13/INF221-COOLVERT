@@ -102,6 +102,26 @@ class BancoDeDados:
                 return list(Demanda.query.all())
             else:
                 return list(Demanda.query.filter_by(dono=id_dono).all())
+
+    @staticmethod
+    def GetMatches(id_demanda):
+        with app.app_context():
+            return list(Match.query.filter_by(id_demanda=id_demanda).all())
+
+    @staticmethod
+    def GetMatchesMusico(id_musico):
+        with app.app_context():
+            return list(Match.query.filter_by(id_musico=id_musico).all())
+
+    @staticmethod
+    def GetDonoDaDemanda(id_demanda):
+        with app.app_context():
+            return Demanda.query.get(id_demanda)
+
+    @staticmethod
+    def GetNomeUsuario(user_id):
+        with app.app_context():
+            return Pessoa.query.get(user_id).nome
     
     @staticmethod
     def GetEstilosMusicais(id_demanda):
@@ -153,7 +173,7 @@ class BancoDeDados:
     @staticmethod
     def CriaImagem(obj):
         with app.app_context():
-            imagem = Imagem(dono=obj['dono'], nome=obj['nome'], tipo_foto=TipoFotoEnum(obj['tipo_foto']))
+            imagem = Imagem(dono=obj['dono'], nome=obj['nome'], tipo_foto=TipoFotoEnum(obj['tipo_foto']), caminho=obj['caminho'])
             bd.session.add(imagem)
             bd.session.commit()
             
