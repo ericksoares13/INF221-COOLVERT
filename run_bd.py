@@ -192,7 +192,8 @@ if __name__ == '__main__':
         imagem_obj1 = {
             'dono': musico.id,
             'nome': 'imagem1',
-            'tipo_foto': 'Perfil'
+            'tipo_foto': 'Perfil',
+            'caminho': '../static/images/katy.png'
         }
         
         imagem_obj2 = {

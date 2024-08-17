@@ -1,33 +1,32 @@
+import re
+
 from app import app
 from flask import render_template, session
 
 from app.models.BancoDeDados import BancoDeDados
 
-CHAT_HIRER_HTML = "chatHirer.html"
+CHAT_HIRER_HTML = "chatMusician.html"
 
 
-@app.route("/chatContratante", methods=["POST"])
-def chat_contratante():
+@app.route("/chatMusico", methods=["POST"])
+def chat_musico():
     return render_template(CHAT_HIRER_HTML, chats=get_chats())
 
 
-@app.route("/chatContratante", methods=["GET"])
-def get_chat_contratante():
+@app.route("/chatMusico", methods=["GET"])
+def get_chat_musico():
     return render_template(CHAT_HIRER_HTML, chats=get_chats())
 
 
 def get_chats():
-    contratante_id = session.get("usuárioLogado")["id"]
-    demandas = BancoDeDados().GetDemandas(contratante_id)
-
-    matches = []
-    for demanda in demandas:
-        matches.extend(BancoDeDados.GetMatches(demanda.id))
+    musico_id = session.get("usuárioLogado")["id"]
+    matches = BancoDeDados().GetMatchesMusico(musico_id)
 
     chats = []
     for match in matches:
-        imagem = BancoDeDados.GetImagemPerfil(match.id_musico)
-        nome = BancoDeDados.GetNomeUsuario(match.id_musico)
+        dono_demanda = BancoDeDados.GetDonoDaDemanda(match.id_demanda).dono
+        imagem = BancoDeDados.GetImagemPerfil(dono_demanda)
+        nome = BancoDeDados.GetNomeUsuario(dono_demanda)
         mensagens = BancoDeDados.GetChat(match.id)
         chat = {
             "musician_image": imagem.caminho if imagem is not None else "",

@@ -13,6 +13,7 @@ bd = SQLAlchemy(app)
 
 from app.routes import (
     ChatHirer,
+    ChatMusician,
     EndRegister,
     HirerHome,
     HirerRegister,
