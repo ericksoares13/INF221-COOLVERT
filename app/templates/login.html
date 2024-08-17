@@ -167,6 +167,51 @@
             font-size: 18px;
             color: rgba(0, 80, 130, 0.51);
         }
+
+        .notification {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 2px 4px rgba(0, 0, 0, 0.07);
+            width: 360px;
+            height: 115px;
+            box-sizing: border-box;
+            position: absolute;
+            top: 25%;
+            left: 49%;
+            transform: translate(-50%, -50%);
+            text-align: left;
+            z-index: 9999;
+            display: none;
+        }
+
+        .notification p {
+            margin: 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .notification .bold-text {
+            font-weight: 600;
+            font-size: 16px;
+            color: #0E0E2C;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close-button:hover {
+            color: #333;
+        }
     </style>
 </head>
 
@@ -178,9 +223,16 @@
             <h2>Entrar na sua conta</h2>
         </div>
 
+        <div class="notification" id="notification">
+            <button class="close-button" onclick="closeNotification()">X</button>
+            <p class="bold-text">Cadastro realizado com sucesso!</p>
+            <hr class="divider">
+            <p>Efetue o login para acessar o aplicativo.</p>
+        </div>
+
         <form action="/entrarLogin" method="POST">
             <div>
-                <label for="emailLogin">Email *</label>
+                <label for="emailLogin">Nome de usuário ou email *</label>
                 <input type="text" class="form-control" id="emailLogin" name="emailLogin" aria-labelledby="emailLogin" placeholder="exemplo@gmail.com" value="{{ emailLogin }}">
             </div>
             <div>
@@ -215,37 +267,55 @@
         </div>
     </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js"></script>
 
-        <script>
-            function setupPasswordToggle(toggleId, passwordId) {
-                const toggle = document.getElementById(toggleId);
-                const passwordField = document.getElementById(passwordId);
+    <script>
+        function setupPasswordToggle(toggleId, passwordId) {
+            const toggle = document.getElementById(toggleId);
+            const passwordField = document.getElementById(passwordId);
 
-                toggle.addEventListener('click', () => {
-                    const type = passwordField.type === 'password' ? 'text' : 'password';
-                    passwordField.type = type;
-                    
-                    if (passwordField.type == 'text') {
-                        passwordField.classList.add('input');
-                    }
+            toggle.addEventListener('click', () => {
+                const type = passwordField.type === 'password' ? 'text' : 'password';
+                passwordField.type = type;
 
-                    toggle.classList.toggle('fa-eye');
-                    toggle.classList.toggle('fa-eye-slash');
+                if (passwordField.type == 'text') {
+                    passwordField.classList.add('input');
+                }
+
+                toggle.classList.toggle('fa-eye');
+                toggle.classList.toggle('fa-eye-slash');
             });
-            }
-            setupPasswordToggle('toggle-password', 'senhaLogin');
-            
-            document.addEventListener('DOMContentLoaded', (event) => {
+        }
+
+        setupPasswordToggle('toggle-password', 'senhaLogin');
+
+        document.addEventListener('DOMContentLoaded', (event) => {
             const error = "{{ error }}";
+            const cadastro = "{{ cadastro }}"
+
+            console.log(cadastro);
+
+            if (cadastro === 'true') {
+                const notificationDiv = document.querySelector('.notification');
+                notificationDiv.style.display = 'block';
+            }
+
             if (error) {
                 document.getElementById('errorMessage').textContent = error;
                 $('#errorModal').modal('show');
             }
         });
-        </script>
+
+        function closeNotification() {
+            const notificationDiv = document.querySelector('.notification');
+            if (notificationDiv) {
+                notificationDiv.style.display = 'none';
+            }
+        }
+
+    </script>
     
 </body>
 </html>
