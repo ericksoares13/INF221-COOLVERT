@@ -150,10 +150,10 @@
         </div>
         <ul class="chat-list">
             {% for chat in chats %}
-                <li class="chat-item">
-                    <img src="{{ chat.musician_image }}" alt="Musician Image" onerror="this.onerror=null; this.src='../static/images/avatar-default.svg';">
+                <li class="chat-item" data-chat-id="{{ chat.name }}">
+                    <img src="{{ chat.image }}" alt="Image" onerror="this.onerror=null; this.src='../static/images/avatar-default.svg';">
                     <div class="chat-info">
-                        <h5>{{ chat.musician_name }}</h5>
+                        <h5>{{ chat.name }}</h5>
                         <p>{{ chat.last_message }}</p>
                     </div>
                 </li>
@@ -206,5 +206,25 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
+    <script>
+        document.querySelectorAll('.chat-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const chatId = item.getAttribute('data-chat-id');
+                const form = document.createElement('form');
+                form.action = '/chatDetails';
+                form.method = 'POST';
+                form.style.display = 'none';
+
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'username';
+                input.value = chatId;
+
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            });
+        });
+    </script>
 </body>
 </html>

@@ -30,8 +30,8 @@ def get_chats():
         nome = BancoDeDados.GetNomeUsuario(match.id_musico)
         mensagens = BancoDeDados.GetChat(match.id)
         chat = {
-            "musician_image": imagem.caminho if imagem is not None else "",
-            "musician_name": nome,
+            "image": imagem.caminho if imagem is not None else "",
+            "name": nome,
             "last_message": mensagens[-1].mensagem if len(mensagens) > 0 else "",
         }
         chats.append(chat)
