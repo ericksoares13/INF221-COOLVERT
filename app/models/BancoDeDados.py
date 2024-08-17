@@ -102,6 +102,16 @@ class BancoDeDados:
                 return list(Demanda.query.all())
             else:
                 return list(Demanda.query.filter_by(dono=id_dono).all())
+
+    @staticmethod
+    def GetMatches(id_demanda):
+        with app.app_context():
+            return list(Match.query.filter_by(id_demanda=id_demanda).all())
+
+    @staticmethod
+    def GetNomeUsuario(user_id):
+        with app.app_context():
+            return Pessoa.query.get(user_id).nome
     
     @staticmethod
     def GetEstilosMusicais(id_demanda):
