@@ -54,3 +54,7 @@ def valida_login_senha():
 @app.route("/entrarLogin", methods=["GET"])
 def get_entrar_login():
     return render_template(LOGIN_HTML)
+
+@app.route("/entrarLoginPosCadastro", methods=["GET"])
+def get_entrar_login_pos_cadastro():
+    return render_template(LOGIN_HTML, cadastro="true")

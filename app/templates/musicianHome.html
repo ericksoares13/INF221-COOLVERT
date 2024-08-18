@@ -22,7 +22,7 @@
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Raleway', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #ffffff;
@@ -82,7 +82,70 @@
             height: 24px;
             fill: #000000;
             transform: translate(2px, 0);
+        }
 
+        .notification {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 2px 4px rgba(0, 0, 0, 0.07);
+            width: 360px;
+            height: 150px;
+            box-sizing: border-box;
+            position: absolute;
+            top: 47%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transform-origin: top left;
+            text-align: left;
+            z-index: 9999;
+            animation: growNotification 0.5s ease-in-out;
+        }
+
+        @keyframes growNotification {
+            0% {
+                transform: scale(0) translate(-50%, -50%);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) translate(-50%, -50%);
+                opacity: 1;
+            }
+        }
+
+        .notification p {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .notification .bold-text {
+            font-weight: 600;
+            font-size: 16px;
+            color: #0E0E2C;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close-button:hover {
+            color: #333;
+        }
+
+        .divider {
+            border: none;
+            height: 1px;
+            background-color: #ddd;
+            margin: 10px 0;
         }
     </style>
 </head>
@@ -91,6 +154,13 @@
     <div class="phone-frame">
         <div class="content">
             <h1>Demandas</h1>
+        </div>
+
+        <div class="notification" id="notification">
+            <button class="close-button" onclick="closeNotification()">X</button>
+            <p class="bold-text">Você aceitou a demanda!</p>
+            <hr class="divider">
+            <p>Notificaremos o estabelecimento do seu interesse, e caso ele goste do seu perfil, entrará em contato com você.</p>
         </div>
     
         <div class="nav-bar">
@@ -130,6 +200,15 @@
             </form>
         </div>
     </div>
+
+    <script>
+        function closeNotification() {
+            const notificationDiv = document.querySelector('.notification');
+            if (notificationDiv) {
+                notificationDiv.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 
 </html>

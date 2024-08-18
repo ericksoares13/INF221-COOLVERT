@@ -69,7 +69,7 @@ def valida_dados():
     }
 
     BancoDeDados.CriaDadosBancario(dados_cartao)
-    return redirect(url_for("get_entrar_login"))
+    return redirect(url_for("get_entrar_login_pos_cadastro"))
 
 
 @app.route("/finalCadastro", methods=["GET"])
