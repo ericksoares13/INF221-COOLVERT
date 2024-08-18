@@ -1,4 +1,6 @@
 import bcrypt
+from sqlalchemy.orm import joinedload
+
 from app import app, bd
 from app.models import *
 from sqlalchemy import func
@@ -104,7 +106,7 @@ class BancoDeDados:
     def GetDemandas(id_dono=None):
         with app.app_context():
             if id_dono is None:
-                return list(Demanda.query.all())
+                return list(Demanda.query.options(joinedload(Demanda.estilos)).all())
             else:
                 return list(Demanda.query.filter_by(dono=id_dono).all())
 
@@ -119,9 +121,14 @@ class BancoDeDados:
             return list(Match.query.filter_by(id_musico=id_musico).all())
 
     @staticmethod
-    def GetDonoDaDemanda(id_demanda):
+    def GetDemanda(id_demanda):
         with app.app_context():
             return Demanda.query.get(id_demanda)
+
+    @staticmethod
+    def GetContratante(id_contratante):
+        with app.app_context():
+            return Contratante.query.get(id_contratante)
 
     @staticmethod
     def GetNomeUsuario(user_id):

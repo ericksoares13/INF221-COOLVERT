@@ -167,6 +167,8 @@
         .demand-item p {
             padding: 0;
             margin: 0;
+            color: #4A4A68;
+            font-weight: 800;
         }
 
         .demand-item-content {
@@ -184,16 +186,17 @@
 
         .demand-item-text h3, .demand-item-text p {
             margin: 0;
+            color: #000000;
         }
 
         .demand-item-text h3 {
-            font-size: 16px;
-            color: #0E0E2C;
+            font-size: 14px;
+            font-weight: 700;
         }
 
         .demand-item-text p {
-            font-size: 14px;
-            color: #333;
+            font-size: 13px;
+            font-weight: 400;
         }
 
         .filter {
@@ -252,72 +255,29 @@
                     <button onclick="applyFilter('all')">Todas</button>
                     <button onclick="applyFilter('Match')">Matches Realizados</button>
                     <button onclick="applyFilter('Disponível')">Demandas Disponíveis</button>
-                    <button onclick="applyFilter('Candidatada')">Demandas Candidatadas</button>
                 </div>
             </div>
         </div>
 
         <div class="demand-list">
-            <div class="demand-item" situation="Match">
-                <div class="demand-item-content">
-                    <img src="../static/images/avatar-default.svg" alt="Avatar">
-                    <div class="demand-item-text">
-                        <h3>Contratante</h3>
-                        <p>Ponte Nova, MG</p>
+            {% for demand in demands %}
+                <li class="demand-item" data-demand-id="{{ demand.id }}">
+                    <div class="demand-item-content">
+                        <img src="{{ demand.image }}" alt="Image" onerror="this.onerror=null; this.src='../static/images/avatar-default.svg';">
+                        <div class="demand-item-text">
+                            <h3>{{ demand.contratante }}</h3>
+                            <p>{{ demand.cidade }}, {{ demand.estado }}</p>
+                        </div>
                     </div>
-                </div>
-                <p>16/12/2022</p>
-                <p>Estilo musical: sertanejo</p>
-                <p>Equipamento som: sim</p>
-                <p>Público médio: 100</p>
-                <p>Duração: 3h</p>
-                <p>Pagamento: couvert, antecipado</p>
-            </div>
-            <div class="demand-item" situation="Disponível">
-                <div class="demand-item-content">
-                    <img src="../static/images/avatar-default.svg" alt="Avatar">
-                    <div class="demand-item-text">
-                        <h3>Contratante</h3>
-                        <p>Ponte Nova, MG</p>
-                    </div>
-                </div>
-                <p>16/12/2022</p>
-                <p>Estilo musical: sertanejo</p>
-                <p>Equipamento som: sim</p>
-                <p>Público médio: 100</p>
-                <p>Duração: 3h</p>
-                <p>Pagamento: couvert, antecipado</p>
-            </div>
-            <div class="demand-item" situation="Candidatada">
-                <div class="demand-item-content">
-                    <img src="../static/images/avatar-default.svg" alt="Avatar">
-                    <div class="demand-item-text">
-                        <h3>Contratante</h3>
-                        <p>Ponte Nova, MG</p>
-                    </div>
-                </div>
-                <p>16/12/2022</p>
-                <p>Estilo musical: sertanejo</p>
-                <p>Equipamento som: sim</p>
-                <p>Público médio: 100</p>
-                <p>Duração: 3h</p>
-                <p>Pagamento: couvert, antecipado</p>
-            </div>
-            <div class="demand-item" situation="Candidatada">
-                <div class="demand-item-content">
-                    <img src="../static/images/avatar-default.svg" alt="Avatar">
-                    <div class="demand-item-text">
-                        <h3>Contratante</h3>
-                        <p>Ponte Nova, MG</p>
-                    </div>
-                </div>
-                <p>16/12/2022</p>
-                <p>Estilo musical: sertanejo</p>
-                <p>Equipamento som: sim</p>
-                <p>Público médio: 100</p>
-                <p>Duração: 3h</p>
-                <p>Pagamento: couvert, antecipado</p>
-            </div>
+                    <p>{{ demand.data }}</p>
+                    <br>
+                    <p>Estilo musical: {{ demand.estilos | join(', ') }}</p>
+                    <p>Equipamento som: {{ demand.equipamento }}</p>
+                    <p>Público médio: {{ demand.publico }}</p>
+                    <p>Duração: {{ demand.duracao }}</p>
+                    <p>Pagamento: {{ demand.tipo_pagamento }}, {{ demand.momento_pagamento }}</p>
+                </li>
+            {% endfor %}
         </div>
 
         <div class="notification" id="notification">
