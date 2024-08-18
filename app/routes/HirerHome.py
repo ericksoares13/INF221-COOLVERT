@@ -31,6 +31,11 @@ def get_procurar():
     return render_template(HIRER_HOME_HTML, demanda_estilos=get_demandas())
 
 
+@app.route("/perfilContratante", methods=["POST", "GET"])
+def perfil_contratante():
+    return render_template(HIRER_HOME_HTML, demanda_estilos=get_demandas())
+
+
 @app.route("/cadastroDemanda", methods=["POST"])
 def cadastro_demanda():
     return redirect(url_for("get_cadastrar_demanda"))
@@ -58,7 +63,7 @@ def get_demandas():
         demanda.data_show = f"{dia:02d}/{mes:02d}/{ano:04d}"
         musicos = BancoDeDados().GetMusicos(demanda.id)
         imagens = [BancoDeDados.GetImagemPerfil(musico) for musico in musicos]
-        imagens_caminho = [imagem.caminho for imagem in imagens if imagem.caminho][:9]
+        imagens_caminho = [imagem.caminho if imagem and imagem.caminho else "" for imagem in imagens][:9]
 
         demanda_estilos.append({
             'id': demanda.id,

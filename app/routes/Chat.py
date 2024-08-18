@@ -1,15 +1,17 @@
 from app import app
-from flask import render_template, session, request, jsonify
+from flask import render_template, session, request, jsonify, redirect, url_for
 
 from app.models.BancoDeDados import BancoDeDados
 
 CHAT_HTML = "chat.html"
 
+
 @app.route("/chat", methods=["GET", "POST"])
 def chat():
     id_user = session.get("usuárioLogado")["id"]
-    id_outro, match_id = get_parameters()
-    
+    id_outro = session.get('id_outro')["id"]
+    match_id = session.get('match_id')["id"]
+
     minha_imagem = BancoDeDados.GetImagemPerfil(id_user)
     outra_imagem = BancoDeDados.GetImagemPerfil(id_outro)
     
@@ -27,18 +29,24 @@ def chat():
 
     return render_template(CHAT_HTML, mensagens=mensagens, user=user_obj, other_user=outro_obj)
 
+
 @app.route("/send_message", methods=["POST"])
 def send_message():
     data = request.get_json()
     user_id = session.get("usuárioLogado")["id"]
+    match_id = session.get('match_id')["id"]
     
     BancoDeDados.EnviaMensagem({
-        'match': 1,  
+        'match': match_id,
         'dono': user_id,
         'mensagem': data['message']
     })
     
     return jsonify({"status": "success"})
 
-def get_parameters():
-    return 1, 1
+
+@app.route("/chatDetails", methods=["GET", "POST"])
+def chat_details():
+    session["id_outro"] = {"id": request.form.get('chat_id_outro')}
+    session["match_id"] = {"id": request.form.get('chat_id_match')}
+    return redirect(url_for("chat"))

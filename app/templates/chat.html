@@ -521,8 +521,8 @@
                 xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === 4 && xhr.status === 200) {
-                        input.value = ""; // Limpa o campo de entrada
-                        window.location.replace(window.location.href);  // Recarrega a página para atualizar o chat
+                        input.value = "";
+                        window.location.replace(window.location.href);
                     }
                 };
                 xhr.send(JSON.stringify({ message: message }));
@@ -571,7 +571,13 @@
         }
 
         function goBack() {
-            window.location.href = 'chatContratante';
+            const user_type = "{{ user.tipo }}";
+
+            if (user_type === 'C') {
+                window.location.href = 'chatContratante';
+            } else {
+                window.location.href = 'chatMusico';
+            }
         }
     </script>
 </body>

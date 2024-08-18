@@ -4,14 +4,27 @@ from flask import render_template, request, session
 from app.models.BancoDeDados import BancoDeDados
 
 
+MUSICIAN_HOME_HTML = "musicianHome.html"
+
+
 @app.route("/homeMusico", methods=["POST"])
 def home_musico():
-    return render_template("musicianHome.html", demands=get_demandas())
+    return render_template(MUSICIAN_HOME_HTML, demands=get_demandas())
 
 
 @app.route("/homeMusico", methods=["GET"])
 def get_home_musico():
-    return render_template("musicianHome.html", demands=get_demandas())
+    return render_template(MUSICIAN_HOME_HTML, demands=get_demandas())
+
+
+@app.route("/procurarMusico", methods=["POST", "GET"])
+def procurar_musico():
+    return render_template(MUSICIAN_HOME_HTML, demands=get_demandas())
+
+
+@app.route("/perfilMusico", methods=["POST", "GET"])
+def perfil_musico():
+    return render_template(MUSICIAN_HOME_HTML, demands=get_demandas())
 
 
 @app.route("/candidatarDemanda", methods=["POST"])
@@ -22,12 +35,12 @@ def candidatar_demanda():
         'id_musico': musico_id,
         'id_demanda': demanda_id,
     })
-    return render_template("musicianHome.html", demands=get_demandas(), notification=True)
+    return render_template(MUSICIAN_HOME_HTML, demands=get_demandas(), notification=True)
 
 
 @app.route("/candidatarDemanda", methods=["GET"])
 def get_candidatar_demanda():
-    return render_template("musicianHome.html", demands=get_demandas())
+    return render_template(MUSICIAN_HOME_HTML, demands=get_demandas())
 
 
 def get_demandas():
