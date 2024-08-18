@@ -1,10 +1,9 @@
 from app import app
-from flask import render_template, session
+from flask import render_template, session, request, jsonify
 
 from app.models.BancoDeDados import BancoDeDados
 
 CHAT_HTML = "chat.html"
-
 
 @app.route("/chat", methods=["GET", "POST"])
 def chat():
@@ -29,3 +28,16 @@ def chat():
         })
 
     return render_template(CHAT_HTML, mensagens=mensagens, user=usuario_logado, other_user=outro_usuario)
+
+@app.route("/send_message", methods=["POST"])
+def send_message():
+    data = request.get_json()
+    user_id = session.get("usuárioLogado")["id"]
+    
+    BancoDeDados.EnviaMensagem({
+        'match': 1,  
+        'dono': user_id,
+        'mensagem': data['message']
+    })
+    
+    return jsonify({"status": "success"})
