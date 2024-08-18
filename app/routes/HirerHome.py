@@ -18,7 +18,7 @@ def get_home_contratante():
 
 @app.route("/homeContratantePosDemanda", methods=["GET"])
 def get_home_contratante_pos_demanda():
-    return render_template("hirerHome.html", demanda_estilos=get_demandas(), demanda='true')
+    return render_template(HIRER_HOME_HTML, demanda_estilos=get_demandas(), demanda='true')
 
 
 @app.route("/procurarContratante", methods=["POST"])
@@ -46,11 +46,6 @@ def ver_musicos():
     demanda_id = request.args.get("demanda_id")
     musicos = BancoDeDados().GetMusicos(demanda_id)
     return render_template("verMusicos.html", musicos=musicos)
-
-
-def get_estilos(demanda_id):
-    estilos = BancoDeDados().GetEstilosMusicais(demanda_id)
-    return estilos
 
 
 def get_demandas():
