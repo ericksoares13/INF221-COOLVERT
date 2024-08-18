@@ -7,27 +7,25 @@ CHAT_HTML = "chat.html"
 
 @app.route("/chat", methods=["GET", "POST"])
 def chat():
-    user_id = session.get("usuárioLogado")["id"]
-    minha_imagem = BancoDeDados.GetImagemPerfil(2)
-    outra_imagem = BancoDeDados.GetImagemPerfil(1)
+    id_user = session.get("usuárioLogado")["id"]
+    id_outro, match_id = get_parameters()
     
-    # Obtenha os dados do usuário logado e do outro usuário
-    usuario_logado = BancoDeDados.GetUser(2)
-    outro_usuario = BancoDeDados.GetUser(1)
-    print(outro_usuario, outro_usuario.nome)
+    minha_imagem = BancoDeDados.GetImagemPerfil(id_user)
+    outra_imagem = BancoDeDados.GetImagemPerfil(id_outro)
     
-    # Obtenha as mensagens do chat
-    chat = BancoDeDados.GetChat(1)
+    user_obj = BancoDeDados.GetUser(id_user)
+    outro_obj = BancoDeDados.GetUser(id_outro)
+    
+    chat = BancoDeDados.GetChat(match_id)
     mensagens = []
     for mensagem in chat:
-        print(mensagem.dono, user_id)
         mensagens.append({
             'conteudo': mensagem.mensagem,
-            'is_mine': (mensagem.dono == user_id),
-            'imagem_perfil': minha_imagem.caminho if (mensagem.dono == user_id) else outra_imagem.caminho,
+            'is_mine': (mensagem.dono == id_user),
+            'imagem_perfil': minha_imagem.caminho if (mensagem.dono == id_user) else outra_imagem.caminho,
         })
 
-    return render_template(CHAT_HTML, mensagens=mensagens, user=usuario_logado, other_user=outro_usuario)
+    return render_template(CHAT_HTML, mensagens=mensagens, user=user_obj, other_user=outro_obj)
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
@@ -41,3 +39,6 @@ def send_message():
     })
     
     return jsonify({"status": "success"})
+
+def get_parameters():
+    return 1, 1
