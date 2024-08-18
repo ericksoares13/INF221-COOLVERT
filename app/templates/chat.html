@@ -398,7 +398,7 @@
             <!-- Botão Fechar Negócio -->
             {% if user.tipo == 'C' %}
                 <div class="fechar-negocio-container">
-                    <button id="fechar_negocio" class="btn btn-lg btn-custom btn-close-deal" onclick="handleCloseDeal()">FECHAR NEGÓCIO</button>
+                    <button id="fechar_negocio" class="btn btn-lg btn-custom btn-close-deal" onclick="showNotification('notification')">FECHAR NEGÓCIO</button>
                 </div>
             {% endif %}
 
@@ -527,18 +527,6 @@
                 };
                 xhr.send(JSON.stringify({ message: message }));
             }
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            if (localStorage.getItem('contractClosed') === 'true') {
-                document.getElementById('fechar_negocio').style.display = 'none';
-            }
-        });
-
-        function handleCloseDeal() {
-            showNotification('notification');
-            document.getElementById('fechar_negocio').style.display = 'none';
-            localStorage.setItem('contractClosed', 'true');
         }
 
         function showNotification(notificationId) {
