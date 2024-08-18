@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background-color: #f5f5f5;
+        }
+
+        .container-chat {
+            max-width: 430px;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }        
+
+        .chat-header, .nav-bar {
+            background-color: white;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            width: 430px;
+            z-index: 100;
+        }
+
+        .chat-header {
+            top: 0;
+        }
+
+        .title-hearder {
+            width: 100%;
+            height: 100%;
+            font-size: 24px;
+            padding-left: 10px;
+            font-weight: 600;
+        }
+
+        .chat-footer {
+            bottom: 65px;
+            background-color: transparent;
+            border-bottom: 1px solid #ddd;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            width: 430px;
+            z-index: 100;
+        }
+
+        .fechar-negocio-container {
+            bottom: 130px;
+            background-color: transparent;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            width: 430px;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            width: 100%;
+            border-radius: 0 0 20px 20px;
+            position: fixed;
+            bottom: 0;
+            z-index: 100;
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            margin-top: 65px; /* Space for header */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            display: flex;
+            align-items: flex-end;
+            margin-bottom: 15px;
+            flex-direction: row;
+        }
+
+        .message img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .message-text {
+            max-width: 70%;
+            padding: 10px;
+            border-radius: 10px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+
+        .message-text.my-message {
+            background-color: #e5e5ea;
+            margin-left: auto;
+        }
+
+        .message-text.other-message {
+            background-color: white;
+        }
+
+        .chat-footer input {
+            background-color: #ffffff;
+            flex: 1;
+            padding: 12px;
+            border: 3px solid #ddd;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+        }
+
+        .btn-close-deal {
+            background-color: transparent;
+            margin-top: 20px;
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            color: #FFFFFF;
+            background-color: #005082;
+            border: none;
+        }
+
+        .send-button {
+            border-radius: 30px;
+            background-color: #ffffff;
+            border: 3px solid #ddd;
+            width: 50px;
+            height: 50px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+            position: relative;
+            margin-left: 10px;
+            z-index: 1;
+        }
+
+        .nav-bar {
+            background-color: #fff;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            max-width: 430px;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .plus-button {
+            background: linear-gradient(45deg, #ff6f00, #ffca28);
+            border-radius: 30px;
+            color: white;
+            font-size: 24px;
+            width: 70px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            position: relative;
+            bottom: 5px;
+            z-index: 1;
+        }
+
+        .plus-button svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .nav-button {
+            background: none;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .nav-button svg {
+            width: 24px;
+            height: 24px;
+            fill: #000000;
+            transform: translate(2px, 0);
+        }
+
+        .empty-space {
+            width: 100%;
+            padding: 55px;
+            flex: 1;
+        }
+
+        .empty-space-with-button {
+            width: 100%;
+            padding: 90px;
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-chat">
+        <!-- Header do chat -->
+        <div class="chat-header">
+            <button class="btn btn-link"  id="back-button">
+                <img src="https://img.icons8.com/ios-glyphs/30/000000/back.png"/>
+            </button>
+            <div class="title-hearder">{{ other_user.nome }}</div>
+            <span></span>
+        </div>
+
+        <!-- Corpo do chat -->
+        <div class="chat-container">
+            <!-- Mensagens -->
+            {% for mensagem in mensagens %}
+                {% if mensagem.is_mine %}
+                    <div class="message">
+                        <div class="message-text my-message">{{ mensagem.conteudo }}</div>
+                        <img src="{{ mensagem.imagem_perfil }}" alt="Image">
+                    </div>
+                {% else %}
+                    <div class="message">
+                        <img src="{{ mensagem.imagem_perfil }}" alt="Image">
+                        <div class="message-text other-message">{{ mensagem.conteudo }}</div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            
+            {% if user.tipo == 'C' %}
+                <div class="empty-space-with-button"></div>
+            {% else %}
+                <div class="empty-space"></div>
+            {% endif %}
+        </div>
+
+        <!-- Botão Fechar Negócio -->
+        {% if user.tipo == 'C' %}
+            <div class="fechar-negocio-container">
+                <button class="btn btn-lg btn-custom btn-close-deal" onclick="window.location.href='/ConfirmaFecharContrato'">FECHAR NEGÓCIO</button>
+            </div>
+        {% endif %}
+
+        <!-- Footer do chat (campo para nova mensagem) -->
+        <div class="chat-footer">
+            <input type="text" id="message-input" placeholder="Digite uma mensagem..." oninput="toggleSendButton()">
+            <button id="send-button" class="send-button" onclick="sendMessage()" style="display: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#005082" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Nav bar -->
+        {% if user.tipo == 'C' %}
+            <div class="nav-bar">
+                <form action="/homeContratante" method="POST">
+                    <button type="submit" class="nav-button">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path
+                                d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
+                        </svg>
+                    </button>
+                </form>
+                <form action="/procurarContratante" method="POST">
+                    <button class="nav-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path
+                                d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+                        </svg>
+                    </button>
+                </form>
+                <form action="/cadastroDemanda" method="POST">
+                    <button class="plus-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            class="bi bi-plus-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                            <path
+                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                        </svg>
+                    </button>
+                </form>
+                <form action="/chatContratante" method="POST">
+                    <button class="nav-button">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path
+                                d="M123.6 391.3c12.9-9.4 29.6-11.8 44.6-6.4c26.5 9.6 56.2 15.1 87.8 15.1c124.7 0 208-80.5 208-160s-83.3-160-208-160S48 160.5 48 240c0 32 12.4 62.8 35.7 89.2c8.6 9.7 12.8 22.5 11.8 35.5c-1.4 18.1-5.7 34.7-11.3 49.4c17-7.9 31.1-16.7 39.4-22.7zM21.2 431.9c1.8-2.7 3.5-5.4 5.1-8.1c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208s-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6c-15.1 6.6-32.3 12.6-50.1 16.1c-.8 .2-1.6 .3-2.4 .5c-4.4 .8-8.7 1.5-13.2 1.9c-.2 0-.5 .1-.7 .1c-5.1 .5-10.2 .8-15.3 .8c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4c4.1-4.2 7.8-8.7 11.3-13.5c1.7-2.3 3.3-4.6 4.8-6.9l.3-.5z" />
+                        </svg> </button>
+                </form>
+                <form action="/perfilContratante" method="POST">
+                    <button class="nav-button">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path
+                                d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
+                        </svg> </button>
+                </form>
+            </div>
+        {% else %}
+            <div class="nav-bar">
+                <form action="/homeMusico" method="POST">
+                    <button type="submit" class="nav-button">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path
+                                d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
+                        </svg>
+                    </button>
+                </form>
+                <form action="/procurarMusico" method="POST">
+                    <button class="nav-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path
+                                d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+                        </svg>
+                    </button>
+                </form>
+
+                <form action="/chatMusico" method="POST">
+                    <button class="nav-button">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path
+                                d="M123.6 391.3c12.9-9.4 29.6-11.8 44.6-6.4c26.5 9.6 56.2 15.1 87.8 15.1c124.7 0 208-80.5 208-160s-83.3-160-208-160S48 160.5 48 240c0 32 12.4 62.8 35.7 89.2c8.6 9.7 12.8 22.5 11.8 35.5c-1.4 18.1-5.7 34.7-11.3 49.4c17-7.9 31.1-16.7 39.4-22.7zM21.2 431.9c1.8-2.7 3.5-5.4 5.1-8.1c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208s-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6c-15.1 6.6-32.3 12.6-50.1 16.1c-.8 .2-1.6 .3-2.4 .5c-4.4 .8-8.7 1.5-13.2 1.9c-.2 0-.5 .1-.7 .1c-5.1 .5-10.2 .8-15.3 .8c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4c4.1-4.2 7.8-8.7 11.3-13.5c1.7-2.3 3.3-4.6 4.8-6.9l.3-.5z" />
+                        </svg> </button>
+                </form>
+                <form action="/perfilMusico" method="POST">
+                    <button class="nav-button">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path
+                                d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
+                        </svg> </button>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+    
+    <script>
+        window.onload = function() {
+            var chatContainer = document.querySelector('.chat-container');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        };
+    
+        document.getElementById("back-button").addEventListener("click", function() {
+            window.history.back();
+        });
+        
+        function toggleSendButton() {
+            const input = document.getElementById('message-input');
+            const button = document.getElementById('send-button');
+            button.style.display = input.value.trim() === "" ? 'none' : 'block';
+        }
+    
+        function sendMessage() {
+            const input = document.getElementById('message-input');
+            const message = input.value.trim();
+        
+            if (message !== "") {
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "/send_message", true);
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        input.value = ""; // Limpa o campo de entrada
+                        window.location.reload(true); // Recarrega a página para atualizar o chat
+                    }
+                };
+                xhr.send(JSON.stringify({ message: message }));
+            }
+        }   
+    </script>
+</body>
+</html>

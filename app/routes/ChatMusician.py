@@ -22,7 +22,7 @@ def get_chats():
 
     chats = []
     for match in matches:
-        dono_demanda = BancoDeDados.GetDonoDaDemanda(match.id_demanda).dono
+        dono_demanda = BancoDeDados.GetDemanda(match.id_demanda).dono
         imagem = BancoDeDados.GetImagemPerfil(dono_demanda)
         nome = BancoDeDados.GetNomeUsuario(dono_demanda)
         mensagens = BancoDeDados.GetChat(match.id)
