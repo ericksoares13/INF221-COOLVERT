@@ -7,6 +7,13 @@
     <title>Document</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        .icon {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            display: inline-block;
+        }
+
         .phone-frame {
             position: relative;
             width: 100%;
@@ -39,10 +46,11 @@
             height: 100%;
         }
 
-
         .content {
-            padding: 20px;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 60px;
             max-width: 100%;
             width: 100%;
             box-sizing: border-box;
@@ -52,11 +60,71 @@
             font-family: 'Raleway', sans-serif;
             font-weight: 700;
             color: #0e0e2c;
-            margin: 0;
+            margin: 0 0 20px 0;
             position: absolute;
             top: 40px;
             left: 20px;
             font-size: 27px;
+        }
+
+        h5 {
+            color: #4A4A68;
+            font-family: 'Raleway', sans-serif;
+            font-size: 16px;
+        }
+
+        .demand-list {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .demand-item {
+            width: 350px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            margin-left: 23px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .demand-item h5 {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .demand-item p {
+            margin: 5px 0 0;
+            font-size: 0.9rem;
+            color: #4A4A68;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .ver-musico-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            padding: 0;
+
+            background-color: transparent;
+
+            color: #000;
+            border: none;
+            cursor: pointer;
+            font-family: 'Raleway', sans-serif;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ver-musico-btn:hover {
+            background-color: transparent;
+            color: #000;
         }
 
         .nav-bar {
@@ -190,6 +258,41 @@
             background-color: #ddd;
             margin: 10px 0;
         }
+
+        .profile-icons {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .profile-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            display: none;
+            pointer-events: none;
+        }
+
+        .overlay.active {
+            display: block;
+            pointer-events: auto;
+        }
+
+        .blur-background {
+            filter: blur(5px);
+            transition: filter 0.3s ease;
+        }
     </style>
     <script>
         function closeNotification(id) {
@@ -199,43 +302,100 @@
             else if (id === 'sem_demanda') {
                 document.getElementById('sem_demanda').style.display = 'none';
             }
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('main_content').classList.remove('blur-background');
+        }
+
+        function showNotification(id) {
+            document.getElementById(id).style.display = 'block';
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('main_content').classList.add('blur-background');
         }
 
         document.addEventListener("DOMContentLoaded", (event) => {
-           const demanda = "{{ demanda }}";
+            closeNotification('demanda_criada')
+            closeNotification('sem_demanda')
 
-           if (demanda === "true") {
-               closeNotification('sem_demanda')
-               const notificationDiv = document.querySelector(".demanda_criada");
-               notificationDiv.style.display = 'block';
-           }
+            const demandas = JSON.parse("{{ demanda_estilos }}");
+            if (demandas.length === 0) {
+                document.getElementById("sem_demanda").style.display = 'block';
+            }
 
+            const demanda = "{{ demanda }}";
+            if (demanda === "true") {
+                showNotification("demanda_criada");
+            }
         });
     </script>
 </head>
 
 <body>
-    <div class="phone-frame">
+    <div class="overlay" id="overlay"></div>
+    <div class="notification" id="demanda_criada">
+        <button class="close-button" onclick="closeNotification('demanda_criada')">X</button>
+        <p class="bold-text">Sua demanda foi criada!</p>
+        <hr class="divider">
+        <p>Agora, vamos disponibilizar sua demanda para os músicos. Assim que algum responder, te notificaremos.</p>
+    </div>
+    <div class="notification" id="sem_demanda">
+        <button class="close-button" onclick="closeNotification('sem_demanda')">X</button>
+        <p class="bold-text">Você não fez nenhuma demanda!</p>
+        <hr class="divider">
+        <p>Clique no botão <span class="indicator-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+            class="bi bi-plus-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+            <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+        </svg></span> abaixo para criar uma nova demanda!</p>
+    </div>
+    <div class="phone-frame" id="main_content">
         <div class="content">
             <h1>Suas demandas</h1>
         </div>
-         <div class="notification" id="demanda_criada">
-            <button class="close-button" onclick="closeNotification('demanda_criada')">X</button>
-            <p class="bold-text">Sua demanda foi criada!</p>
-            <hr class="divider">
-            <p>Agora, vamos disponibilizar sua demanda para os músicos. Assim que algum responder, te notificaremos.</p>
-        </div>
-        <div class="notification" id="sem_demanda">
-            <button class="close-button" onclick="closeNotification('sem_demanda')">X</button>
-            <p class="bold-text">Você não fez nenhuma demanda!</p>
-            <hr class="divider">
-            <p>Clique no botão <span class="indicator-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                class="bi bi-plus-circle" viewBox="0 0 16 16">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                <path
-                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-            </svg></span> abaixo para criar uma nova demanda!</p>
-        </div>
+        {% if demanda_estilos %}
+            <ul class="demand-list">
+                {% for demanda,estilos,num_matches in demanda_estilos %}
+                <li class="demand-item">
+                    <h5>{{ demanda.data_show }}<br><br></h5>
+
+                    <p>Estilo musical:
+                        {% for estilo in estilos %}
+                        {{ estilo }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+
+                    <p>Equipamento som:
+                        {% if demanda.fornece_equipamento%}
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path
+                                d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
+                        </svg>
+                        {% else %}
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path
+                                d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                        </svg>
+                        {% endif %}
+                    </p>
+                    <p>Publico médio esperado: {{ demanda.publico_esperado }}</p>
+                    <p>Duração: {{ demanda.duracao_show }}</p>
+                    <p>Pagamento: {{ demanda.tipo_pagamento.name }}, {{demanda.momento_pagamento}}</p>
+                    <br><br><form action="/verMusicos" method="POST">
+                        <input type="hidden" name="demanda_id" value="{{ demanda.id }}">
+                        <button class="ver-musico-btn">VER MÚSICO</button>
+                    </form>
+                    <div class="profile-icons">
+                        {% for _ in range(num_matches) %}
+                        <img src="../static/images/avatar-default.svg" alt="Profile Icon" class="profile-icon">
+                        {% endfor %}
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+        {% endif %}
         <div class="nav-bar">
             <form action="/homeContratante" method="POST">
                 <button type="submit" class="nav-button">
