@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body, html {
+            font-family: 'Raleway', sans-serif;
             height: 100%;
             margin: 0;
             display: flex;
@@ -40,11 +43,12 @@
             top: 0;
         }
 
-        .title-hearder {
+        .title-header {
             width: 100%;
             height: 100%;
             font-size: 24px;
-            padding-left: 10px;
+            padding-left: 40px;
+            padding-top: 10px;
             font-weight: 600;
         }
 
@@ -217,145 +221,282 @@
             padding: 90px;
             flex: 1;
         }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            display: none;
+            pointer-events: none;
+        }
+
+        .overlay.active {
+            display: block;
+            pointer-events: auto;
+        }
+
+        .blur-background {
+            filter: blur(5px);
+            transition: filter 0.3s ease;
+        }
+
+        .notification {
+            display: none;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 2px 4px rgba(0, 0, 0, 0.07);
+            width: 360px;
+            height: 186px;
+            box-sizing: border-box;
+            position: absolute;
+            top: 47%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transform-origin: top left;
+            text-align: left;
+            z-index: 1000;
+            animation: growNotification 0.5s ease-in-out;
+            filter: none;
+        }
+
+        .notification_contract {
+            z-index: 1001;
+        }
+
+        @keyframes growNotification {
+            0% {
+                transform: scale(0) translate(-50%, -50%);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) translate(-50%, -50%);
+                opacity: 1;
+            }
+        }
+
+        .notification p {
+            margin: 0;
+            font-size: 16px;
+            color: #333333;
+        }
+
+        .notification .bold-text {
+            font-weight: 800;
+            font-size: 16px;
+            color: #0E0E2C;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close-button:hover {
+            color: #333;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-secondary {
+            flex-grow: 1;
+            padding: 10px 0;
+            border: none;
+            background-color: #005082;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 5px;
+            font-size: 24px;
+            color: rgba(0, 0, 0, 0.68);
+            cursor: pointer;
+        }
+
+        .content {
+            position: absolute;
+            margin-top: 20px;
+            margin-left: 6px;
+            padding-top: 45px;
+        }
     </style>
 </head>
 <body>
-    <div class="container-chat">
-        <!-- Header do chat -->
-        <div class="chat-header">
-            <button class="btn btn-link"  id="back-button">
-                <img src="https://img.icons8.com/ios-glyphs/30/000000/back.png"/>
-            </button>
-            <div class="title-hearder">{{ other_user.nome }}</div>
-            <span></span>
+         <div class="notification" id="notification">
+            <button class="close-button" onclick="closeBlurNotification('notification')">X</button>
+            <p class="bold-text">Fechar negócio</p>
+            <hr class="divider">
+            <p>Você tem certeza que quer fechar negócio com {{ other_user.nome }}?</p>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="closeBlurNotification('notification')">NÃO</button>
+                <button class="btn btn-secondary" onclick="showSecondNotification()">SIM</button>
+            </div>
         </div>
 
-        <!-- Corpo do chat -->
-        <div class="chat-container">
-            <!-- Mensagens -->
-            {% for mensagem in mensagens %}
-                {% if mensagem.is_mine %}
-                    <div class="message">
-                        <div class="message-text my-message">{{ mensagem.conteudo }}</div>
-                        <img src="{{ mensagem.imagem_perfil }}" alt="Image">
+        <div class="notification notification_contract" id="notification_contract">
+            <button class="close-button" onclick="closeBlurNotification('notification_contract')">X</button>
+            <p class="bold-text">Eba!</p>
+            <hr class="divider">
+            <p>Agora, vamos ver se {{ other_user.nome }} aceita. Te avisaremos assim que decidir.</p>
+        </div>
+
+        <div class="container-chat" id="main_content">
+            <!-- Header do chat -->
+            <div class="chat-header">
+                    <div class="content">
+                        <i class="fas fa-arrow-left back-button" onclick="goBack()"></i>
                     </div>
+                <div class="title-header">{{ other_user.nome }}</div>
+                <span></span>
+            </div>
+            <div class="overlay" id="overlay"></div>
+            <!-- Corpo do chat -->
+            <div class="chat-container">
+                <!-- Mensagens -->
+                {% for mensagem in mensagens %}
+                    {% if mensagem.is_mine %}
+                        <div class="message">
+                            <div class="message-text my-message">{{ mensagem.conteudo }}</div>
+                            <img src="{{ mensagem.imagem_perfil }}" alt="Image">
+                        </div>
+                    {% else %}
+                        <div class="message">
+                            <img src="{{ mensagem.imagem_perfil }}" alt="Image">
+                            <div class="message-text other-message">{{ mensagem.conteudo }}</div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                {% if user.tipo == 'C' %}
+                    <div class="empty-space-with-button"></div>
                 {% else %}
-                    <div class="message">
-                        <img src="{{ mensagem.imagem_perfil }}" alt="Image">
-                        <div class="message-text other-message">{{ mensagem.conteudo }}</div>
-                    </div>
+                    <div class="empty-space"></div>
                 {% endif %}
-            {% endfor %}
-            
+            </div>
+
+            <!-- Botão Fechar Negócio -->
             {% if user.tipo == 'C' %}
-                <div class="empty-space-with-button"></div>
-            {% else %}
-                <div class="empty-space"></div>
+                <div class="fechar-negocio-container">
+                    <button id="fechar_negocio" class="btn btn-lg btn-custom btn-close-deal" onclick="showNotification('notification')">FECHAR NEGÓCIO</button>
+                </div>
             {% endif %}
-        </div>
 
-        <!-- Botão Fechar Negócio -->
-        {% if user.tipo == 'C' %}
-            <div class="fechar-negocio-container">
-                <button class="btn btn-lg btn-custom btn-close-deal" onclick="window.location.href='/ConfirmaFecharContrato'">FECHAR NEGÓCIO</button>
+            <!-- Footer do chat (campo para nova mensagem) -->
+            <div class="chat-footer">
+                <input type="text" id="message-input" placeholder="Digite uma mensagem..." oninput="toggleSendButton()">
+                <button id="send-button" class="send-button" onclick="sendMessage()" style="display: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#005082" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+                    </svg>
+                </button>
             </div>
-        {% endif %}
 
-        <!-- Footer do chat (campo para nova mensagem) -->
-        <div class="chat-footer">
-            <input type="text" id="message-input" placeholder="Digite uma mensagem..." oninput="toggleSendButton()">
-            <button id="send-button" class="send-button" onclick="sendMessage()" style="display: none;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#005082" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
-                </svg>
-            </button>
-        </div>
+            <!-- Nav bar -->
+            {% if user.tipo == 'C' %}
+                <div class="nav-bar">
+                    <form action="/homeContratante" method="POST">
+                        <button type="submit" class="nav-button">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                <path
+                                    d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
+                            </svg>
+                        </button>
+                    </form>
+                    <form action="/procurarContratante" method="POST">
+                        <button class="nav-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <path
+                                    d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+                            </svg>
+                        </button>
+                    </form>
+                    <form action="/cadastroDemanda" method="POST">
+                        <button class="plus-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                <path
+                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                            </svg>
+                        </button>
+                    </form>
+                    <form action="/chatContratante" method="POST">
+                        <button class="nav-button">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                <path
+                                    d="M123.6 391.3c12.9-9.4 29.6-11.8 44.6-6.4c26.5 9.6 56.2 15.1 87.8 15.1c124.7 0 208-80.5 208-160s-83.3-160-208-160S48 160.5 48 240c0 32 12.4 62.8 35.7 89.2c8.6 9.7 12.8 22.5 11.8 35.5c-1.4 18.1-5.7 34.7-11.3 49.4c17-7.9 31.1-16.7 39.4-22.7zM21.2 431.9c1.8-2.7 3.5-5.4 5.1-8.1c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208s-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6c-15.1 6.6-32.3 12.6-50.1 16.1c-.8 .2-1.6 .3-2.4 .5c-4.4 .8-8.7 1.5-13.2 1.9c-.2 0-.5 .1-.7 .1c-5.1 .5-10.2 .8-15.3 .8c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4c4.1-4.2 7.8-8.7 11.3-13.5c1.7-2.3 3.3-4.6 4.8-6.9l.3-.5z" />
+                            </svg> </button>
+                    </form>
+                    <form action="/perfilContratante" method="POST">
+                        <button class="nav-button">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                <path
+                                    d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
+                            </svg> </button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="nav-bar">
+                    <form action="/homeMusico" method="POST">
+                        <button type="submit" class="nav-button">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                <path
+                                    d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
+                            </svg>
+                        </button>
+                    </form>
+                    <form action="/procurarMusico" method="POST">
+                        <button class="nav-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <path
+                                    d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+                            </svg>
+                        </button>
+                    </form>
 
-        <!-- Nav bar -->
-        {% if user.tipo == 'C' %}
-            <div class="nav-bar">
-                <form action="/homeContratante" method="POST">
-                    <button type="submit" class="nav-button">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                            <path
-                                d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
-                        </svg>
-                    </button>
-                </form>
-                <form action="/procurarContratante" method="POST">
-                    <button class="nav-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                            <path
-                                d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
-                        </svg>
-                    </button>
-                </form>
-                <form action="/cadastroDemanda" method="POST">
-                    <button class="plus-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                            class="bi bi-plus-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                            <path
-                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                        </svg>
-                    </button>
-                </form>
-                <form action="/chatContratante" method="POST">
-                    <button class="nav-button">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                            <path
-                                d="M123.6 391.3c12.9-9.4 29.6-11.8 44.6-6.4c26.5 9.6 56.2 15.1 87.8 15.1c124.7 0 208-80.5 208-160s-83.3-160-208-160S48 160.5 48 240c0 32 12.4 62.8 35.7 89.2c8.6 9.7 12.8 22.5 11.8 35.5c-1.4 18.1-5.7 34.7-11.3 49.4c17-7.9 31.1-16.7 39.4-22.7zM21.2 431.9c1.8-2.7 3.5-5.4 5.1-8.1c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208s-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6c-15.1 6.6-32.3 12.6-50.1 16.1c-.8 .2-1.6 .3-2.4 .5c-4.4 .8-8.7 1.5-13.2 1.9c-.2 0-.5 .1-.7 .1c-5.1 .5-10.2 .8-15.3 .8c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4c4.1-4.2 7.8-8.7 11.3-13.5c1.7-2.3 3.3-4.6 4.8-6.9l.3-.5z" />
-                        </svg> </button>
-                </form>
-                <form action="/perfilContratante" method="POST">
-                    <button class="nav-button">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                            <path
-                                d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
-                        </svg> </button>
-                </form>
-            </div>
-        {% else %}
-            <div class="nav-bar">
-                <form action="/homeMusico" method="POST">
-                    <button type="submit" class="nav-button">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                            <path
-                                d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
-                        </svg>
-                    </button>
-                </form>
-                <form action="/procurarMusico" method="POST">
-                    <button class="nav-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                            <path
-                                d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
-                        </svg>
-                    </button>
-                </form>
-
-                <form action="/chatMusico" method="POST">
-                    <button class="nav-button">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                            <path
-                                d="M123.6 391.3c12.9-9.4 29.6-11.8 44.6-6.4c26.5 9.6 56.2 15.1 87.8 15.1c124.7 0 208-80.5 208-160s-83.3-160-208-160S48 160.5 48 240c0 32 12.4 62.8 35.7 89.2c8.6 9.7 12.8 22.5 11.8 35.5c-1.4 18.1-5.7 34.7-11.3 49.4c17-7.9 31.1-16.7 39.4-22.7zM21.2 431.9c1.8-2.7 3.5-5.4 5.1-8.1c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208s-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6c-15.1 6.6-32.3 12.6-50.1 16.1c-.8 .2-1.6 .3-2.4 .5c-4.4 .8-8.7 1.5-13.2 1.9c-.2 0-.5 .1-.7 .1c-5.1 .5-10.2 .8-15.3 .8c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4c4.1-4.2 7.8-8.7 11.3-13.5c1.7-2.3 3.3-4.6 4.8-6.9l.3-.5z" />
-                        </svg> </button>
-                </form>
-                <form action="/perfilMusico" method="POST">
-                    <button class="nav-button">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                            <path
-                                d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
-                        </svg> </button>
-                </form>
-            </div>
-        {% endif %}
+                    <form action="/chatMusico" method="POST">
+                        <button class="nav-button">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                <path
+                                    d="M123.6 391.3c12.9-9.4 29.6-11.8 44.6-6.4c26.5 9.6 56.2 15.1 87.8 15.1c124.7 0 208-80.5 208-160s-83.3-160-208-160S48 160.5 48 240c0 32 12.4 62.8 35.7 89.2c8.6 9.7 12.8 22.5 11.8 35.5c-1.4 18.1-5.7 34.7-11.3 49.4c17-7.9 31.1-16.7 39.4-22.7zM21.2 431.9c1.8-2.7 3.5-5.4 5.1-8.1c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208s-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6c-15.1 6.6-32.3 12.6-50.1 16.1c-.8 .2-1.6 .3-2.4 .5c-4.4 .8-8.7 1.5-13.2 1.9c-.2 0-.5 .1-.7 .1c-5.1 .5-10.2 .8-15.3 .8c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4c4.1-4.2 7.8-8.7 11.3-13.5c1.7-2.3 3.3-4.6 4.8-6.9l.3-.5z" />
+                            </svg> </button>
+                    </form>
+                    <form action="/perfilMusico" method="POST">
+                        <button class="nav-button">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                <path
+                                    d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
+                            </svg> </button>
+                    </form>
+                </div>
+            {% endif %}
     </div>
     
     <script>
@@ -363,10 +504,6 @@
             var chatContainer = document.querySelector('.chat-container');
             chatContainer.scrollTop = chatContainer.scrollHeight;
         };
-    
-        document.getElementById("back-button").addEventListener("click", function() {
-            window.history.back();
-        });
         
         function toggleSendButton() {
             const input = document.getElementById('message-input');
@@ -390,7 +527,40 @@
                 };
                 xhr.send(JSON.stringify({ message: message }));
             }
-        }   
+        }
+
+        function showNotification(notificationId) {
+            const notification = document.getElementById(notificationId);
+            const overlay = document.getElementById('overlay');
+            const mainContent = document.getElementById('main_content');
+
+            notification.style.display = 'block';
+            overlay.classList.add('active');
+            mainContent.classList.add('blur-background');
+        }
+
+        function closeBlurNotification(notificationId) {
+            const notification = document.getElementById(notificationId);
+            const overlay = document.getElementById('overlay');
+            const mainContent = document.getElementById('main_content');
+
+            notification.style.display = 'none';
+            overlay.classList.remove('active');
+            mainContent.classList.remove('blur-background');
+
+            if (notificationId === 'notification_contract') {
+                document.getElementById('fechar_negocio').style.display = 'none';
+            }
+        }
+
+        function showSecondNotification() {
+            closeBlurNotification('notification');
+            showNotification('notification_contract');
+        }
+
+        function goBack() {
+            window.location.href = 'chatContratante';
+        }
     </script>
 </body>
 </html>
