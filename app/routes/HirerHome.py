@@ -1,7 +1,6 @@
 from app import app
 from flask import render_template, redirect, url_for, session, request
 from app.models.BancoDeDados import BancoDeDados
-from datetime import datetime
 
 
 HIRER_HOME_HTML = "hirerHome.html"
@@ -45,7 +44,7 @@ def get_cadastro_demanda():
 @app.route("/verMusicos", methods=["GET"])
 def ver_musicos():
     demanda_id = request.args.get("demanda_id")
-    musicos = BancoDeDados().GetMatches(demanda_id)
+    musicos = BancoDeDados().GetMusicos(demanda_id)
     return render_template("verMusicos.html", musicos=musicos)
 
 
@@ -60,10 +59,22 @@ def get_demandas():
    
     demanda_estilos = []
     for demanda in demandas:
-        demanda.data_show = datetime.strftime(demanda.data_show, "%d/%m/%Y")
-        demanda.momento_pagamento = demanda.momento_pagamento.value
-        estilos = get_estilos(demanda.id)
-        num_matches = len(BancoDeDados().GetMatches(demanda.id))
-        demanda_estilos.append((demanda, estilos, num_matches))
+        dia, mes, ano = demanda.data_show.day, demanda.data_show.month, demanda.data_show.year
+        demanda.data_show = f"{dia:02d}/{mes:02d}/{ano:04d}"
+        musicos = BancoDeDados().GetMusicos(demanda.id)
+        imagens = [BancoDeDados.GetImagemPerfil(musico) for musico in musicos]
+        imagens_caminho = [imagem.caminho for imagem in imagens if imagem.caminho][:9]
+
+        demanda_estilos.append({
+            'id': demanda.id,
+            'images': imagens_caminho,
+            'data_show': f"{dia:02d}/{mes:02d}/{ano:04d}",
+            'estilos': BancoDeDados.GetEstilosMusicais(demanda.id),
+            'fornece_equipamento': demanda.fornece_equipamento,
+            'publico_esperado': demanda.publico_esperado,
+            'duracao_show': demanda.duracao_show,
+            'tipo_pagamento': demanda.tipo_pagamento.value,
+            'momento_pagamento': demanda.momento_pagamento.value,
+        })
 
     return demanda_estilos

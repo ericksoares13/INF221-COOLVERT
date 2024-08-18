@@ -7,13 +7,6 @@
     <title>Document</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        .icon {
-            width: 24px;
-            height: 24px;
-            vertical-align: middle;
-            display: inline-block;
-        }
-
         .phone-frame {
             position: relative;
             width: 100%;
@@ -47,84 +40,23 @@
         }
 
         .content {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
             padding: 60px;
+            text-align: center;
             max-width: 100%;
             width: 100%;
             box-sizing: border-box;
+            background-color: #fff;
         }
 
         h1 {
             font-family: 'Raleway', sans-serif;
             font-weight: 700;
             color: #0e0e2c;
-            margin: 0 0 20px 0;
+            margin: 0;
             position: absolute;
             top: 40px;
             left: 20px;
             font-size: 27px;
-        }
-
-        h5 {
-            color: #4A4A68;
-            font-family: 'Raleway', sans-serif;
-            font-size: 16px;
-        }
-
-        .demand-list {
-            margin: 0;
-            padding: 0;
-            list-style-type: none;
-            overflow-y: auto;
-            flex-grow: 1;
-        }
-
-        .demand-item {
-            width: 350px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 10px;
-            margin-left: 23px;
-            border-radius: 10px;
-            position: relative;
-        }
-
-        .demand-item h5 {
-            margin: 0;
-            font-weight: bold;
-        }
-
-        .demand-item p {
-            margin: 5px 0 0;
-            font-size: 0.9rem;
-            color: #4A4A68;
-            font-family: 'Raleway', sans-serif;
-        }
-
-        .ver-musico-btn {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            padding: 0;
-
-            background-color: transparent;
-
-            color: #000;
-            border: none;
-            cursor: pointer;
-            font-family: 'Raleway', sans-serif;
-            font-weight: bold;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .ver-musico-btn:hover {
-            background-color: transparent;
-            color: #000;
         }
 
         .nav-bar {
@@ -135,49 +67,6 @@
             padding: 10px 0;
             width: 100%;
             border-radius: 0 0 20px 20px;
-        }
-
-        .plus-button {
-            background: linear-gradient(45deg, #ff6f00, #ffca28);
-            border-radius: 30px;
-            color: white;
-            font-size: 24px;
-            width: 70px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            position: relative;
-            bottom: 5px;
-            z-index: 1;
-        }
-
-        .plus-button svg {
-            width: 30px;
-            height: 30px;
-        }
-
-        .indicator-button {
-            background: linear-gradient(45deg, #ff6f00, #ffca28);
-            border-radius: 30px;
-            color: white;
-            font-size: 24px;
-            width: 35px;
-            height: 25px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            bottom: 5px;
-            z-index: 1;
-        }
-
-        .indicator-button svg {
-            width: 15px;
-            height: 15px;
         }
 
         .nav-button {
@@ -192,7 +81,28 @@
             height: 24px;
             fill: #000000;
             transform: translate(2px, 0);
+        }
 
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            display: none;
+            pointer-events: none;
+        }
+
+        .overlay.active {
+            display: block;
+            pointer-events: auto;
+        }
+
+        .blur-background {
+            filter: blur(5px);
+            transition: filter 0.3s ease;
         }
 
         .notification {
@@ -211,6 +121,7 @@
             text-align: left;
             z-index: 9999;
             animation: growNotification 0.5s ease-in-out;
+            filter: none;
         }
 
         @keyframes growNotification {
@@ -259,39 +170,129 @@
             margin: 10px 0;
         }
 
-        .profile-icons {
+        .demand-list {
+            list-style-type: none;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .demand-item {
+            position: relative;
+            width: 350px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            margin-left: 23px;
+            border-radius: 10px;
+        }
+
+        .demand-item p {
+            padding: 0;
+            margin: 0;
+            color: #4A4A68;
+            font-weight: 800;
+        }
+
+        .demand-item-text h3, .demand-item-text p {
+            margin: 0;
+            color: #000000;
+        }
+
+        .demand-item-text h3 {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .demand-item-text p {
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .demand-item-header {
             position: absolute;
-            bottom: 10px;
-            left: 10px;
+            bottom: 17px;
+            right: 10px;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            fill: #4A4A68;
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        .profile-icons-container {
             display: flex;
-            gap: 5px;
+            flex-wrap: wrap;
+            justify-content: left;
+            overflow: hidden;
+            max-width: 100%;
         }
 
         .profile-icon {
-            width: 24px;
-            height: 24px;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            margin-top: 15px;
+            object-fit: cover;
         }
 
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.2);
-            z-index: 999;
-            display: none;
-            pointer-events: none;
+        .ver-musico-btn {
+            font-family: 'Raleway', sans-serif;
+            font-size: 14px;
+            background-color: white;
+            color: black;
+            font-weight: 1000;
+            border: none;
+            padding-top: 18px;
+            padding-right: 15px;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
-        .overlay.active {
-            display: block;
-            pointer-events: auto;
+        .plus-button {
+            background: linear-gradient(45deg, #ff6f00, #ffca28);
+            border-radius: 30px;
+            color: white;
+            font-size: 24px;
+            width: 70px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            position: relative;
+            bottom: 5px;
+            z-index: 1;
         }
 
-        .blur-background {
-            filter: blur(5px);
-            transition: filter 0.3s ease;
+        .plus-button svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .indicator-button {
+            background: linear-gradient(45deg, #ff6f00, #ffca28);
+            border-radius: 30px;
+            color: white;
+            font-size: 24px;
+            width: 35px;
+            height: 25px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            bottom: 5px;
+            z-index: 1;
+        }
+
+        .indicator-button svg {
+            width: 15px;
+            height: 15px;
         }
     </style>
     <script>
@@ -316,8 +317,8 @@
             closeNotification('demanda_criada')
             closeNotification('sem_demanda')
 
-            const demandas = JSON.parse("{{ demanda_estilos }}");
-            if (demandas.length === 0) {
+            const demandas = "{{ demanda_estilos}}";
+            if (demandas === '[]') {
                 document.getElementById("sem_demanda").style.display = 'block';
             }
 
@@ -331,12 +332,14 @@
 
 <body>
     <div class="overlay" id="overlay"></div>
+
     <div class="notification" id="demanda_criada">
         <button class="close-button" onclick="closeNotification('demanda_criada')">X</button>
         <p class="bold-text">Sua demanda foi criada!</p>
         <hr class="divider">
         <p>Agora, vamos disponibilizar sua demanda para os músicos. Assim que algum responder, te notificaremos.</p>
     </div>
+
     <div class="notification" id="sem_demanda">
         <button class="close-button" onclick="closeNotification('sem_demanda')">X</button>
         <p class="bold-text">Você não fez nenhuma demanda!</p>
@@ -348,54 +351,52 @@
                 d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
         </svg></span> abaixo para criar uma nova demanda!</p>
     </div>
+
     <div class="phone-frame" id="main_content">
         <div class="content">
             <h1>Suas demandas</h1>
         </div>
-        {% if demanda_estilos %}
-            <ul class="demand-list">
-                {% for demanda,estilos,num_matches in demanda_estilos %}
-                <li class="demand-item">
-                    <h5>{{ demanda.data_show }}<br><br></h5>
 
-                    <p>Estilo musical:
-                        {% for estilo in estilos %}
-                        {{ estilo }}{% if not loop.last %}, {% endif %}
-                        {% endfor %}
-                    </p>
-
-                    <p>Equipamento som:
-                        {% if demanda.fornece_equipamento%}
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                            <path
-                                d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
-                        </svg>
-                        {% else %}
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                            <path
-                                d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
-                        </svg>
-                        {% endif %}
-                    </p>
-                    <p>Publico médio esperado: {{ demanda.publico_esperado }}</p>
-                    <p>Duração: {{ demanda.duracao_show }}</p>
-                    <p>Pagamento: {{ demanda.tipo_pagamento.name }}, {{demanda.momento_pagamento}}</p>
-                    <br><br><form action="/verMusicos" method="POST">
-                        <input type="hidden" name="demanda_id" value="{{ demanda.id }}">
-                        <button class="ver-musico-btn">VER MÚSICO</button>
-                    </form>
-                    <div class="profile-icons">
-                        {% for _ in range(num_matches) %}
-                        <img src="../static/images/avatar-default.svg" alt="Profile Icon" class="profile-icon">
-                        {% endfor %}
+        <div class="demand-list">
+            {% for demanda in demanda_estilos %}
+            <li class="demand-item">
+                <p>{{ demanda.data_show }}</p><br>
+                <p>Estilo musical: {{ demanda.estilos | join(', ') }}</p>
+                <p>Equipamento som:
+                    {% if demanda.fornece_equipamento == True %}
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                        <path
+                            d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
+                    </svg>
+                    {% else %}
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                        <path
+                            d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                    </svg>
+                    {% endif %}
+                </p>
+                <p>Publico médio esperado: {{ demanda.publico_esperado }}</p>
+                <p>Duração: {{ demanda.duracao_show }}</p>
+                <p>Pagamento: {{ demanda.tipo_pagamento }}, {{ demanda.momento_pagamento }}</p>
+                <div class="profile-icons-container">
+                    {% for image in demanda.images %}
+                        <img src="{{ image }}" alt="Image" onerror="this.onerror=null; this.src='../static/images/avatar-default.svg';" class="profile-icon">
+                    {% endfor %}
+                </div>
+                {% if demanda.images %}
+                    <div class="demand-item-header">
+                        <form action="/verMusicos" method="POST">
+                            <input type="hidden" name="demanda_id" value="{{ demanda.id }}">
+                            <button class="ver-musico-btn">VER MÚSICOS</button>
+                        </form>
                     </div>
-                </li>
-                {% endfor %}
-            </ul>
-            {% else %}
-        {% endif %}
+                {% endif %}
+            </li>
+            {% endfor %}
+        </div>
+
         <div class="nav-bar">
             <form action="/homeContratante" method="POST">
                 <button type="submit" class="nav-button">
