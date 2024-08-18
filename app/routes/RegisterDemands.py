@@ -132,4 +132,4 @@ def confirmar_demanda():
     ano, mes, dia = demanda.get("data_show")
     demanda["data_show"] = date(ano, mes, dia)
     BancoDeDados().CriaDemanda(demanda)
-    return redirect(url_for("get_home_contratante"))
+    return redirect(url_for("get_home_contratante_pos_demanda"))
