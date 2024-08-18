@@ -180,9 +180,22 @@
             top: 25%;
             left: 49%;
             transform: translate(-50%, -50%);
+            transform-origin: top left;
             text-align: left;
             z-index: 9999;
             display: none;
+            animation: growNotification 0.5s ease-in-out;
+        }
+
+        @keyframes growNotification {
+            0% {
+                transform: scale(0) translate(-50%, -50%);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) translate(-50%, -50%);
+                opacity: 1;
+            }
         }
 
         .notification p {
@@ -293,9 +306,7 @@
 
         document.addEventListener('DOMContentLoaded', (event) => {
             const error = "{{ error }}";
-            const cadastro = "{{ cadastro }}"
-
-            console.log(cadastro);
+            const cadastro = "{{ cadastro }}";
 
             if (cadastro === 'true') {
                 const notificationDiv = document.querySelector('.notification');
