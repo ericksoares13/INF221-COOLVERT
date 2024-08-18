@@ -11,6 +11,10 @@ def home_contratante():
 def get_home_contratante():
     return render_template("hirerHome.html")
 
+@app.route("/homeContratantePosDemanda", methods=["GET"])
+def get_home_contratante_pos_demanda():
+    return render_template("hirerHome.html", demanda='true')
+
 
 @app.route("/procurarContratante", methods=["POST"])
 def procurar():

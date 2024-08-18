@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Roboto:wght@400&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet">
     <style>
         .phone-frame {
             position: relative;
@@ -57,7 +56,7 @@
             position: absolute;
             top: 40px;
             left: 20px;
-            font-size: 20px;
+            font-size: 27px;
         }
 
         .nav-bar {
@@ -140,8 +139,21 @@
             top: 47%;
             left: 50%;
             transform: translate(-50%, -50%);
+            transform-origin: top left;
             text-align: left;
             z-index: 9999;
+            animation: growNotification 0.5s ease-in-out;
+        }
+
+        @keyframes growNotification {
+            0% {
+                transform: scale(0) translate(-50%, -50%);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) translate(-50%, -50%);
+                opacity: 1;
+            }
         }
 
         .notification p {
@@ -180,12 +192,25 @@
         }
     </style>
     <script>
-        function closeNotification() {
-            const notificationDiv = document.querySelector('.notification');
-            if (notificationDiv) {
-                notificationDiv.style.display = 'none';
+        function closeNotification(id) {
+            if (id === 'demanda_criada') {
+                document.getElementById('demanda_criada').style.display = 'none';
+            }
+            else if (id === 'sem_demanda') {
+                document.getElementById('sem_demanda').style.display = 'none';
             }
         }
+
+        document.addEventListener("DOMContentLoaded", (event) => {
+           const demanda = "{{ demanda }}";
+
+           if (demanda === "true") {
+               closeNotification('sem_demanda')
+               const notificationDiv = document.querySelector(".demanda_criada");
+               notificationDiv.style.display = 'block';
+           }
+
+        });
     </script>
 </head>
 
@@ -194,8 +219,14 @@
         <div class="content">
             <h1>Suas demandas</h1>
         </div>
-        <div class="notification">
-            <button class="close-button" onclick="closeNotification()">X</button>
+         <div class="notification" id="demanda_criada">
+            <button class="close-button" onclick="closeNotification('demanda_criada')">X</button>
+            <p class="bold-text">Sua demanda foi criada!</p>
+            <hr class="divider">
+            <p>Agora, vamos disponibilizar sua demanda para os músicos. Assim que algum responder, te notificaremos.</p>
+        </div>
+        <div class="notification" id="sem_demanda">
+            <button class="close-button" onclick="closeNotification('sem_demanda')">X</button>
             <p class="bold-text">Você não fez nenhuma demanda!</p>
             <hr class="divider">
             <p>Clique no botão <span class="indicator-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
