@@ -177,14 +177,15 @@
             height: 115px;
             box-sizing: border-box;
             position: absolute;
-            top: 25%;
-            left: 49%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
             transform-origin: top left;
             text-align: left;
             z-index: 9999;
             display: none;
             animation: growNotification 0.5s ease-in-out;
+            filter: none;
         }
 
         @keyframes growNotification {
@@ -225,22 +226,46 @@
         .close-button:hover {
             color: #333;
         }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            display: none;
+            pointer-events: none;
+        }
+
+        .overlay.active {
+            display: block;
+            pointer-events: auto;
+        }
+
+        .blur-background {
+            filter: blur(5px);
+            transition: filter 0.3s ease;
+        }
     </style>
 </head>
 
 <body>
-    <div class="content">
+    <div class="overlay" id="overlay"></div>
+
+    <div class="notification" id="notification">
+        <button class="close-button" onclick="closeNotification()">X</button>
+        <p class="bold-text">Cadastro realizado com sucesso!</p>
+        <hr class="divider">
+        <p>Efetue o login para acessar o aplicativo.</p>
+    </div>
+
+    <div class="content" id="main_content">
         <a href="/setinhaLogin"> <i class="fas fa-arrow-left back-arrow"></i></a>
     
         <div>
             <h2>Entrar na sua conta</h2>
-        </div>
-
-        <div class="notification" id="notification">
-            <button class="close-button" onclick="closeNotification()">X</button>
-            <p class="bold-text">Cadastro realizado com sucesso!</p>
-            <hr class="divider">
-            <p>Efetue o login para acessar o aplicativo.</p>
         </div>
 
         <form action="/entrarLogin" method="POST">
@@ -309,8 +334,7 @@
             const cadastro = "{{ cadastro }}";
 
             if (cadastro === 'true') {
-                const notificationDiv = document.querySelector('.notification');
-                notificationDiv.style.display = 'block';
+                showNotification();
             }
 
             if (error) {
@@ -320,10 +344,15 @@
         });
 
         function closeNotification() {
-            const notificationDiv = document.querySelector('.notification');
-            if (notificationDiv) {
-                notificationDiv.style.display = 'none';
-            }
+            document.getElementById('notification').style.display = 'none';
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('main_content').classList.remove('blur-background');
+        }
+
+        function showNotification() {
+            document.getElementById('notification').style.display = 'block';
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('main_content').classList.add('blur-background');
         }
 
     </script>
