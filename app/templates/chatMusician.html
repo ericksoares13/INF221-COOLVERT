@@ -22,7 +22,7 @@
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Raleway', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #ffffff;
@@ -104,7 +104,7 @@
             display: flex;
             justify-content: space-around;
             padding: 10px 0;
-            width: 100%;
+            width: 430px;
             border-radius: 0 0 20px 20px;
         }
 
@@ -183,7 +183,7 @@
             item.addEventListener('click', () => {
                 const chatId = item.getAttribute('data-chat-id');
                 const form = document.createElement('form');
-                form.action = '/chatDetails';
+                form.action = '/chat';
                 form.method = 'POST';
                 form.style.display = 'none';
 

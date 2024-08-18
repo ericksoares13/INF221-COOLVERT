@@ -22,7 +22,7 @@
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Raleway', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #ffffff;
@@ -104,7 +104,7 @@
             display: flex;
             justify-content: space-around;
             padding: 10px 0;
-            width: 100%;
+            width: 430px;
             border-radius: 0 0 20px 20px;
         }
 
@@ -152,7 +152,7 @@
         </div>
         <ul class="chat-list">
             {% for chat in chats %}
-                <li class="chat-item" data-chat-id="{{ chat.name }}">
+                <li class="chat-item" data-chat-id="{{ chat.id }}">
                     <img src="{{ chat.image }}" alt="Image" onerror="this.onerror=null; this.src='../static/images/avatar-default.svg';">
                     <div class="chat-info">
                         <h5>{{ chat.name }}</h5>
@@ -213,7 +213,7 @@
             item.addEventListener('click', () => {
                 const chatId = item.getAttribute('data-chat-id');
                 const form = document.createElement('form');
-                form.action = '/chatDetails';
+                form.action = '/chat';
                 form.method = 'POST';
                 form.style.display = 'none';
 
