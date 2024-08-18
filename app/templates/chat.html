@@ -385,7 +385,7 @@
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         input.value = ""; // Limpa o campo de entrada
-                        window.location.reload(true); // Recarrega a página para atualizar o chat
+                        window.location.replace(window.location.href);  // Recarrega a página para atualizar o chat
                     }
                 };
                 xhr.send(JSON.stringify({ message: message }));
