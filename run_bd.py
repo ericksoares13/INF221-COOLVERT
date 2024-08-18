@@ -199,19 +199,22 @@ if __name__ == '__main__':
         imagem_obj2 = {
             'dono': musico.id,
             'nome': 'imagem2',
-            'tipo_foto': 'Instagram'
+            'tipo_foto': 'Instagram',
+            'caminho': '../static/images/katy.png'
         }
         
         imagem_obj3 = {
             'dono': musico.id,
             'nome': 'imagem3',
-            'tipo_foto': 'portfólio'
+            'tipo_foto': 'portfólio',
+            'caminho': '../static/images/katy.png'
         }
         
         imagem_obj4 = {
             'dono': musico.id,
             'nome': 'imagem4',
-            'tipo_foto': 'portfólio'
+            'tipo_foto': 'portfólio',
+            'caminho': '../static/images/katy.png'
         }
         
         BancoDeDados.CriaImagem(imagem_obj1)
