@@ -14,7 +14,7 @@
             overflow: hidden;
         }
 
-        .chat-header, .chat-footer, .nav-bar {
+        .chat-header, .nav-bar {
             background-color: white;
             padding: 10px;
             border-bottom: 1px solid #ddd;
@@ -30,8 +30,25 @@
             top: 0;
         }
 
+        .title-hearder {
+            width: 100%;
+            height: 100%;
+            font-size: 24px;
+            padding-left: 10px;
+            font-weight: 600;
+        }
+
         .chat-footer {
-            bottom: 60px; /* Space for the nav-bar */
+            bottom: 65px;
+            background-color: transparent;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
         }
 
         .nav-bar {
@@ -52,7 +69,7 @@
             padding: 20px;
             background-color: #f5f5f5;
             margin-top: 50px; /* Space for header */
-            margin-bottom: 130px; /* Space for footer and nav-bar */
+            margin-bottom: 65px; /* Space for footer and nav-bar */
             display: flex;
             flex-direction: column;
         }
@@ -87,45 +104,40 @@
         }
 
         .chat-footer input {
+            background-color: #ffffff;
             flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
+            padding: 12px;
+            border: 3px solid #ddd;
             border-radius: 20px;
             margin-right: 10px;
-        }
-
-        .chat-footer button {
-            border: none;
-            background-color: transparent;
-        }
-
-        .send-icon {
-            font-size: 24px;
-            color: #007bff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
         }
 
         .btn-close-deal {
             margin-top: 20px;
             width: 100%;
+            padding: 15px;
+            border-radius: 10px;
             font-weight: bold;
+            color: #FFFFFF;
+            background-color: #005082;
+            border: none;
         }
 
         .send-button {
-            width: 24px;
-            height: 24px;
-            background: #007bff;
+            background: ECF1F4;
             border-radius: 30px;
+            border: 0px;
             color: white;
             font-size: 24px;
-            width: 70px;
+            width: 50px;
             height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             border: none;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
             position: relative;
-            bottom: 5px;
             z-index: 1;
         }
 
@@ -171,6 +183,12 @@
             fill: #000000;
             transform: translate(2px, 0);
         }
+
+        .empty-space {
+            width: 100%;
+            padding: 30px;
+            flex: 1;
+        }
     </style>
 </head>
 <body>
@@ -180,7 +198,7 @@
         <button class="btn btn-link">
             <img src="https://img.icons8.com/ios-glyphs/30/000000/back.png"/>
         </button>
-        <h5>Rodrigo</h5>
+        <div class="title-hearder">Rodrigo</div>
         <span></span>
     </div>
 
@@ -233,14 +251,18 @@
         </div>
 
         <!-- Botão Fechar Negócio -->
-        <button class="btn btn-primary btn-lg btn-close-deal">Fechar Negócio</button>
+        <button class="btn btn-lg btn-custom btn-close-deal">FECHAR NEGÓCIO</button>
+
+        <div class="empty-space"></div>
     </div>
 
     <!-- Footer do chat (campo para nova mensagem) -->
     <div class="chat-footer">
         <input type="text" placeholder="Digite uma mensagem...">
         <button class="send-button">
-            <span class="glyphicon glyphicon glyphicon-arrow-up" color="black" aria-hidden="true"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#005082" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+            </svg>
         </button>
     </div>
 
