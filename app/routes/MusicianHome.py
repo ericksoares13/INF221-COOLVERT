@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template
+from flask import render_template, request, session
 
 from app.models.BancoDeDados import BancoDeDados
 
@@ -14,8 +14,26 @@ def get_home_musico():
     return render_template("musicianHome.html", demands=get_demandas())
 
 
+@app.route("/candidatarDemanda", methods=["POST"])
+def candidatar_demanda():
+    demanda_id = request.form.get('demanda_id')
+    musico_id = session.get("usuárioLogado")["id"]
+    BancoDeDados.CriaMatch({
+        'id_musico': musico_id,
+        'id_demanda': demanda_id,
+    })
+    return render_template("musicianHome.html", demands=get_demandas(), notification=True)
+
+
+@app.route("/candidatarDemanda", methods=["GET"])
+def get_candidatar_demanda():
+    return render_template("musicianHome.html", demands=get_demandas())
+
+
 def get_demandas():
     demandas = BancoDeDados.GetDemandas()
+    musico_id = session.get("usuárioLogado")["id"]
+    matches = [match.id_demanda for match in BancoDeDados.GetMatchesMusico(musico_id)]
     resultado = []
 
     for demanda in demandas:
@@ -23,6 +41,8 @@ def get_demandas():
         imagem = BancoDeDados.GetImagemPerfil(contratante.id)
         dia, mes, ano = demanda.data_show.day, demanda.data_show.month, demanda.data_show.year
         resultado.append({
+            'id': demanda.id,
+            'situation': 'Match' if demanda.id in matches else 'Disponível',
             'image': imagem.caminho if imagem is not None else "",
             'contratante': contratante.nome_estabelecimento,
             'cidade': contratante.cidade,
