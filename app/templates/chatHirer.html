@@ -152,7 +152,7 @@
         </div>
         <ul class="chat-list">
             {% for chat in chats %}
-                <li class="chat-item" data-chat-id="{{ chat.id }}">
+                <li class="chat-item" data-chat-id-match="{{ chat.id_match }}" data-chat-id-outro="{{ chat.id_outro }}">
                     <img src="{{ chat.image }}" alt="Image" onerror="this.onerror=null; this.src='../static/images/avatar-default.svg';">
                     <div class="chat-info">
                         <h5>{{ chat.name }}</h5>
@@ -211,18 +211,26 @@
     <script>
         document.querySelectorAll('.chat-item').forEach(item => {
             item.addEventListener('click', () => {
-                const chatId = item.getAttribute('data-chat-id');
+                const chatIdMatch = item.getAttribute('data-chat-id-match');
+                const chatIdOutro = item.getAttribute('data-chat-id-outro');
+
                 const form = document.createElement('form');
-                form.action = '/chat';
+                form.action = '/chatDetails';
                 form.method = 'POST';
                 form.style.display = 'none';
 
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'username';
-                input.value = chatId;
+                const inputMatch = document.createElement('input');
+                inputMatch.type = 'hidden';
+                inputMatch.name = 'chat_id_match';
+                inputMatch.value = chatIdMatch;
+                form.appendChild(inputMatch);
 
-                form.appendChild(input);
+                const inputOutro = document.createElement('input');
+                inputOutro.type = 'hidden';
+                inputOutro.name = 'chat_id_outro';
+                inputOutro.value = chatIdOutro;
+                form.appendChild(inputOutro);
+
                 document.body.appendChild(form);
                 form.submit();
             });

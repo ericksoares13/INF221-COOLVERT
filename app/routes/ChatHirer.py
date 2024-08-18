@@ -31,7 +31,8 @@ def get_chats():
         chat = {
             "image": imagem.caminho if imagem is not None else "",
             "name": nome,
-            "id": match.id,
+            "id_match": match.id,
+            "id_outro": match.id_musico,
             "last_message": mensagens[-1].mensagem if len(mensagens) > 0 else "",
         }
         chats.append(chat)

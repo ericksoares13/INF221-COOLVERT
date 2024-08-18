@@ -18,7 +18,7 @@ def get_home_contratante():
 
 @app.route("/homeContratantePosDemanda", methods=["GET"])
 def get_home_contratante_pos_demanda():
-    return render_template("hirerHome.html", demanda_estilos=get_demandas(), demanda='true')
+    return render_template(HIRER_HOME_HTML, demanda_estilos=get_demandas(), demanda='true')
 
 
 @app.route("/procurarContratante", methods=["POST"])
@@ -28,6 +28,11 @@ def procurar():
 
 @app.route("/procurarContratante", methods=["GET"])
 def get_procurar():
+    return render_template(HIRER_HOME_HTML, demanda_estilos=get_demandas())
+
+
+@app.route("/perfilContratante", methods=["POST", "GET"])
+def perfil_contratante():
     return render_template(HIRER_HOME_HTML, demanda_estilos=get_demandas())
 
 
@@ -48,11 +53,6 @@ def ver_musicos():
     return render_template("verMusicos.html", musicos=musicos)
 
 
-def get_estilos(demanda_id):
-    estilos = BancoDeDados().GetEstilosMusicais(demanda_id)
-    return estilos
-
-
 def get_demandas():
     contratante_id = session.get("usuárioLogado")["id"]
     demandas = BancoDeDados().GetDemandas(contratante_id)
@@ -63,7 +63,7 @@ def get_demandas():
         demanda.data_show = f"{dia:02d}/{mes:02d}/{ano:04d}"
         musicos = BancoDeDados().GetMusicos(demanda.id)
         imagens = [BancoDeDados.GetImagemPerfil(musico) for musico in musicos]
-        imagens_caminho = [imagem.caminho for imagem in imagens if imagem.caminho][:9]
+        imagens_caminho = [imagem.caminho if imagem and imagem.caminho else "" for imagem in imagens][:9]
 
         demanda_estilos.append({
             'id': demanda.id,
