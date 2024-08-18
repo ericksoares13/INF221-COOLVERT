@@ -69,6 +69,11 @@ class BancoDeDados:
             bd.session.add(novo_contratante)
             bd.session.commit()
             return obj['id']
+    
+    @staticmethod
+    def GetUser(id_user):
+        with app.app_context():
+            return Pessoa.query.get(id_user)
         
     @staticmethod
     def VerificaEstiloMusical(nome):

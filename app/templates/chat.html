@@ -78,6 +78,7 @@
             display: flex;
             align-items: flex-end;
             margin-bottom: 15px;
+            flex-direction: row;
         }
 
         .message img {
@@ -125,17 +126,15 @@
         }
 
         .send-button {
-            background: ECF1F4;
             border-radius: 30px;
-            border: 0px;
-            color: white;
+            background-color: #ffffff;
+            border: 3px solid #ddd;
             font-size: 24px;
             width: 50px;
             height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: none;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
             position: relative;
             z-index: 1;
@@ -149,8 +148,6 @@
             padding: 10px 0;
             width: 100%;
             border-radius: 0 0 20px 20px;
-            position: fixed;
-            bottom: 0;
         }
 
         .plus-button {
@@ -168,6 +165,11 @@
             position: relative;
             bottom: 5px;
             z-index: 1;
+        }
+
+        .plus-button svg {
+            width: 30px;
+            height: 30px;
         }
 
         .nav-button {
@@ -192,66 +194,36 @@
     </style>
 </head>
 <body>
-
     <!-- Header do chat -->
     <div class="chat-header">
         <button class="btn btn-link">
             <img src="https://img.icons8.com/ios-glyphs/30/000000/back.png"/>
         </button>
-        <div class="title-hearder">Rodrigo</div>
+        <div class="title-hearder">{{ other_user.nome }}</div>
         <span></span>
     </div>
 
     <!-- Corpo do chat -->
     <div class="chat-container">
         <!-- Mensagens -->
-        <div class="message">
-            <img src="https://img.icons8.com/ios-filled/50/000000/user-male-circle.png" alt="User">
-            <div class="message-text other-message">Olá, tudo bem? Me interessei no seu perfil, você ainda está disponível para o show do dia 17?</div>
-        </div>
-        <div class="message">
-            <div class="message-text my-message">Estou sim! Mas não consigo tocar as 3h que você pediu, pode ser 2h?</div>
-            <img src="https://img.icons8.com/ios-filled/50/000000/user-female-circle.png" alt="Me">
-        </div>
-        <div class="message">
-            <img src="https://img.icons8.com/ios-filled/50/000000/user-male-circle.png" alt="User">
-            <div class="message-text other-message">Pode. Mas aí terei de reduzir o cachê, ok?</div>
-        </div>
-        <div class="message">
-            <div class="message-text my-message">Estou sim! Mas não consigo tocar as 3h que você pediu, pode ser 2h?</div>
-            <img src="https://img.icons8.com/ios-filled/50/000000/user-female-circle.png" alt="Me">
-        </div>
-        <div class="message">
-            <img src="https://img.icons8.com/ios-filled/50/000000/user-male-circle.png" alt="User">
-            <div class="message-text other-message">Pode. Mas aí terei de reduzir o cachê, ok?</div>
-        </div>
-        <div class="message">
-            <div class="message-text my-message">Estou sim! Mas não consigo tocar as 3h que você pediu, pode ser 2h?</div>
-            <img src="https://img.icons8.com/ios-filled/50/000000/user-female-circle.png" alt="Me">
-        </div>
-        <div class="message">
-            <img src="https://img.icons8.com/ios-filled/50/000000/user-male-circle.png" alt="User">
-            <div class="message-text other-message">Pode. Mas aí terei de reduzir o cachê, ok?</div>
-        </div>
-        <div class="message">
-            <div class="message-text my-message">Estou sim! Mas não consigo tocar as 3h que você pediu, pode ser 2h?</div>
-            <img src="https://img.icons8.com/ios-filled/50/000000/user-female-circle.png" alt="Me">
-        </div>
-        <div class="message">
-            <img src="https://img.icons8.com/ios-filled/50/000000/user-male-circle.png" alt="User">
-            <div class="message-text other-message">Pode. Mas aí terei de reduzir o cachê, ok?</div>
-        </div>
-        <div class="message">
-            <div class="message-text my-message">Estou sim! Mas não consigo tocar as 3h que você pediu, pode ser 2h?</div>
-            <img src="https://img.icons8.com/ios-filled/50/000000/user-female-circle.png" alt="Me">
-        </div>
-        <div class="message">
-            <img src="https://img.icons8.com/ios-filled/50/000000/user-male-circle.png" alt="User">
-            <div class="message-text other-message">Pode. Mas aí terei de reduzir o cachê, ok?</div>
-        </div>
+        {% for mensagem in mensagens %}
+            {% if mensagem.is_mine %}
+                <div class="message">
+                    <div class="message-text  my-message">{{ mensagem.conteudo }}</div>
+                    <img src="{{ mensagem.imagem_perfil }}" alt="Image">
+                </div>
+            {% else %}
+                <div class="message">
+                    <img src="{{ mensagem.imagem_perfil }}" alt="Image">
+                    <div class="message-text other-message">{{ mensagem.conteudo }}</div>
+                </div>
+            {% endif %}
+        {% endfor %}
 
         <!-- Botão Fechar Negócio -->
-        <button class="btn btn-lg btn-custom btn-close-deal">FECHAR NEGÓCIO</button>
+        {% if user.tipo == 'C' %}
+            <button class="btn btn-lg btn-custom btn-close-deal">FECHAR NEGÓCIO</button>
+        {% endif %}
 
         <div class="empty-space"></div>
     </div>

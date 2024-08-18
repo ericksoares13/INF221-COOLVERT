@@ -150,7 +150,7 @@
         </div>
         <ul class="chat-list">
             {% for chat in chats %}
-                <li class="chat-item" data-chat-id="{{ chat.name }}">
+                <li class="chat-item" data-chat-id="{{ chat.id }}">
                     <img src="{{ chat.image }}" alt="Image" onerror="this.onerror=null; this.src='../static/images/avatar-default.svg';">
                     <div class="chat-info">
                         <h5>{{ chat.name }}</h5>

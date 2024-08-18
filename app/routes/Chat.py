@@ -6,34 +6,26 @@ from app.models.BancoDeDados import BancoDeDados
 CHAT_HTML = "chat.html"
 
 
-@app.route("/chat", methods=["POST"])
+@app.route("/chat", methods=["GET", "POST"])
 def chat():
-    return render_template(CHAT_HTML, chats=get_chat())
+    user_id = session.get("usuárioLogado")["id"]
+    minha_imagem = BancoDeDados.GetImagemPerfil(2)
+    outra_imagem = BancoDeDados.GetImagemPerfil(1)
+    
+    # Obtenha os dados do usuário logado e do outro usuário
+    usuario_logado = BancoDeDados.GetUser(2)
+    outro_usuario = BancoDeDados.GetUser(1)
+    print(outro_usuario, outro_usuario.nome)
+    
+    # Obtenha as mensagens do chat
+    chat = BancoDeDados.GetChat(1)
+    mensagens = []
+    for mensagem in chat:
+        print(mensagem.dono, user_id)
+        mensagens.append({
+            'conteudo': mensagem.mensagem,
+            'is_mine': (mensagem.dono == user_id),
+            'imagem_perfil': minha_imagem.caminho if (mensagem.dono == user_id) else outra_imagem.caminho,
+        })
 
-
-@app.route("/chat", methods=["GET"])
-def get_chat():
-    return render_template(CHAT_HTML, chats=get_chat())
-
-
-def get_chat():
-    contratante_id = session.get("usuárioLogado")["id"]
-    demandas = BancoDeDados().GetDemandas(contratante_id)
-
-    matches = []
-    for demanda in demandas:
-        matches.extend(BancoDeDados.GetMatches(demanda.id))
-
-    chats = []
-    for match in matches:
-        imagem = BancoDeDados.GetImagemPerfil(match.id_musico)
-        nome = BancoDeDados.GetNomeUsuario(match.id_musico)
-        mensagens = BancoDeDados.GetChat(match.id)
-        chat = {
-            "image": imagem.caminho if imagem is not None else "",
-            "name": nome,
-            "last_message": mensagens[-1].mensagem if len(mensagens) > 0 else "",
-        }
-        chats.append(chat)
-
-    return chats
+    return render_template(CHAT_HTML, mensagens=mensagens, user=usuario_logado, other_user=outro_usuario)
