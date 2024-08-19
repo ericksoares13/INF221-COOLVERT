@@ -379,11 +379,11 @@
                     {% if mensagem.is_mine %}
                         <div class="message">
                             <div class="message-text my-message">{{ mensagem.conteudo }}</div>
-                            <img src="{{ mensagem.imagem_perfil }}" alt="Image">
+                            <img src="{{ mensagem.imagem_perfil }}" alt="Image" onerror="this.onerror=null; this.src='../static/images/avatar-default.svg';" class="profile-icon">
                         </div>
                     {% else %}
                         <div class="message">
-                            <img src="{{ mensagem.imagem_perfil }}" alt="Image">
+                            <img src="{{ mensagem.imagem_perfil }}" alt="Image" onerror="this.onerror=null; this.src='../static/images/avatar-default.svg';" class="profile-icon">
                             <div class="message-text other-message">{{ mensagem.conteudo }}</div>
                         </div>
                     {% endif %}
