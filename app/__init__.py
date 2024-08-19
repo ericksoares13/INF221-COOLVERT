@@ -23,5 +23,6 @@ from app.routes import (
     MusicianRegister,
     Register,
     RegisterDemands,
-    Chat
+    Chat,
+    demandsAnswer
 )

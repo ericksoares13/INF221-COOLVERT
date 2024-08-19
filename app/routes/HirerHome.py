@@ -45,14 +45,6 @@ def cadastro_demanda():
 def get_cadastro_demanda():
     return redirect(url_for("get_cadastrar_demanda"))
 
-
-@app.route("/verMusicos", methods=["GET"])
-def ver_musicos():
-    demanda_id = request.args.get("demanda_id")
-    musicos = BancoDeDados().GetMusicos(demanda_id)
-    return render_template("verMusicos.html", musicos=musicos)
-
-
 def get_demandas():
     contratante_id = session.get("usuárioLogado")["id"]
     demandas = BancoDeDados().GetDemandas(contratante_id)
