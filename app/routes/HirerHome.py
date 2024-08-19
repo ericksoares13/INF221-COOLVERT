@@ -53,6 +53,11 @@ def ver_musicos():
     return render_template("verMusicos.html", musicos=musicos)
 
 
+def get_estilos(demanda_id):
+    estilos = BancoDeDados().GetEstilosMusicais(demanda_id)
+    return estilos
+
+
 def get_demandas():
     contratante_id = session.get("usuárioLogado")["id"]
     demandas = BancoDeDados().GetDemandas(contratante_id)

@@ -93,8 +93,8 @@ class BancoDeDados:
     def CriaDemanda(obj):
         with app.app_context():
             nova_demanda = Demanda(data_show=obj['data_show'], raio_procurado=obj['raio_procurado'], fornece_equipamento=obj['fornece_equipamento'], 
-                                   publico_esperado=obj['publico_esperado'], duracao_show=obj['duracao_show'], dono=obj['dono'],
-                                   tipo_pagamento=TipoPagamentoEnum(obj['tipo_pagamento']), momento_pagamento=MomentoPagamentoEnum(obj['momento_pagamento']))
+            publico_esperado=obj['publico_esperado'], duracao_show=obj['duracao_show'], dono=obj['dono'],
+            tipo_pagamento=TipoPagamentoEnum(obj['tipo_pagamento']), momento_pagamento=MomentoPagamentoEnum(obj['momento_pagamento']))
             for nome_estilo in obj['estilos']:
                 estilo_musical = EstiloMusical.query.filter_by(nome=nome_estilo).first()
                 nova_demanda.estilos.append(estilo_musical)
