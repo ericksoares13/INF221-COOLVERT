@@ -231,6 +231,12 @@
                 inputOutro.value = chatIdOutro;
                 form.appendChild(inputOutro);
 
+                const inputOrigin = document.createElement('input');
+                inputOrigin.type = 'hidden';
+                inputOrigin.name = 'origin_screen';
+                inputOrigin.value = window.location.pathname; 
+                form.appendChild(inputOrigin);
+
                 document.body.appendChild(form);
                 form.submit();
             });
