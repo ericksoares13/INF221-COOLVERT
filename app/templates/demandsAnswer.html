@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Chats</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
@@ -40,89 +40,68 @@
             height: 100%;
         }
 
-        .back-arrow {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 24px;
-            color: rgba(0, 0, 0, 0.68);
-            cursor: pointer;
-        }
-
-        h2 {
-            width: 300px;
-            height: 35px;
-            font-weight: 800;
-            font-size: 22px;
-            line-height: 28.18px;
-            color: #0E0E2C;
-            gap: 0px;
+        .content {
+            padding: 20px;
             text-align: left;
-            margin-top: -250px;
-            margin-bottom: -700px;
-            margin-left: 32px;
-        }
-
-        .card {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 30px;
-            margin: 10px 30px;
+            max-width: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 90px;
             background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #eaeaea;
         }
 
-        .card img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-        .card-content {
-            display: flex;
-            align-items: center;
-        }
-
-        .card-content div {
-            margin-left: 10px;
-            width: 190px;
-        }
-
-        .card-content h3 {
+        h1 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700;
+            color: #0e0e2c;
+            font-size: 22px;
             margin: 0;
-            font-size: 15px;
-            font-weight: bold;
         }
 
-        .card-content p {
-            margin: 5px 0 0;
-            font-size: 12px;
-            color: #777;
+        .candidate-list {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            overflow-y: auto;
+            padding: 10px 20px;
+            flex-grow: 1;
         }
-
-        .card-buttons {
+        
+        .card-item {
             display: flex;
             align-items: center;
+            padding: 15px;
+            background-color: #fff;
+            border-bottom: 1px solid #eaeaea;
+            border-radius: 8px;
+            box-shadow: 0 2px 2px 4px rgba(0, 0, 0, 0.07);
+            margin-bottom: 10px;
         }
 
-        .card-buttons .message-icon {
-            font-size: 18px;
-            margin-right: 10px;
-            cursor: pointer;
+        .card-item img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
         }
 
-        .card-buttons a {
-            text-decoration: none;
-            font-size: 14px;
-            color: #007bff;
-            font-weight: bold;
+        .card-item .card-info {
+            flex: 1;
         }
 
-        .card .card-content .nav-button {
-          padding-left: 42px;
+        .card-item h5 {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .card-item p {
+            margin: 5px 0 0;
+            font-size: 0.9rem;
+            color: #888;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .nav-bar {
@@ -131,104 +110,8 @@
             display: flex;
             justify-content: space-around;
             padding: 10px 0;
-            width: 100%;
+            width: 430px;
             border-radius: 0 0 20px 20px;
-        }
-
-        .nav-button {
-            background: none;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        .nav-button svg {
-            width: 24px;
-            height: 24px;
-            fill: #000000;
-            transform: translate(2px, 0);
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.2);
-            z-index: 999;
-            display: none;
-            pointer-events: none;
-        }
-
-        .overlay.active {
-            display: block;
-            pointer-events: auto;
-        }
-
-        .blur-background {
-            filter: blur(5px);
-            transition: filter 0.3s ease;
-        }
-
-        .close-button {
-            background: none;
-            border: none;
-            font-size: 14px;
-            font-weight: bold;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            color: #666;
-        }
-
-        .close-button:hover {
-            color: #333;
-        }
-
-        .divider {
-            border: none;
-            height: 1px;
-            background-color: #ddd;
-            margin: 10px 0;
-        }
-
-        .icon {
-            width: 20px;
-            height: 20px;
-            fill: #4A4A68;
-            vertical-align: middle;
-            display: inline-block;
-        }
-
-        .profile-icons-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: left;
-            overflow: hidden;
-            max-width: 100%;
-        }
-
-        .profile-icon {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            margin-top: 15px;
-            object-fit: cover;
-        }
-
-        .ver-musico-btn {
-            font-family: 'Raleway', sans-serif;
-            font-size: 14px;
-            background-color: white;
-            color: black;
-            font-weight: 1000;
-            border: none;
-            padding-top: 18px;
-            padding-right: 15px;
-            border-radius: 5px;
-            cursor: pointer;
         }
 
         .plus-button {
@@ -253,88 +136,53 @@
             height: 30px;
         }
 
-        .indicator-button {
-            background: linear-gradient(45deg, #ff6f00, #ffca28);
-            border-radius: 30px;
-            color: white;
-            font-size: 24px;
-            width: 35px;
-            height: 25px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+        .nav-button {
+            background: none;
             border: none;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            bottom: 5px;
-            z-index: 1;
+            padding: 10px;
+            cursor: pointer;
         }
 
-        .indicator-button svg {
-            width: 15px;
-            height: 15px;
+        .nav-button svg {
+            width: 24px;
+            height: 24px;
+            fill: #000000;
+            transform: translate(2px, 0);
+        }
+
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: rgba(0, 0, 0, 0.68);
+            cursor: pointer;
         }
     </style>
-    <script>
-        function closeNotification(id) {
-            if (id === 'demanda_criada') {
-                document.getElementById('demanda_criada').style.display = 'none';
-            }
-            else if (id === 'sem_demanda') {
-                document.getElementById('sem_demanda').style.display = 'none';
-            }
-            document.getElementById('overlay').classList.remove('active');
-            document.getElementById('main_content').classList.remove('blur-background');
-        }
-
-        function showNotification(id) {
-            document.getElementById(id).style.display = 'block';
-            document.getElementById('overlay').classList.add('active');
-            document.getElementById('main_content').classList.add('blur-background');
-        }
-
-        document.addEventListener("DOMContentLoaded", (event) => {
-            closeNotification('demanda_criada')
-            closeNotification('sem_demanda')
-
-            const demandas = "{{ demanda_estilos}}";
-            if (demandas === '[]') {
-                document.getElementById("sem_demanda").style.display = 'block';
-            }
-
-            const demanda = "{{ demanda }}";
-            if (demanda === "true") {
-                showNotification("demanda_criada");
-            }
-        });
-    </script>
 </head>
-
 <body>
-    
-    <div class="phone-frame" id="main_content">
-            <a href="/setinhaCandidatos"> <i class="fas fa-arrow-left back-arrow"></i></a>
-
-        <h2>Esses músicos responderam à sua demanda de {{ candidatos.data_demanda }}</h2><br>
-        <div class="candidates-list">
-           {% for musico in candidatos.musicos %}
-            <li class="card">
-                <div class="card-content">
+    <div class="phone-frame">
+        <a href="/setinhaCandidatos"> <i class="fas fa-arrow-left back-arrow"></i></a>
+        <div class="content">
+            <h1>Esses músicos responderam à sua demanda de {{ candidatos.data_demanda }}</h1>
+        </div>
+        <ul class="candidate-list">
+            {% for musico in candidatos.musicos %}
+                <li class="card-item">
                     <img src="{{ musico.img }}" alt="Image" onerror="this.onerror=null; this.src='../static/images/avatar-default.svg';">
-                    <div>
-                        <h3>{{ musico.nome }}</h3>
+                    <div class="card-info">
+                        <h5>{{ musico.nome }}</h5>
                     </div>
                     <button type="submit" class="nav-button" data-chat-id-match="{{ musico.id_match }}" data-chat-id-outro="{{ musico.id_musico }}">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
                             <path
                                 d="M123.6 391.3c12.9-9.4 29.6-11.8 44.6-6.4c26.5 9.6 56.2 15.1 87.8 15.1c124.7 0 208-80.5 208-160s-83.3-160-208-160S48 160.5 48 240c0 32 12.4 62.8 35.7 89.2c8.6 9.7 12.8 22.5 11.8 35.5c-1.4 18.1-5.7 34.7-11.3 49.4c17-7.9 31.1-16.7 39.4-22.7zM21.2 431.9c1.8-2.7 3.5-5.4 5.1-8.1c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208s-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6c-15.1 6.6-32.3 12.6-50.1 16.1c-.8 .2-1.6 .3-2.4 .5c-4.4 .8-8.7 1.5-13.2 1.9c-.2 0-.5 .1-.7 .1c-5.1 .5-10.2 .8-15.3 .8c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4c4.1-4.2 7.8-8.7 11.3-13.5c1.7-2.3 3.3-4.6 4.8-6.9l.3-.5z" />
-                        </svg> 
+                        </svg>
                     </button>
-                </div>
-            </li>
+                </li>
             {% endfor %}
-        </div>
-
+        </ul>
         <div class="nav-bar">
             <form action="/homeContratante" method="POST">
                 <button type="submit" class="nav-button">
@@ -381,9 +229,9 @@
             </form>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
     <script>
-        document.querySelectorAll('.card').forEach(item => {
+        document.querySelectorAll('.card-item').forEach(item => {
             item.addEventListener('click', () => {
                 const chatIdMatch = item.getAttribute('data-chat-id-match');
                 const chatIdOutro = item.getAttribute('data-chat-id-outro');
@@ -411,5 +259,4 @@
         });
     </script>
 </body>
-
 </html>
