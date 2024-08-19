@@ -389,7 +389,7 @@
                     {% endif %}
                 {% endfor %}
 
-                {% if user.tipo == 'C' %}
+                {% if (user.tipo == 'C') and demanda.visivel %}
                     <div class="empty-space-with-button"></div>
                 {% else %}
                     <div class="empty-space"></div>
@@ -397,7 +397,7 @@
             </div>
 
             <!-- Botão Fechar Negócio -->
-            {% if user.tipo == 'C' %}
+            {% if (user.tipo == 'C') and demanda.visivel %}
                 <div class="fechar-negocio-container">
                     <button id="fechar_negocio" class="btn btn-lg btn-custom btn-close-deal" onclick="showNotification('notification')">FECHAR NEGÓCIO</button>
                 </div>
@@ -550,7 +550,15 @@
             mainContent.classList.remove('blur-background');
 
             if (notificationId === 'notification_contract') {
-                document.getElementById('fechar_negocio').style.display = 'none';
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "/close_demand", true);
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhr.onreadystatechange = function () {
+                    if (xhr.status === 200) {
+                        window.location.replace('/homeContratante');
+                    }
+                };
+                xhr.send(JSON.stringify({ teste: "123" }));
             }
         }
 

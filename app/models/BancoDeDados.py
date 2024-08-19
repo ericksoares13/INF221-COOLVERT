@@ -106,7 +106,7 @@ class BancoDeDados:
     def GetDemandas(id_dono=None):
         with app.app_context():
             if id_dono is None:
-                return list(Demanda.query.options(joinedload(Demanda.estilos)).all())
+                return list(Demanda.query.filter_by(visivel=True).all())
             else:
                 return list(Demanda.query.filter_by(dono=id_dono).all())
 
@@ -124,6 +124,22 @@ class BancoDeDados:
     def GetDemanda(id_demanda):
         with app.app_context():
             return Demanda.query.get(id_demanda)
+        
+    @staticmethod
+    def FechaDemanda(id_match):
+        with app.app_context():
+            match = Match.query.get(id_match)
+            demanda = Demanda.query.get(match.id_demanda)
+            demanda.visivel = False
+            bd.session.commit()
+            
+    @staticmethod
+    def LiberaDemanda(id_match):
+        with app.app_context():
+            match = Match.query.get(id_match)
+            demanda = Demanda.query.get(match.id_demanda)
+            demanda.visivel = True
+            bd.session.commit()
 
     @staticmethod
     def GetContratante(id_contratante):
@@ -151,6 +167,11 @@ class BancoDeDados:
             bd.session.add(match)
             bd.session.commit()
             return match.id
+    
+    @staticmethod
+    def GetMatch(id_match):
+        with app.app_context():
+            return Match.query.get(id_match)
         
     @staticmethod
     def GetMusicos(id_demanda):
