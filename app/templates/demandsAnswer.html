@@ -231,10 +231,10 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
     <script>
-        document.querySelectorAll('.card-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const chatIdMatch = item.getAttribute('data-chat-id-match');
-                const chatIdOutro = item.getAttribute('data-chat-id-outro');
+        document.querySelectorAll('.card-item .nav-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const chatIdMatch = button.getAttribute('data-chat-id-match');
+                const chatIdOutro = button.getAttribute('data-chat-id-outro');
 
                 const form = document.createElement('form');
                 form.action = '/chatDetails';

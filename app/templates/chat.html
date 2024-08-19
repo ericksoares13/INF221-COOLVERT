@@ -365,7 +365,7 @@
             <!-- Header do chat -->
             <div class="chat-header">
                     <div class="content">
-                        <i class="fas fa-arrow-left back-button" onclick="goBack()"></i>
+                        <i class="fas fa-arrow-left back-button" id="back-button"></i>
                     </div>
                 <div class="title-header">{{ other_user.nome }}</div>
                 <span></span>
@@ -504,6 +504,10 @@
             var chatContainer = document.querySelector('.chat-container');
             chatContainer.scrollTop = chatContainer.scrollHeight;
         };
+
+        document.getElementById("back-button").addEventListener("click", function() {
+            window.history.back();
+        });
         
         function toggleSendButton() {
             const input = document.getElementById('message-input');
@@ -556,16 +560,6 @@
         function showSecondNotification() {
             closeBlurNotification('notification');
             showNotification('notification_contract');
-        }
-
-        function goBack() {
-            const user_type = "{{ user.tipo }}";
-
-            if (user_type === 'C') {
-                window.location.href = 'chatContratante';
-            } else {
-                window.location.href = 'chatMusico';
-            }
         }
     </script>
 </body>
