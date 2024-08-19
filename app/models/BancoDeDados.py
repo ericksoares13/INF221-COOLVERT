@@ -1,4 +1,6 @@
 import bcrypt
+from sqlalchemy.orm import joinedload
+
 from app import app, bd
 from app.models import *
 from sqlalchemy import func
@@ -69,6 +71,11 @@ class BancoDeDados:
             bd.session.add(novo_contratante)
             bd.session.commit()
             return obj['id']
+    
+    @staticmethod
+    def GetUser(id_user):
+        with app.app_context():
+            return Pessoa.query.get(id_user)
         
     @staticmethod
     def VerificaEstiloMusical(nome):
@@ -86,8 +93,8 @@ class BancoDeDados:
     def CriaDemanda(obj):
         with app.app_context():
             nova_demanda = Demanda(data_show=obj['data_show'], raio_procurado=obj['raio_procurado'], fornece_equipamento=obj['fornece_equipamento'], 
-                                   publico_esperado=obj['publico_esperado'], duracao_show=obj['duracao_show'], dono=obj['dono'],
-                                   tipo_pagamento=TipoPagamentoEnum(obj['tipo_pagamento']), momento_pagamento=MomentoPagamentoEnum(obj['momento_pagamento']))
+            publico_esperado=obj['publico_esperado'], duracao_show=obj['duracao_show'], dono=obj['dono'],
+            tipo_pagamento=TipoPagamentoEnum(obj['tipo_pagamento']), momento_pagamento=MomentoPagamentoEnum(obj['momento_pagamento']))
             for nome_estilo in obj['estilos']:
                 estilo_musical = EstiloMusical.query.filter_by(nome=nome_estilo).first()
                 nova_demanda.estilos.append(estilo_musical)
@@ -99,7 +106,7 @@ class BancoDeDados:
     def GetDemandas(id_dono=None):
         with app.app_context():
             if id_dono is None:
-                return list(Demanda.query.all())
+                return list(Demanda.query.filter_by(visivel=True).all())
             else:
                 return list(Demanda.query.filter_by(dono=id_dono).all())
 
@@ -114,9 +121,30 @@ class BancoDeDados:
             return list(Match.query.filter_by(id_musico=id_musico).all())
 
     @staticmethod
-    def GetDonoDaDemanda(id_demanda):
+    def GetDemanda(id_demanda):
         with app.app_context():
             return Demanda.query.get(id_demanda)
+        
+    @staticmethod
+    def FechaDemanda(id_match):
+        with app.app_context():
+            match = Match.query.get(id_match)
+            demanda = Demanda.query.get(match.id_demanda)
+            demanda.visivel = False
+            bd.session.commit()
+            
+    @staticmethod
+    def LiberaDemanda(id_match):
+        with app.app_context():
+            match = Match.query.get(id_match)
+            demanda = Demanda.query.get(match.id_demanda)
+            demanda.visivel = True
+            bd.session.commit()
+
+    @staticmethod
+    def GetContratante(id_contratante):
+        with app.app_context():
+            return Contratante.query.get(id_contratante)
 
     @staticmethod
     def GetNomeUsuario(user_id):
@@ -139,6 +167,11 @@ class BancoDeDados:
             bd.session.add(match)
             bd.session.commit()
             return match.id
+    
+    @staticmethod
+    def GetMatch(id_match):
+        with app.app_context():
+            return Match.query.get(id_match)
         
     @staticmethod
     def GetMusicos(id_demanda):

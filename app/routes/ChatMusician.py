@@ -22,15 +22,18 @@ def get_chats():
 
     chats = []
     for match in matches:
-        dono_demanda = BancoDeDados.GetDonoDaDemanda(match.id_demanda).dono
+        dono_demanda = BancoDeDados.GetDemanda(match.id_demanda).dono
         imagem = BancoDeDados.GetImagemPerfil(dono_demanda)
         nome = BancoDeDados.GetNomeUsuario(dono_demanda)
         mensagens = BancoDeDados.GetChat(match.id)
-        chat = {
-            "image": imagem.caminho if imagem is not None else "",
-            "name": nome,
-            "last_message": mensagens[-1].mensagem if len(mensagens) > 0 else "",
-        }
-        chats.append(chat)
+        if len(mensagens) > 0:
+            chat = {
+                "image": imagem.caminho if imagem is not None else "",
+                "name": nome,
+                "id_match": match.id,
+                "id_outro": dono_demanda,
+                "last_message": mensagens[-1].mensagem,
+            }
+            chats.append(chat)
 
     return chats

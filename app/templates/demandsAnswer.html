@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Chats</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         .phone-frame {
             position: relative;
@@ -41,10 +42,11 @@
 
         .content {
             padding: 20px;
-            text-align: center;
+            text-align: left;
             max-width: 100%;
             width: 100%;
             box-sizing: border-box;
+            margin-top: 90px;
             background-color: #fff;
             border-bottom: 1px solid #eaeaea;
         }
@@ -53,43 +55,47 @@
             font-family: 'Raleway', sans-serif;
             font-weight: 700;
             color: #0e0e2c;
-            font-size: 27px;
+            font-size: 22px;
             margin: 0;
         }
 
-        .chat-list {
+        .candidate-list {
             margin: 0;
             padding: 0;
             list-style-type: none;
             overflow-y: auto;
+            padding: 10px 20px;
             flex-grow: 1;
         }
-
-        .chat-item {
+        
+        .card-item {
             display: flex;
             align-items: center;
             padding: 15px;
             background-color: #fff;
             border-bottom: 1px solid #eaeaea;
+            border-radius: 8px;
+            box-shadow: 0 2px 2px 4px rgba(0, 0, 0, 0.07);
+            margin-bottom: 10px;
         }
 
-        .chat-item img {
+        .card-item img {
             border-radius: 50%;
             width: 50px;
             height: 50px;
             margin-right: 15px;
         }
 
-        .chat-item .chat-info {
+        .card-item .card-info {
             flex: 1;
         }
 
-        .chat-item h5 {
+        .card-item h5 {
             margin: 0;
             font-size: 1rem;
         }
 
-        .chat-item p {
+        .card-item p {
             margin: 5px 0 0;
             font-size: 0.9rem;
             color: #888;
@@ -108,6 +114,28 @@
             border-radius: 0 0 20px 20px;
         }
 
+        .plus-button {
+            background: linear-gradient(45deg, #ff6f00, #ffca28);
+            border-radius: 30px;
+            color: white;
+            font-size: 24px;
+            width: 70px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            position: relative;
+            bottom: 5px;
+            z-index: 1;
+        }
+
+        .plus-button svg {
+            width: 30px;
+            height: 30px;
+        }
+
         .nav-button {
             background: none;
             border: none;
@@ -120,29 +148,43 @@
             height: 24px;
             fill: #000000;
             transform: translate(2px, 0);
+        }
 
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: rgba(0, 0, 0, 0.68);
+            cursor: pointer;
         }
     </style>
 </head>
-
 <body>
     <div class="phone-frame">
+        <a href="/setinhaCandidatos"> <i class="fas fa-arrow-left back-arrow"></i></a>
         <div class="content">
-            <h1>Chats</h1>
+            <h1>Esses músicos responderam à sua demanda de {{ candidatos.data_demanda }}</h1>
         </div>
-        <ul class="chat-list">
-            {% for chat in chats %}
-                <li class="chat-item" data-chat-id-match="{{ chat.id_match }}" data-chat-id-outro="{{ chat.id_outro }}">
-                    <img src="{{ chat.image }}" alt="Image" onerror="this.onerror=null; this.src='../static/images/avatar-default.svg';">
-                    <div class="chat-info">
-                        <h5>{{ chat.name }}</h5>
-                        <p>{{ chat.last_message }}</p>
+        <ul class="candidate-list">
+            {% for musico in candidatos.musicos %}
+                <li class="card-item">
+                    <img src="{{ musico.img }}" alt="Image" onerror="this.onerror=null; this.src='../static/images/avatar-default.svg';">
+                    <div class="card-info">
+                        <h5>{{ musico.nome }}</h5>
                     </div>
+                    <button type="submit" class="nav-button" data-chat-id-match="{{ musico.id_match }}" data-chat-id-outro="{{ musico.id_musico }}">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path
+                                d="M123.6 391.3c12.9-9.4 29.6-11.8 44.6-6.4c26.5 9.6 56.2 15.1 87.8 15.1c124.7 0 208-80.5 208-160s-83.3-160-208-160S48 160.5 48 240c0 32 12.4 62.8 35.7 89.2c8.6 9.7 12.8 22.5 11.8 35.5c-1.4 18.1-5.7 34.7-11.3 49.4c17-7.9 31.1-16.7 39.4-22.7zM21.2 431.9c1.8-2.7 3.5-5.4 5.1-8.1c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208s-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6c-15.1 6.6-32.3 12.6-50.1 16.1c-.8 .2-1.6 .3-2.4 .5c-4.4 .8-8.7 1.5-13.2 1.9c-.2 0-.5 .1-.7 .1c-5.1 .5-10.2 .8-15.3 .8c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4c4.1-4.2 7.8-8.7 11.3-13.5c1.7-2.3 3.3-4.6 4.8-6.9l.3-.5z" />
+                        </svg>
+                    </button>
                 </li>
             {% endfor %}
         </ul>
         <div class="nav-bar">
-            <form action="/homeMusico" method="POST">
+            <form action="/homeContratante" method="POST">
                 <button type="submit" class="nav-button">
                     <svg xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -151,7 +193,7 @@
                     </svg>
                 </button>
             </form>
-            <form action="/procurarMusico" method="POST">
+            <form action="/procurarContratante" method="POST">
                 <button class="nav-button">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                         <path
@@ -159,8 +201,17 @@
                     </svg>
                 </button>
             </form>
-
-            <form action="/chatMusico" method="POST">
+            <form action="/cadastroDemanda" method="POST">
+                <button class="plus-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                    </svg>
+                </button>
+            </form>
+            <form action="/chatContratante" method="POST">
                 <button class="nav-button">
                     <svg xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -168,7 +219,7 @@
                             d="M123.6 391.3c12.9-9.4 29.6-11.8 44.6-6.4c26.5 9.6 56.2 15.1 87.8 15.1c124.7 0 208-80.5 208-160s-83.3-160-208-160S48 160.5 48 240c0 32 12.4 62.8 35.7 89.2c8.6 9.7 12.8 22.5 11.8 35.5c-1.4 18.1-5.7 34.7-11.3 49.4c17-7.9 31.1-16.7 39.4-22.7zM21.2 431.9c1.8-2.7 3.5-5.4 5.1-8.1c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208s-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6c-15.1 6.6-32.3 12.6-50.1 16.1c-.8 .2-1.6 .3-2.4 .5c-4.4 .8-8.7 1.5-13.2 1.9c-.2 0-.5 .1-.7 .1c-5.1 .5-10.2 .8-15.3 .8c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4c4.1-4.2 7.8-8.7 11.3-13.5c1.7-2.3 3.3-4.6 4.8-6.9l.3-.5z" />
                     </svg> </button>
             </form>
-            <form action="/perfilMusico" method="POST">
+            <form action="/perfilContratante" method="POST">
                 <button class="nav-button">
                     <svg xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -178,11 +229,12 @@
             </form>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
     <script>
-        document.querySelectorAll('.chat-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const chatIdMatch = item.getAttribute('data-chat-id-match');
-                const chatIdOutro = item.getAttribute('data-chat-id-outro');
+        document.querySelectorAll('.card-item .nav-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const chatIdMatch = button.getAttribute('data-chat-id-match');
+                const chatIdOutro = button.getAttribute('data-chat-id-outro');
 
                 const form = document.createElement('form');
                 form.action = '/chatDetails';
@@ -213,5 +265,4 @@
         });
     </script>
 </body>
-
 </html>

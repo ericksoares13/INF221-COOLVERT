@@ -5,28 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chats</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Roboto:wght@400&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet">
     <style>
         .phone-frame {
             position: relative;
             width: 100%;
             max-width: 430px;
-            height: 932px;
+            height: 100vh;
             margin: 0 auto;
             box-sizing: border-box;
             overflow: hidden;
-            background-color: #fff;
+            background-color: #ffffff;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Raleway', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #ffffff;
+            background-color: #ECF1F4;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -54,7 +53,7 @@
             font-family: 'Raleway', sans-serif;
             font-weight: 700;
             color: #0e0e2c;
-            font-size: 20px;
+            font-size: 27px;
             margin: 0;
         }
 
@@ -105,10 +104,8 @@
             display: flex;
             justify-content: space-around;
             padding: 10px 0;
-            width: 100%;
+            width: 430px;
             border-radius: 0 0 20px 20px;
-            position: fixed;
-            bottom: 0;
         }
 
         .plus-button {
@@ -126,6 +123,11 @@
             position: relative;
             bottom: 5px;
             z-index: 1;
+        }
+
+        .plus-button svg {
+            width: 30px;
+            height: 30px;
         }
 
         .nav-button {
@@ -150,7 +152,7 @@
         </div>
         <ul class="chat-list">
             {% for chat in chats %}
-                <li class="chat-item" data-chat-id="{{ chat.name }}">
+                <li class="chat-item" data-chat-id-match="{{ chat.id_match }}" data-chat-id-outro="{{ chat.id_outro }}">
                     <img src="{{ chat.image }}" alt="Image" onerror="this.onerror=null; this.src='../static/images/avatar-default.svg';">
                     <div class="chat-info">
                         <h5>{{ chat.name }}</h5>
@@ -209,18 +211,32 @@
     <script>
         document.querySelectorAll('.chat-item').forEach(item => {
             item.addEventListener('click', () => {
-                const chatId = item.getAttribute('data-chat-id');
+                const chatIdMatch = item.getAttribute('data-chat-id-match');
+                const chatIdOutro = item.getAttribute('data-chat-id-outro');
+
                 const form = document.createElement('form');
                 form.action = '/chatDetails';
                 form.method = 'POST';
                 form.style.display = 'none';
 
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'username';
-                input.value = chatId;
+                const inputMatch = document.createElement('input');
+                inputMatch.type = 'hidden';
+                inputMatch.name = 'chat_id_match';
+                inputMatch.value = chatIdMatch;
+                form.appendChild(inputMatch);
 
-                form.appendChild(input);
+                const inputOutro = document.createElement('input');
+                inputOutro.type = 'hidden';
+                inputOutro.name = 'chat_id_outro';
+                inputOutro.value = chatIdOutro;
+                form.appendChild(inputOutro);
+
+                const inputOrigin = document.createElement('input');
+                inputOrigin.type = 'hidden';
+                inputOrigin.name = 'origin_screen';
+                inputOrigin.value = window.location.pathname; 
+                form.appendChild(inputOrigin);
+
                 document.body.appendChild(form);
                 form.submit();
             });

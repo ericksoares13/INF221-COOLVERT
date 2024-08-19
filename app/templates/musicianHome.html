@@ -5,28 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Roboto:wght@400&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet">
     <style>
         .phone-frame {
             position: relative;
             width: 100%;
             max-width: 430px;
-            height: 932px;
+            height: 100vh;
             margin: 0 auto;
             box-sizing: border-box;
             overflow: hidden;
-            background-color: #fff;
+            background-color: #ffffff;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Raleway', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #ffffff;
+            background-color: #ECF1F4;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -40,13 +39,13 @@
             height: 100%;
         }
 
-
         .content {
-            padding: 20px;
+            padding: 60px;
             text-align: center;
             max-width: 100%;
             width: 100%;
             box-sizing: border-box;
+            background-color: #fff;
         }
 
         h1 {
@@ -57,12 +56,7 @@
             position: absolute;
             top: 40px;
             left: 20px;
-            font-size: 20px;
-        }
-
-        
-        .bold-text {
-            font-weight: bold;
+            font-size: 27px;
         }
 
         .nav-bar {
@@ -74,7 +68,6 @@
             width: 100%;
             border-radius: 0 0 20px 20px;
         }
-
       
         .nav-button {
             background: none;
@@ -88,19 +81,281 @@
             height: 24px;
             fill: #000000;
             transform: translate(2px, 0);
-
         }
 
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            display: none;
+            pointer-events: none;
+        }
 
-    
+        .overlay.active {
+            display: block;
+            pointer-events: auto;
+        }
 
+        .blur-background {
+            filter: blur(5px);
+            transition: filter 0.3s ease;
+        }
+
+        .notification {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 2px 4px rgba(0, 0, 0, 0.07);
+            width: 360px;
+            height: 150px;
+            box-sizing: border-box;
+            position: absolute;
+            top: 47%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transform-origin: top left;
+            text-align: left;
+            z-index: 9999;
+            animation: growNotification 0.5s ease-in-out;
+            filter: none;
+        }
+
+        @keyframes growNotification {
+            0% {
+                transform: scale(0) translate(-50%, -50%);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) translate(-50%, -50%);
+                opacity: 1;
+            }
+        }
+
+        .notification p {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .notification .bold-text {
+            font-weight: 600;
+            font-size: 16px;
+            color: #0E0E2C;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close-button:hover {
+            color: #333;
+        }
+
+        .divider {
+            border: none;
+            height: 1px;
+            background-color: #ddd;
+            margin: 10px 0;
+        }
+
+        .demand-list {
+            list-style-type: none;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .demand-item {
+            position: relative;
+            width: 350px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            margin-left: 23px;
+            border-radius: 10px;
+        }
+
+        .demand-item p {
+            padding: 0;
+            margin: 0;
+            color: #4A4A68;
+            font-weight: 800;
+        }
+
+        .demand-item-content {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .demand-item img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .demand-item-text h3, .demand-item-text p {
+            margin: 0;
+            color: #000000;
+        }
+
+        .demand-item-text h3 {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .demand-item-text p {
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            fill: #4A4A68;
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        .demand-item-header {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .accept-button {
+            font-family: 'Raleway', sans-serif;
+            font-size: 14px;
+            background-color: white;
+            color: black;
+            font-weight: 1000;
+            border: none;
+            padding-top: 18px;
+            padding-right: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .filter {
+            position: absolute;
+            right: 15px;
+            top: 35px;
+            z-index: 1;
+        }
+
+        .filter-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .filter-menu {
+            display: none;
+            position: absolute;
+            right: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+        }
+
+        .filter-menu button {
+            display: block;
+            width: 172px;
+            background: none;
+            border: none;
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .filter-menu button:hover {
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
 
 <body>
-    <div class="phone-frame">
+    <div class="overlay" id="overlay"></div>
+
+    <div class="notification" id="notification">
+        <button class="close-button" onclick="closeNotification()">X</button>
+        <p class="bold-text">Você aceitou a demanda!</p>
+        <hr class="divider">
+        <p>Notificaremos o estabelecimento do seu interesse, e caso ele goste do seu perfil, entrará em contato com você.</p>
+    </div>
+
+    <div class="phone-frame" id="main_content">
         <div class="content">
             <h1>Demandas</h1>
+            <div class="filter">
+                <button class="filter-button" onclick="toggleFilterMenu()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-filter">
+                        <path d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+                <div class="filter-menu" id="filterMenu">
+                    <button onclick="applyFilter('all')">Todas</button>
+                    <button onclick="applyFilter('Match')">Matches Realizados</button>
+                    <button onclick="applyFilter('Disponível')">Demandas Disponíveis</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="demand-list">
+            {% for demand in demands %}
+                <li class="demand-item" situation="{{ demand.situation }}">
+                    <div class="demand-item-header" data-demand-id="{{ demand.id }}">
+                        {% if demand.situation == 'Disponível' %}
+                            <button class="accept-button">ACEITAR</button>
+                        {% endif %}
+                    </div>
+                    <div class="demand-item-content">
+                        <img src="{{ demand.image }}" alt="Image" onerror="this.onerror=null; this.src='../static/images/avatar-default.svg';">
+                        <div class="demand-item-text">
+                            <h3>{{ demand.contratante }}</h3>
+                            <p>{{ demand.cidade }}, {{ demand.estado }}</p>
+                        </div>
+                    </div>
+                    <p>{{ demand.data }}</p>
+                    <br>
+                    <p>Estilo musical: {{ demand.estilos | join(', ') }}</p>
+                    <p>Equipamento som:
+                        {% if demand.equipamento == True%}
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path
+                                d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
+                        </svg>
+                        {% else %}
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path
+                                d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                        </svg>
+                        {% endif %}
+                    </p>
+                    <p>Público médio esperado: {{ demand.publico }}</p>
+                    <p>Duração: {{ demand.duracao }}</p>
+                    <p>Pagamento: {{ demand.tipo_pagamento }}, {{ demand.momento_pagamento }}</p>
+                </li>
+            {% endfor %}
         </div>
     
         <div class="nav-bar">
@@ -140,6 +395,70 @@
             </form>
         </div>
     </div>
+
+    <script>
+        function toggleFilterMenu() {
+            const menu = document.getElementById('filterMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function applyFilter(value) {
+            const filter = value;
+            const demands = document.querySelectorAll('.demand-item');
+
+            demands.forEach(function (demand) {
+                const equipment = demand.getAttribute('situation');
+                if (filter === 'all' || equipment === filter) {
+                    demand.style.display = 'block';
+                } else {
+                    demand.style.display = 'none';
+                }
+            });
+
+            document.getElementById('filterMenu').style.display = 'none';
+        }
+
+        document.querySelectorAll('.demand-item-header').forEach(item => {
+            item.addEventListener('click', () => {
+                const chatId = item.getAttribute('data-demand-id');
+                console.log(chatId)
+                const form = document.createElement('form');
+                form.action = '/candidatarDemanda';
+                form.method = 'POST';
+                form.style.display = 'none';
+
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'demanda_id';
+                input.value = chatId;
+
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            });
+        });
+
+         function closeNotification() {
+            document.getElementById('notification').style.display = 'none';
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('main_content').classList.remove('blur-background');
+        }
+
+        function showNotification() {
+            document.getElementById('notification').style.display = 'block';
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('main_content').classList.add('blur-background');
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const notification = "{{ notification }}";
+            if (notification) {
+                showNotification();
+            } else {
+                closeNotification();
+            }
+        });
+    </script>
 </body>
 
 </html>
