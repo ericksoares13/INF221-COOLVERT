@@ -32,7 +32,7 @@ def get_chats():
                 "name": nome,
                 "id_match": match.id,
                 "id_outro": dono_demanda,
-                "last_message": mensagens[-1].mensagem,
+                "last_message": mensagens[-1].mensagem[:40] + ("..." if len(mensagens[-1].mensagem) > 40 else ""),
             }
             chats.append(chat)
 

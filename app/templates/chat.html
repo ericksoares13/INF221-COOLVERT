@@ -555,7 +555,7 @@
                 xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
                 xhr.onreadystatechange = function () {
                     if (xhr.status === 200) {
-                        window.location.replace('/homeContratante');
+                        window.location.replace('/chat');
                     }
                 };
                 xhr.send(JSON.stringify({ teste: "123" }));
