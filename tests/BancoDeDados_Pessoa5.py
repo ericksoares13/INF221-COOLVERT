@@ -20,16 +20,16 @@ class BancoDeDados:
             bd.session.commit()
 
     @staticmethod
-    def GetChat(id_match):
-        with app.app_context():
-            return sorted(list(Mensagem.query.filter_by(match=id_match).all()), key=lambda x: x.horario)
-
-    @staticmethod
     def CriaImagem(obj):
         with app.app_context():
             imagem = Imagem(dono=obj['dono'], nome=obj['nome'], tipo_foto=TipoFotoEnum(obj['tipo_foto']), caminho=obj['caminho'])
             bd.session.add(imagem)
             bd.session.commit()
+
+    @staticmethod
+    def GetChat(id_match):
+        with app.app_context():
+            return sorted(list(Mensagem.query.filter_by(match=id_match).all()), key=lambda x: x.horario)
 
     @staticmethod
     def GetImagemPerfil(dono):

@@ -1,5 +1,6 @@
 from unittest.mock import MagicMock
 from enum import Enum
+import datetime
 
 # Mocks das classes dependentes
 class Mensagem:
@@ -7,6 +8,7 @@ class Mensagem:
         self.match = match
         self.dono = dono
         self.mensagem = mensagem
+        self.horario = datetime.datetime.now()
 
     query = MagicMock()
 
