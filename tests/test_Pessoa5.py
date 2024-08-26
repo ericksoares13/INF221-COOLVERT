@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
 from BancoDeDados_Pessoa5 import BancoDeDados
+from mock_models import TipoFotoEnum
 
 class TestBancoDeDados(unittest.TestCase):
 
@@ -14,7 +15,7 @@ class TestBancoDeDados(unittest.TestCase):
         self.obj_imagem = {
             'dono': 1,
             'nome': 'foto.jpg',
-            'tipo_foto': 'PERFIL',
+            'tipo_foto': 'Perfil',
             'caminho': '/app/static/images/foto.jpg'
         }
 
@@ -43,14 +44,12 @@ class TestBancoDeDados(unittest.TestCase):
 
     @patch('BancoDeDados_Pessoa5.bd.session')
     @patch('BancoDeDados_Pessoa5.Imagem')
-    @patch('BancoDeDados_Pessoa5.TipoFotoEnum')
-    def test_CriaImagem(self, mock_TipoFotoEnum, mock_Imagem, mock_session):
+    def test_CriaImagem(self, mock_Imagem, mock_session):
         mock_instance = mock_Imagem.return_value
-        mock_TipoFotoEnum.return_value = 'PERFIL'
 
         BancoDeDados.CriaImagem(self.obj_imagem)
 
-        mock_Imagem.assert_called_once_with(dono=1, nome='foto.jpg', tipo_foto='PERFIL', caminho='/app/static/images/foto.jpg')
+        mock_Imagem.assert_called_once_with(dono=1, nome='foto.jpg', tipo_foto=TipoFotoEnum.PERFIL, caminho='/app/static/images/foto.jpg')
         mock_session.add.assert_called_once_with(mock_instance)
         mock_session.commit.assert_called_once()
 
@@ -60,7 +59,7 @@ class TestBancoDeDados(unittest.TestCase):
 
         result = BancoDeDados.GetImagemPerfil(1)
 
-        mock_query.filter_by.assert_called_once_with(dono=1, tipo_foto='PERFIL')
+        mock_query.filter_by.assert_called_once_with(dono=1, tipo_foto=TipoFotoEnum.PERFIL)
         self.assertEqual(result, 'imagem_obj')
 
     @patch('BancoDeDados_Pessoa5.Pessoa.query')

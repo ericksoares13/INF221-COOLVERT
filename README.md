@@ -39,4 +39,10 @@ python run.py
     **OBS:** Para essa funcionalidade foi implementada apenas um botão para o contratante. Quando ele confirma o fechamento de contrato, o músico também precisa confirmar, mas essa notificação não é enviada. A demanda se torna invisível para os músicos, e não aparece mais o botão de fechar contrato para o contratante.
 
 ### Banco de dados
-  O banco de dados já foi implementado para todas as classe do projeto, inclusive para as classes que não foram implementadas telas, como avaliação e perfil. 
+  O banco de dados já foi implementado para todas as classe do projeto, inclusive para as classes que não foram implementadas telas, como avaliação e perfil.  
+
+## Para executar os testes
+  Dentro da pasta tests execute o comando:
+```bash
+python -m unittest arquivo_de_teste.py
+```
