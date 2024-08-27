@@ -87,7 +87,8 @@ class TestBancoDeDados(unittest.TestCase):
 
         mock_query.filter_by.side_effect = filter_by_side_effect
 
-        result = BancoDeDados.GetImagemPerfil(1)
+        result = BancoDeDados.GetImagemPerfil(1) # Certo
+        # result = BancoDeDados.GetImagemPerfil(2) # Da erro
         self.assertIs(result, self.imagem_obj, 'Não foi retornado o objeto correto.')
 
         mock_query.filter_by.assert_called_once_with(dono=1, tipo_foto=TipoFotoEnum.PERFIL)
@@ -103,7 +104,8 @@ class TestBancoDeDados(unittest.TestCase):
 
         mock_query.get.side_effect = get_side_effect
 
-        result = BancoDeDados.GetUser(1)
+        result = BancoDeDados.GetUser(1) # Certo
+        # result = BancoDeDados.GetUser(2) # Da erro
         self.assertIs(result, self.user_obj, 'Não foi retornado o objeto correto.')
 
         mock_query.get.assert_called_once_with(1)
@@ -119,10 +121,81 @@ class TestBancoDeDados(unittest.TestCase):
 
         mock_query.get.side_effect = get_side_effect
 
-        result = BancoDeDados.GetContratante(1)
+        result = BancoDeDados.GetContratante(1) # Certo
+        # result = BancoDeDados.GetContratante(2) # Da erro
         self.assertIs(result, self.contratante_obj, 'Não foi retornado o objeto correto.')
 
         mock_query.get.assert_called_once_with(1)
+        
+    # --- TESTES DE QUANDO OS MÉTODOS NÃO DÃO CERTO ---
+    @patch('BancoDeDados_Pessoa5.Mensagem.query')
+    def test_GetChatVazio(self, mock_query):
+        # ----- SetUp -----
+        self.obj_chat = [ Mensagem(1, 1, 'Oi! Tudo bem?') ]
+        
+        # ----- Teste -----
+        mock_query.filter_by.return_value.all.return_value = [] # Certo
+        # mock_query.filter_by.return_value.all.return_value = self.obj_chat # Da erro
+
+        result = BancoDeDados.GetChat(1)
+
+        self.assertEqual(len(result), 0, 'Esse chat deveria estar vazio.')
+        
+    @patch('BancoDeDados_Pessoa5.Imagem.query')
+    def test_GetImagemPerfilNone(self, mock_query):
+        # ----- SetUp -----
+        self.imagem_obj = Imagem(dono=1, nome='foto.jpg', tipo_foto=TipoFotoEnum.PERFIL, caminho='/app/static/images/foto.jpg')
+        
+        # ----- Teste -----
+        def filter_by_side_effect(**kwargs):
+            if kwargs == {"dono": 1, "tipo_foto": TipoFotoEnum.PERFIL}:
+                mock_result = MagicMock()
+                mock_result.first.return_value = self.imagem_obj
+                return mock_result
+            else:
+                return MagicMock(first=MagicMock(return_value=None))
+
+        mock_query.filter_by.side_effect = filter_by_side_effect
+
+        result = BancoDeDados.GetImagemPerfil(2) # Certo
+        # result = BancoDeDados.GetImagemPerfil(1) # Da erro
+        self.assertIsNone(result, 'Foi encontrado um objeto inesperado.')
+
+        mock_query.filter_by.assert_called_once_with(dono=2, tipo_foto=TipoFotoEnum.PERFIL)
+
+    @patch('BancoDeDados_Pessoa5.Pessoa.query')
+    def test_GetUserNone(self, mock_query):
+        # ----- SetUp -----
+        self.user_obj = Pessoa()
+        
+        # ----- Teste -----
+        def get_side_effect(id_user):
+            return self.user_obj if id_user == 1 else None
+
+        mock_query.get.side_effect = get_side_effect
+
+        result = BancoDeDados.GetUser(2) # Certo
+        #result = BancoDeDados.GetUser(1) # Da erro
+        self.assertIsNone(result, 'Foi encontrado um objeto inesperado.')
+
+        mock_query.get.assert_called_once_with(2)
+
+    @patch('BancoDeDados_Pessoa5.Contratante.query')
+    def test_GetContratanteNone(self, mock_query):
+        # ----- SetUp -----
+        self.contratante_obj = Contratante()
+        
+        # ----- Teste -----
+        def get_side_effect(id_contratante):
+            return self.contratante_obj if id_contratante == 1 else None
+
+        mock_query.get.side_effect = get_side_effect
+
+        result = BancoDeDados.GetContratante(2) # Certo
+        #result = BancoDeDados.GetContratante(1) # Da erro
+        self.assertIsNone(result, 'Foi encontrado um objeto inesperado.')
+
+        mock_query.get.assert_called_once_with(2)
 
 if __name__ == '__main__':
     unittest.main()
