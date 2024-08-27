@@ -21,7 +21,8 @@ class TestBancoDeDados(unittest.TestCase):
 
         BancoDeDados.EnviaMensagem(self.obj_mensagem)
 
-        mock_Mensagem.assert_called_once_with(match=1, dono=1, mensagem='Oi!')
+        mock_Mensagem.assert_called_once_with(match=1, dono=1, mensagem='Oi!') # Certo
+        # mock_Mensagem.assert_called_once_with(match=1, dono=2, mensagem='Oi!') # Da erro
         mock_session.add.assert_called_once_with(mock_instance)
         mock_session.commit.assert_called_once()
 
@@ -41,7 +42,10 @@ class TestBancoDeDados(unittest.TestCase):
 
         BancoDeDados.CriaImagem(self.obj_imagem)
 
+        # Certo
         mock_Imagem.assert_called_once_with(dono=1, nome='foto.jpg', tipo_foto=TipoFotoEnum.PERFIL, caminho='/app/static/images/foto.jpg')
+        # Da erro
+        #mock_Imagem.assert_called_once_with(dono=2, nome='foto.jpg', tipo_foto=TipoFotoEnum.PERFIL, caminho='/app/static/images/foto.jpg')
         mock_session.add.assert_called_once_with(mock_instance)
         mock_session.commit.assert_called_once()
 
@@ -128,6 +132,38 @@ class TestBancoDeDados(unittest.TestCase):
         mock_query.get.assert_called_once_with(1)
         
     # --- TESTES DE QUANDO OS MÉTODOS NÃO DÃO CERTO ---
+    def test_ValidacoesImagem(self):
+        with self.assertRaises(ValorNuloError):
+            Imagem(dono=1, nome="", tipo_foto=TipoFotoEnum.PERFIL, caminho="/caminho/foto.jpg")
+        
+        with self.assertRaises(ValorNuloError):
+            Imagem(dono=None, nome="foto.jpg", tipo_foto=TipoFotoEnum.PERFIL, caminho="/caminho/foto.jpg")
+        
+        with self.assertRaises(TipoIncorretoError):
+            Imagem(dono="abc", nome="foto.jpg", tipo_foto=TipoFotoEnum.PERFIL, caminho="/caminho/foto.jpg")
+        
+        with self.assertRaises(TipoIncorretoError):
+            Imagem(dono=1, nome="foto.jpg", tipo_foto="INVALIDO", caminho="/caminho/foto.jpg")
+        
+        with self.assertRaises(ValorNuloError):
+            Imagem(dono=1, nome="foto.jpg", tipo_foto=TipoFotoEnum.PERFIL, caminho="")
+
+    def test_ValidacoesMensagem(self):
+        with self.assertRaises(ValorNuloError):
+            Mensagem(match="", dono=1, mensagem="Oi!")
+            
+        with self.assertRaises(ValorNuloError):
+            Mensagem(match=1, dono=None, mensagem="Oi!")
+            
+        with self.assertRaises(ValorNuloError):
+            Mensagem(match=1, dono=1, mensagem="")
+        
+        with self.assertRaises(TipoIncorretoError):
+            Mensagem(match="abc", dono=1, mensagem="Oi!") 
+        
+        with self.assertRaises(TipoIncorretoError):
+            Mensagem(match=1, dono="abc", mensagem="Oi!")
+            
     @patch('BancoDeDados_Pessoa5.Mensagem.query')
     def test_GetChatVazio(self, mock_query):
         # ----- SetUp -----
