@@ -73,6 +73,24 @@ class Contratante:
 
 
 class Match:
+    id = None
+    id_musico = None
+    id_demanda = None
+
+    def __init__(self, id_musico, id_demanda):
+        if id_musico is None:
+            raise ValorNuloError("O campo 'id_musico' não pode ser vazio ou nulo.")
+        elif not isinstance(id_musico, int):
+            raise TipoIncorretoError("O campo 'id_musico' deve ser um inteiro não nulo.")
+
+        if id_demanda is None:
+            raise ValorNuloError("O campo 'id_demanda' não pode ser vazio ou nulo.")
+        elif not isinstance(id_demanda, int):
+            raise TipoIncorretoError("O campo 'id_demanda' deve ser um inteiro não nulo.")
+
+        self.set_id_musico = id_musico
+        self.set_id_demanda = id_demanda
+
     query = MagicMock()
 
 

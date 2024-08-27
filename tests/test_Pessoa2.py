@@ -1,15 +1,7 @@
 import unittest
-from unittest.mock import patch, MagicMock
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from unittest.mock import patch
 from BancoDeDados_Pessoa2 import BancoDeDados
 from mock_models import *
-
-app = Flask(__name__)
-app.secret_key = "default_secret_key"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-bd = SQLAlchemy(app)
 
 
 class TestBancoDeDados(unittest.TestCase):
