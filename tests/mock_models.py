@@ -77,6 +77,22 @@ class Match:
 
 
 class EstiloMusical:
+    id = None
+    nome = None
+    def __init__(self, nome):
+        # Validações
+        if nome is None:
+            raise ValorNuloError("O campo 'nome' não pode ser vazio ou nulo.")
+        elif not isinstance(nome, str):
+            raise TipoIncorretoError("O campo 'nome' deve ser uma string não nula.")
+
+        # Criando a instância
+        self.nome = nome
+        
+    query = MagicMock()
+
+
+class DemandaEstilos:
     query = MagicMock()
 
 
