@@ -6,6 +6,7 @@ from mock_models import *
 
 class TestBancoDeDados(unittest.TestCase):
     
+    
     @patch('BancoDeDados_Pessoa5.bd.session')
     @patch('BancoDeDados_Pessoa5.Mensagem')
     def test_EnviaMensagem(self, mock_Mensagem, mock_session):

@@ -2,6 +2,7 @@ from exceptions import ValorNuloError, TipoIncorretoError
 from unittest.mock import MagicMock
 from enum import Enum
 import datetime
+import bcrypt
 
 
 # Mocks das classes dependentes
@@ -28,7 +29,6 @@ class Mensagem:
         self.horario = datetime.datetime.now()
 
     query = MagicMock()
-
 
 class TipoFotoEnum(Enum):
     PERFIL = "Perfil"
@@ -64,11 +64,173 @@ class Imagem:
     query = MagicMock()
 
 
+
+
 class Pessoa:
+    def __init__(self, nome, email, senha, tipo):
+        # Validações
+        if not nome:
+            raise ValorNuloError("O campo 'nome' não pode ser vazio ou nulo.")
+        if not isinstance(nome, str):
+            raise TipoIncorretoError("O campo 'nome' deve ser uma string não nula.")
+
+        if not email:
+            raise ValorNuloError("O campo 'email' não pode ser vazio ou nulo.")
+        if not isinstance(email, str):
+            raise TipoIncorretoError("O campo 'email' deve ser uma string não nula.")
+        
+        if not senha:
+            raise ValorNuloError("O campo 'senha' não pode ser vazio ou nulo.")
+        if not isinstance(senha, bytes):
+            raise TipoIncorretoError("O campo 'senha' deve ser um byte array não nulo.")
+        
+        if not tipo:
+            raise ValorNuloError("O campo 'tipo' não pode ser vazio ou nulo.")
+        if not isinstance(tipo, str):
+            raise TipoIncorretoError("O campo 'tipo' deve ser uma string não nula.")
+        
+        self.nome = nome
+        self.email = email
+        self.senha = senha
+        self.tipo = tipo
+        self.id = 1
+
     query = MagicMock()
 
+class Usuario:
+    def __init__(self, id, celular, documento):
+        # Validações
+        if not isinstance(id, int):
+            raise TipoIncorretoError("O campo 'id' deve ser um inteiro não nulo.")
+        
+        if not celular:
+            raise ValorNuloError("O campo 'celular' não pode ser vazio ou nulo.")
+        if not isinstance(celular, str):
+            raise TipoIncorretoError("O campo 'celular' deve ser uma string não nula.")
+
+        if not documento:
+            raise ValorNuloError("O campo 'documento' não pode ser vazio ou nulo.")
+        if not isinstance(documento, str):
+            raise TipoIncorretoError("O campo 'documento' deve ser uma string não nula.")
+        
+        self.id = id
+        self.celular = celular
+        self.documento = documento
+
+    query = MagicMock()
+
+class DadosBancario:
+    def __init__(self, id, num_cartao, nome_cartao, cod_seguranca, validade):
+        # Validações
+        if not isinstance(id, int):
+            raise TipoIncorretoError("O campo 'id' deve ser um inteiro não nulo.")
+        
+        if not num_cartao:
+            raise ValorNuloError("O campo 'num_cartao' não pode ser vazio ou nulo.")
+        if not isinstance(num_cartao, str):
+            raise TipoIncorretoError("O campo 'num_cartao' deve ser uma string não nula.")
+
+        if not nome_cartao:
+            raise ValorNuloError("O campo 'nome_cartao' não pode ser vazio ou nulo.")
+        if not isinstance(nome_cartao, str):
+            raise TipoIncorretoError("O campo 'nome_cartao' deve ser uma string não nula.")
+
+        if not cod_seguranca:
+            raise ValorNuloError("O campo 'cod_seguranca' não pode ser vazio ou nulo.")
+        if not isinstance(cod_seguranca, str):
+            raise TipoIncorretoError("O campo 'cod_seguranca' deve ser uma string não nula.")
+
+        if not validade:
+            raise ValorNuloError("O campo 'validade' não pode ser vazio ou nulo.")
+        if not isinstance(validade, str):
+            raise TipoIncorretoError("O campo 'validade' deve ser uma string não nula.")
+        
+        self.id = id
+        self.num_cartao = num_cartao
+        self.nome_cartao = nome_cartao
+        self.cod_seguranca = cod_seguranca
+        self.validade = validade
+
+    query = MagicMock()
+
+class Musico:
+    def __init__(self, id, nome_pessoal, nome_artistico, descricao):
+        # Validações
+        if not isinstance(id, int):
+            raise TipoIncorretoError("O campo 'id' deve ser um inteiro não nulo.")
+        
+        if not nome_pessoal:
+            raise ValorNuloError("O campo 'nome_pessoal' não pode ser vazio ou nulo.")
+        if not isinstance(nome_pessoal, str):
+            raise TipoIncorretoError("O campo 'nome_pessoal' deve ser uma string não nula.")
+
+        if not nome_artistico:
+            raise ValorNuloError("O campo 'nome_artistico' não pode ser vazio ou nulo.")
+        if not isinstance(nome_artistico, str):
+            raise TipoIncorretoError("O campo 'nome_artistico' deve ser uma string não nula.")
+
+        if not descricao:
+            raise ValorNuloError("O campo 'descricao' não pode ser vazio ou nulo.")
+        if not isinstance(descricao, str):
+            raise TipoIncorretoError("O campo 'descricao' deve ser uma string não nula.")
+        
+        self.id = id
+        self.nome_pessoal = nome_pessoal
+        self.nome_artistico = nome_artistico
+        self.descricao = descricao
+
+    query = MagicMock()
 
 class Contratante:
+    def __init__(self, id, nome_estabelecimento, cep, estado, cidade, bairro, numero, complemento):
+        # Validações
+        if not isinstance(id, int):
+            raise TipoIncorretoError("O campo 'id' deve ser um inteiro não nulo.")
+        
+        if not nome_estabelecimento:
+            raise ValorNuloError("O campo 'nome_estabelecimento' não pode ser vazio ou nulo.")
+        if not isinstance(nome_estabelecimento, str):
+            raise TipoIncorretoError("O campo 'nome_estabelecimento' deve ser uma string não nula.")
+
+        if not cep:
+            raise ValorNuloError("O campo 'cep' não pode ser vazio ou nulo.")
+        if not isinstance(cep, str):
+            raise TipoIncorretoError("O campo 'cep' deve ser uma string não nula.")
+
+        if not estado:
+            raise ValorNuloError("O campo 'estado' não pode ser vazio ou nulo.")
+        if not isinstance(estado, str):
+            raise TipoIncorretoError("O campo 'estado' deve ser uma string não nula.")
+
+        if not cidade:
+            raise ValorNuloError("O campo 'cidade' não pode ser vazio ou nulo.")
+        if not isinstance(cidade, str):
+            raise TipoIncorretoError("O campo 'cidade' deve ser uma string não nula.")
+
+        if not bairro:
+            raise ValorNuloError("O campo 'bairro' não pode ser vazio ou nulo.")
+        if not isinstance(bairro, str):
+            raise TipoIncorretoError("O campo 'bairro' deve ser uma string não nula.")
+
+        if not numero:
+            raise ValorNuloError("O campo 'numero' não pode ser vazio ou nulo.")
+        if not isinstance(numero, str):
+            raise TipoIncorretoError("O campo 'numero' deve ser uma string não nula.")
+
+        if not complemento:
+            raise ValorNuloError("O campo 'complemento' não pode ser vazio ou nulo.")
+        if not isinstance(complemento, str):
+            raise TipoIncorretoError("O campo 'complemento' deve ser uma string não nula.")
+        
+        self.id = id
+        self.nome_estabelecimento = nome_estabelecimento
+        self.cep = cep
+        self.estado = estado
+        self.cidade = cidade
+        self.bairro = bairro
+        self.numero = numero
+        self.complemento = complemento
+
     query = MagicMock()
 
 
