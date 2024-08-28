@@ -1,8 +1,7 @@
-import unittest
-from unittest.mock import patch
 from BancoDeDados import BancoDeDados
-from unittest.mock import MagicMock
-from mock_models import Pessoa, ValorNuloError, TipoIncorretoError
+from mock_models import Pessoa, TipoIncorretoError, ValorNuloError
+from unittest.mock import MagicMock, patch
+import unittest
 
 
 class PessoaTest(unittest.TestCase):
@@ -86,3 +85,31 @@ class PessoaTest(unittest.TestCase):
         nome = 'Test User'
         result = BancoDeDados.VerificaNomeUsuario(nome)
         self.assertFalse(result)
+
+    @patch('BancoDeDados.Pessoa.query')
+    def test_GetUser(self, mock_query):
+        self.user_obj = Pessoa()
+
+        def get_side_effect(id_user):
+            return self.user_obj if id_user == 1 else None
+
+        mock_query.get.side_effect = get_side_effect
+
+        result = BancoDeDados.GetUser(1)
+        self.assertIs(result, self.user_obj, 'Não foi retornado o objeto correto.')
+
+        mock_query.get.assert_called_once_with(1)
+
+    @patch('BancoDeDados.Pessoa.query')
+    def test_GetUserNone(self, mock_query):
+        self.user_obj = Pessoa()
+
+        def get_side_effect(id_user):
+            return self.user_obj if id_user == 1 else None
+
+        mock_query.get.side_effect = get_side_effect
+
+        result = BancoDeDados.GetUser(2)
+        self.assertIsNone(result, 'Foi encontrado um objeto inesperado.')
+
+        mock_query.get.assert_called_once_with(2)
