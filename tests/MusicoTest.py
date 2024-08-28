@@ -17,7 +17,7 @@ class MusicoTest(unittest.TestCase):
             "nome": "Test User",
             "email": "test@example.com",
             "senha": "123456",
-            "tipo": "musico",
+            "tipo": "M",
             "nome_pessoal": "Pessoal",
             "nome_artistico": "Artistico",
             "descricao": "Descricao",
@@ -40,6 +40,27 @@ class MusicoTest(unittest.TestCase):
         self.assertEqual(result_id, 1)
 
     def test_validacoes_musico(self):
+        
+        #Testes de ValorNuloError
+        with self.assertRaises(ValorNuloError):
+            Musico(
+                id=None, nome_pessoal="Pessoal", nome_artistico="Artistico", descricao="Descricao"
+            )
+        with self.assertRaises(ValorNuloError):
+            Musico(
+                id=1, nome_pessoal=None, nome_artistico="Artistico", descricao="Descricao"
+            )
+        with self.assertRaises(ValorNuloError):
+            Musico(
+                id=1, nome_pessoal="Pessoal", nome_artistico=None, descricao="Descricao"
+            )
+        with self.assertRaises(ValorNuloError):
+            Musico(
+                id=1, nome_pessoal="Pessoal", nome_artistico="Artistico", descricao = None
+            )
+        #Testes de TipoIncorretoError     
+            
+            
         with self.assertRaises(TipoIncorretoError):
             Musico(
                 id="abc",
@@ -47,8 +68,26 @@ class MusicoTest(unittest.TestCase):
                 nome_artistico="Artistico",
                 descricao="Descricao",
             )
-
-        with self.assertRaises(ValorNuloError):
+        with self.assertRaises(TipoIncorretoError):
             Musico(
-                id=1, nome_pessoal="", nome_artistico="Artistico", descricao="Descricao"
+                id=1,
+                nome_pessoal=123,
+                nome_artistico="Artistico",
+                descricao="Descricao",
             )
+            
+        with self.assertRaises(TipoIncorretoError):
+            Musico(
+                id=1,
+                nome_pessoal="Pessoal",
+                nome_artistico=123,
+                descricao="Descricao",
+            )
+        with self.assertRaises(TipoIncorretoError):
+            Musico(
+                id=1,
+                nome_pessoal="Pessoal",
+                nome_artistico="Artistico",
+                descricao=123,
+            )
+

@@ -31,6 +31,50 @@ class DadosBancariosTest(unittest.TestCase):
         mock_commit.assert_called_once()
 
     def test_validacoes_dados_bancarios(self):
+        # Testes de ValorNuloError
+        with self.assertRaises(ValorNuloError):
+            DadosBancario(
+                id=None,
+                num_cartao="1234-5678-9012-3456",
+                nome_cartao="Test User",
+                cod_seguranca="123",
+                validade="12/25",
+            )
+        
+        with self.assertRaises(ValorNuloError):
+            DadosBancario(
+                id=1,
+                num_cartao=None,
+                nome_cartao="Test User",
+                cod_seguranca="123",
+                validade="12/25",
+            )
+        with self.assertRaises(ValorNuloError):
+            DadosBancario(
+                id=1,
+                num_cartao="1234-5678-9012-3456",
+                nome_cartao=None,
+                cod_seguranca="123",
+                validade="12/25",
+            )
+        with self.assertRaises(ValorNuloError):
+            DadosBancario(
+                id=1,
+                num_cartao="1234-5678-9012-3456",
+                nome_cartao="Test User",
+                cod_seguranca=None,
+                validade="12/25",
+            )
+        with self.assertRaises(ValorNuloError):
+            DadosBancario(
+                id=1,
+                num_cartao="1234-5678-9012-3456",
+                nome_cartao="Test User",
+                cod_seguranca="123",
+                validade=None,
+            )
+        # Testes de TipoIncorretoError
+        
         with self.assertRaises(TipoIncorretoError):
             DadosBancario(
                 id="abc",
@@ -39,12 +83,36 @@ class DadosBancariosTest(unittest.TestCase):
                 cod_seguranca="123",
                 validade="12/25",
             )
-
-        with self.assertRaises(ValorNuloError):
+        with self.assertRaises(TipoIncorretoError):
             DadosBancario(
                 id=1,
-                num_cartao="",
+                num_cartao=1234567890123456,
                 nome_cartao="Test User",
                 cod_seguranca="123",
                 validade="12/25",
             )
+        with self.assertRaises(TipoIncorretoError):
+            DadosBancario(
+                id=1,
+                num_cartao="1234-5678-9012-3456",
+                nome_cartao=123,
+                cod_seguranca="123",
+                validade="12/25",
+            )
+        with self.assertRaises(TipoIncorretoError):
+            DadosBancario(
+                id=1,
+                num_cartao="1234-5678-9012-3456",
+                nome_cartao="Test User",
+                cod_seguranca=123,
+                validade="12/25",
+            )
+        with self.assertRaises(TipoIncorretoError):
+            DadosBancario(
+                id=1,
+                num_cartao="1234-5678-9012-3456",
+                nome_cartao="Test User",
+                cod_seguranca="123",
+                validade=1225,
+            )
+

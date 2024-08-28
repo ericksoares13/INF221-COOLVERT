@@ -68,6 +68,8 @@ class Contratante:
 
 class DadosBancario:
     def __init__(self, id, num_cartao, nome_cartao, cod_seguranca, validade):
+        if not id:
+            raise ValorNuloError("O campo 'id' não pode ser vazio ou nulo.")
         if not isinstance(id, int):
             raise TipoIncorretoError("O campo 'id' deve ser um inteiro não nulo.")
 
@@ -334,6 +336,9 @@ class MomentoPagamentoEnum(Enum):
 
 class Musico:
     def __init__(self, id, nome_pessoal, nome_artistico, descricao):
+        
+        if not id:
+            raise ValorNuloError("O campo 'id' não pode ser vazio ou nulo.")
         if not isinstance(id, int):
             raise TipoIncorretoError("O campo 'id' deve ser um inteiro não nulo.")
 
@@ -410,6 +415,8 @@ class TipoPagamentoEnum(Enum):
 
 class Usuario:
     def __init__(self, id, celular, documento):
+        if not id:
+            raise ValorNuloError("O campo 'id' não pode ser vazio ou nulo.")
         if not isinstance(id, int):
             raise TipoIncorretoError("O campo 'id' deve ser um inteiro não nulo.")
 

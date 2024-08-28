@@ -21,11 +21,23 @@ class UsuarioTest(unittest.TestCase):
         mock_commit.assert_called_once()
 
     def test_validacoes_usuario(self):
+        # Testes de ValorNuloError
+        
+        with self.assertRaises(ValorNuloError):
+            Usuario(id=None, celular="123456789", documento="11122233344")
+        with self.assertRaises(ValorNuloError):
+            Usuario(id=1, celular=None, documento="11122233344")
+        with self.assertRaises(ValorNuloError):
+            Usuario(id=1, celular="123456789", documento=None)
+        
+        # Testes de TipoIncorretoError
         with self.assertRaises(TipoIncorretoError):
             Usuario(id="abc", celular="123456789", documento="11122233344")
+        with self.assertRaises(TipoIncorretoError):
+            Usuario(id=1, celular=123456789, documento="11122233344")
+        with self.assertRaises(TipoIncorretoError):
+            Usuario(id=1, celular="123456789", documento=11122233344)
 
-        with self.assertRaises(ValorNuloError):
-            Usuario(id=1, celular="", documento="11122233344")
 
     @patch("BancoDeDados.Pessoa.query.get")
     def test_GetNomeUsuario_valido(self, mock_get):
