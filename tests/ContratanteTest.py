@@ -5,25 +5,31 @@ import unittest
 
 
 class ContratanteTest(unittest.TestCase):
-
-    @patch('BancoDeDados.BancoDeDados.CriaPessoa', return_value=1)
-    @patch('BancoDeDados.BancoDeDados.CriaUsuario')
-    @patch('BancoDeDados.Contratante')
-    @patch('BancoDeDados.bd.session.commit')
-    @patch('BancoDeDados.bd.session.add')
-    def test_cria_contratante(self, mock_add, mock_commit, mock_contratante, mock_cria_usuario, mock_cria_pessoa):
+    @patch("BancoDeDados.BancoDeDados.CriaPessoa", return_value=1)
+    @patch("BancoDeDados.BancoDeDados.CriaUsuario")
+    @patch("BancoDeDados.Contratante")
+    @patch("BancoDeDados.bd.session.commit")
+    @patch("BancoDeDados.bd.session.add")
+    def test_cria_contratante(
+        self,
+        mock_add,
+        mock_commit,
+        mock_contratante,
+        mock_cria_usuario,
+        mock_cria_pessoa,
+    ):
         obj = {
-            'nome': 'Test User',
-            'email': 'test@example.com',
-            'senha': '123456',
-            'tipo': 'contratante',
-            'nome_estabelecimento': 'Estabelecimento',
-            'cep': '12345-678',
-            'estado': 'SP',
-            'cidade': 'Cidade',
-            'bairro': 'Bairro',
-            'numero': '123',
-            'complemento': 'Apto 1'
+            "nome": "Test User",
+            "email": "test@example.com",
+            "senha": "123456",
+            "tipo": "contratante",
+            "nome_estabelecimento": "Estabelecimento",
+            "cep": "12345-678",
+            "estado": "SP",
+            "cidade": "Cidade",
+            "bairro": "Bairro",
+            "numero": "123",
+            "complemento": "Apto 1",
         }
         mock_contratante_instance = mock_contratante.return_value
 
@@ -33,13 +39,13 @@ class ContratanteTest(unittest.TestCase):
         mock_cria_usuario.assert_called_once_with(obj)
         mock_contratante.assert_called_once_with(
             id=1,
-            nome_estabelecimento=obj['nome_estabelecimento'],
-            cep=obj['cep'],
-            estado=obj['estado'],
-            cidade=obj['cidade'],
-            bairro=obj['bairro'],
-            numero=obj['numero'],
-            complemento=obj['complemento']
+            nome_estabelecimento=obj["nome_estabelecimento"],
+            cep=obj["cep"],
+            estado=obj["estado"],
+            cidade=obj["cidade"],
+            bairro=obj["bairro"],
+            numero=obj["numero"],
+            complemento=obj["complemento"],
         )
         mock_add.assert_called_once_with(mock_contratante_instance)
         mock_commit.assert_called_once()
@@ -48,14 +54,30 @@ class ContratanteTest(unittest.TestCase):
 
     def test_validacoes_contratante(self):
         with self.assertRaises(TipoIncorretoError):
-            Contratante(id="abc", nome_estabelecimento="Estabelecimento", cep="12345-678", estado="SP", cidade="Cidade",
-                        bairro="Bairro", numero="123", complemento="Apto 1")
+            Contratante(
+                id="abc",
+                nome_estabelecimento="Estabelecimento",
+                cep="12345-678",
+                estado="SP",
+                cidade="Cidade",
+                bairro="Bairro",
+                numero="123",
+                complemento="Apto 1",
+            )
 
         with self.assertRaises(ValorNuloError):
-            Contratante(id=1, nome_estabelecimento="", cep="12345-678", estado="SP", cidade="Cidade", bairro="Bairro",
-                        numero="123", complemento="Apto 1")
+            Contratante(
+                id=1,
+                nome_estabelecimento="",
+                cep="12345-678",
+                estado="SP",
+                cidade="Cidade",
+                bairro="Bairro",
+                numero="123",
+                complemento="Apto 1",
+            )
 
-    @patch('BancoDeDados.Contratante.query')
+    @patch("BancoDeDados.Contratante.query")
     def test_GetContratante(self, mock_query):
         self.contratante_obj = Contratante()
 
@@ -65,11 +87,13 @@ class ContratanteTest(unittest.TestCase):
         mock_query.get.side_effect = get_side_effect
 
         result = BancoDeDados.GetContratante(1)
-        self.assertIs(result, self.contratante_obj, 'Não foi retornado o objeto correto.')
+        self.assertIs(
+            result, self.contratante_obj, "Não foi retornado o objeto correto."
+        )
 
         mock_query.get.assert_called_once_with(1)
 
-    @patch('BancoDeDados.Contratante.query')
+    @patch("BancoDeDados.Contratante.query")
     def test_GetContratanteNone(self, mock_query):
         self.contratante_obj = Contratante()
 
@@ -79,6 +103,6 @@ class ContratanteTest(unittest.TestCase):
         mock_query.get.side_effect = get_side_effect
 
         result = BancoDeDados.GetContratante(2)
-        self.assertIsNone(result, 'Foi encontrado um objeto inesperado.')
+        self.assertIsNone(result, "Foi encontrado um objeto inesperado.")
 
         mock_query.get.assert_called_once_with(2)

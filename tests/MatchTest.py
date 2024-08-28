@@ -5,14 +5,13 @@ import unittest
 
 
 class MatchTest(unittest.TestCase):
-
-    @patch('BancoDeDados.Match')
-    @patch('BancoDeDados.bd.session.commit')
-    @patch('BancoDeDados.bd.session.add')
+    @patch("BancoDeDados.Match")
+    @patch("BancoDeDados.bd.session.commit")
+    @patch("BancoDeDados.bd.session.add")
     def test_CriaMatch(self, mock_add, mock_commit, mock_match):
         mock_match.return_value.id = 1
 
-        obj = {'id_musico': 1, 'id_demanda': 2}
+        obj = {"id_musico": 1, "id_demanda": 2}
         match_id = BancoDeDados.CriaMatch(obj)
 
         mock_add.assert_called_once()
@@ -37,7 +36,7 @@ class MatchTest(unittest.TestCase):
         with self.assertRaises(TipoIncorretoError):
             Match(1, "string")
 
-    @patch('BancoDeDados.Match.query.get')
+    @patch("BancoDeDados.Match.query.get")
     def test_GetMatch_valido(self, mock_get):
         mock_match = MagicMock()
         mock_get.return_value = mock_match
@@ -47,7 +46,7 @@ class MatchTest(unittest.TestCase):
         mock_get.assert_called_once_with(1)
         self.assertEqual(result, mock_match)
 
-    @patch('BancoDeDados.Match.query.get')
+    @patch("BancoDeDados.Match.query.get")
     def test_GetMatch_invalido(self, mock_get):
         mock_get.return_value = None
 
@@ -56,7 +55,7 @@ class MatchTest(unittest.TestCase):
         mock_get.assert_called_once_with(999)
         self.assertIsNone(result)
 
-    @patch('BancoDeDados.Match.query.filter_by')
+    @patch("BancoDeDados.Match.query.filter_by")
     def test_GetMatches(self, mock_filter_by):
         mock_filter_by.return_value.all.return_value = [MagicMock(), MagicMock()]
 
@@ -65,7 +64,7 @@ class MatchTest(unittest.TestCase):
         mock_filter_by.assert_called_once_with(id_demanda=1)
         self.assertEqual(len(result), 2)
 
-    @patch('BancoDeDados.Match.query.filter_by')
+    @patch("BancoDeDados.Match.query.filter_by")
     def test_GetMatches_id_inexistente(self, mock_filter_by):
         mock_filter_by.return_value.all.return_value = []
 
@@ -74,7 +73,7 @@ class MatchTest(unittest.TestCase):
         mock_filter_by.assert_called_once_with(id_demanda=999)
         self.assertEqual(len(result), 0)
 
-    @patch('BancoDeDados.Match.query.filter_by')
+    @patch("BancoDeDados.Match.query.filter_by")
     def test_GetMatches_erro_consulta(self, mock_filter_by):
         mock_filter_by.side_effect = Exception("Erro na consulta")
 
@@ -83,7 +82,7 @@ class MatchTest(unittest.TestCase):
 
         self.assertEqual(str(context.exception), "Erro na consulta")
 
-    @patch('BancoDeDados.Match.query.filter_by')
+    @patch("BancoDeDados.Match.query.filter_by")
     def test_GetMatchesMusico(self, mock_filter_by):
         mock_filter_by.return_value.all.return_value = [MagicMock(), MagicMock()]
 
@@ -92,7 +91,7 @@ class MatchTest(unittest.TestCase):
         mock_filter_by.assert_called_once_with(id_musico=1)
         self.assertEqual(len(result), 2)
 
-    @patch('BancoDeDados.Match.query.filter_by')
+    @patch("BancoDeDados.Match.query.filter_by")
     def test_GetMatchesMusico_id_inexistente(self, mock_filter_by):
         mock_filter_by.return_value.all.return_value = []
 
@@ -101,16 +100,19 @@ class MatchTest(unittest.TestCase):
         mock_filter_by.assert_called_once_with(id_musico=999)
         self.assertEqual(len(result), 0)
 
-    @patch('BancoDeDados.Match.query.with_entities')
+    @patch("BancoDeDados.Match.query.with_entities")
     def test_GetMusicos(self, mock_with_entities):
-        mock_with_entities.return_value.filter_by.return_value.all.return_value = [(1,), (2,)]
+        mock_with_entities.return_value.filter_by.return_value.all.return_value = [
+            (1,),
+            (2,),
+        ]
 
         result = BancoDeDados.GetMusicos(1)
 
         mock_with_entities.assert_called_once()
         self.assertEqual(result, [1, 2])
 
-    @patch('BancoDeDados.Match.query.with_entities')
+    @patch("BancoDeDados.Match.query.with_entities")
     def test_GetMusicos_erro_consulta(self, mock_with_entities):
         mock_with_entities.side_effect = Exception("Erro na consulta")
 

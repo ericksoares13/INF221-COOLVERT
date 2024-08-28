@@ -24,6 +24,6 @@ class UnitTests(unittest.TestSuite):
         self.addTest(unittest.makeSuite(UsuarioTest))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     runner = unittest.TextTestRunner()
     runner.run(UnitTests())

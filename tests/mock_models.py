@@ -5,14 +5,20 @@ import datetime
 
 
 class Contratante:
-    def __init__(self, id, nome_estabelecimento, cep, estado, cidade, bairro, numero, complemento):
+    def __init__(
+        self, id, nome_estabelecimento, cep, estado, cidade, bairro, numero, complemento
+    ):
         if not isinstance(id, int):
             raise TipoIncorretoError("O campo 'id' deve ser um inteiro não nulo.")
 
         if not nome_estabelecimento:
-            raise ValorNuloError("O campo 'nome_estabelecimento' não pode ser vazio ou nulo.")
+            raise ValorNuloError(
+                "O campo 'nome_estabelecimento' não pode ser vazio ou nulo."
+            )
         if not isinstance(nome_estabelecimento, str):
-            raise TipoIncorretoError("O campo 'nome_estabelecimento' deve ser uma string não nula.")
+            raise TipoIncorretoError(
+                "O campo 'nome_estabelecimento' deve ser uma string não nula."
+            )
 
         if not cep:
             raise ValorNuloError("O campo 'cep' não pode ser vazio ou nulo.")
@@ -42,7 +48,9 @@ class Contratante:
         if not complemento:
             raise ValorNuloError("O campo 'complemento' não pode ser vazio ou nulo.")
         if not isinstance(complemento, str):
-            raise TipoIncorretoError("O campo 'complemento' deve ser uma string não nula.")
+            raise TipoIncorretoError(
+                "O campo 'complemento' deve ser uma string não nula."
+            )
 
         self.id = id
         self.nome_estabelecimento = nome_estabelecimento
@@ -58,24 +66,29 @@ class Contratante:
 
 class DadosBancario:
     def __init__(self, id, num_cartao, nome_cartao, cod_seguranca, validade):
-        # Validações
         if not isinstance(id, int):
             raise TipoIncorretoError("O campo 'id' deve ser um inteiro não nulo.")
 
         if not num_cartao:
             raise ValorNuloError("O campo 'num_cartao' não pode ser vazio ou nulo.")
         if not isinstance(num_cartao, str):
-            raise TipoIncorretoError("O campo 'num_cartao' deve ser uma string não nula.")
+            raise TipoIncorretoError(
+                "O campo 'num_cartao' deve ser uma string não nula."
+            )
 
         if not nome_cartao:
             raise ValorNuloError("O campo 'nome_cartao' não pode ser vazio ou nulo.")
         if not isinstance(nome_cartao, str):
-            raise TipoIncorretoError("O campo 'nome_cartao' deve ser uma string não nula.")
+            raise TipoIncorretoError(
+                "O campo 'nome_cartao' deve ser uma string não nula."
+            )
 
         if not cod_seguranca:
             raise ValorNuloError("O campo 'cod_seguranca' não pode ser vazio ou nulo.")
         if not isinstance(cod_seguranca, str):
-            raise TipoIncorretoError("O campo 'cod_seguranca' deve ser uma string não nula.")
+            raise TipoIncorretoError(
+                "O campo 'cod_seguranca' deve ser uma string não nula."
+            )
 
         if not validade:
             raise ValorNuloError("O campo 'validade' não pode ser vazio ou nulo.")
@@ -127,9 +140,7 @@ class Demanda:
             raise ValorNuloError("O campo 'data_show' não pode ser vazio ou nulo.")
         try:
             if isinstance(data_show, str):
-                data_show = datetime.datetime.strptime(
-                    data_show, "%Y-%m-%d"
-                ).date()
+                data_show = datetime.datetime.strptime(data_show, "%Y-%m-%d").date()
             elif not isinstance(data_show, datetime.date):
                 raise TipoIncorretoError("O campo 'data_show' deve ser do tipo date.")
         except ValueError:
@@ -229,13 +240,11 @@ class EstiloMusical:
     nome = None
 
     def __init__(self, nome):
-        # Validações
         if nome is None:
             raise ValorNuloError("O campo 'nome' não pode ser vazio ou nulo.")
         elif not isinstance(nome, str):
             raise TipoIncorretoError("O campo 'nome' deve ser uma string não nula.")
 
-        # Criando a instância
         self.nome = nome
 
     query = MagicMock()
@@ -243,7 +252,6 @@ class EstiloMusical:
 
 class Imagem:
     def __init__(self, dono, nome, tipo_foto, caminho):
-        # Validações
         if not dono:
             raise ValorNuloError("O campo 'dono' não pode ser vazio ou nulo.")
         elif not isinstance(dono, int):
@@ -277,12 +285,16 @@ class Match:
         if id_musico is None:
             raise ValorNuloError("O campo 'id_musico' não pode ser vazio ou nulo.")
         elif not isinstance(id_musico, int):
-            raise TipoIncorretoError("O campo 'id_musico' deve ser um inteiro não nulo.")
+            raise TipoIncorretoError(
+                "O campo 'id_musico' deve ser um inteiro não nulo."
+            )
 
         if id_demanda is None:
             raise ValorNuloError("O campo 'id_demanda' não pode ser vazio ou nulo.")
         elif not isinstance(id_demanda, int):
-            raise TipoIncorretoError("O campo 'id_demanda' deve ser um inteiro não nulo.")
+            raise TipoIncorretoError(
+                "O campo 'id_demanda' deve ser um inteiro não nulo."
+            )
 
         self.set_id_musico = id_musico
         self.set_id_demanda = id_demanda
@@ -292,7 +304,6 @@ class Match:
 
 class Mensagem:
     def __init__(self, match, dono, mensagem):
-        # Validações
         if not match:
             raise ValorNuloError("O campo 'match' não pode ser vazio ou nulo.")
         elif not isinstance(match, int):
@@ -321,24 +332,29 @@ class MomentoPagamentoEnum(Enum):
 
 class Musico:
     def __init__(self, id, nome_pessoal, nome_artistico, descricao):
-        # Validações
         if not isinstance(id, int):
             raise TipoIncorretoError("O campo 'id' deve ser um inteiro não nulo.")
 
         if not nome_pessoal:
             raise ValorNuloError("O campo 'nome_pessoal' não pode ser vazio ou nulo.")
         if not isinstance(nome_pessoal, str):
-            raise TipoIncorretoError("O campo 'nome_pessoal' deve ser uma string não nula.")
+            raise TipoIncorretoError(
+                "O campo 'nome_pessoal' deve ser uma string não nula."
+            )
 
         if not nome_artistico:
             raise ValorNuloError("O campo 'nome_artistico' não pode ser vazio ou nulo.")
         if not isinstance(nome_artistico, str):
-            raise TipoIncorretoError("O campo 'nome_artistico' deve ser uma string não nula.")
+            raise TipoIncorretoError(
+                "O campo 'nome_artistico' deve ser uma string não nula."
+            )
 
         if not descricao:
             raise ValorNuloError("O campo 'descricao' não pode ser vazio ou nulo.")
         if not isinstance(descricao, str):
-            raise TipoIncorretoError("O campo 'descricao' deve ser uma string não nula.")
+            raise TipoIncorretoError(
+                "O campo 'descricao' deve ser uma string não nula."
+            )
 
         self.id = id
         self.nome_pessoal = nome_pessoal
@@ -350,7 +366,6 @@ class Musico:
 
 class Pessoa:
     def __init__(self, nome, email, senha, tipo):
-        # Validações
         if not nome:
             raise ValorNuloError("O campo 'nome' não pode ser vazio ou nulo.")
         if not isinstance(nome, str):
@@ -393,10 +408,9 @@ class TipoPagamentoEnum(Enum):
 
 class Usuario:
     def __init__(self, id, celular, documento):
-        # Validações
         if not isinstance(id, int):
             raise TipoIncorretoError("O campo 'id' deve ser um inteiro não nulo.")
-        
+
         if not celular:
             raise ValorNuloError("O campo 'celular' não pode ser vazio ou nulo.")
         if not isinstance(celular, str):
@@ -405,8 +419,10 @@ class Usuario:
         if not documento:
             raise ValorNuloError("O campo 'documento' não pode ser vazio ou nulo.")
         if not isinstance(documento, str):
-            raise TipoIncorretoError("O campo 'documento' deve ser uma string não nula.")
-        
+            raise TipoIncorretoError(
+                "O campo 'documento' deve ser uma string não nula."
+            )
+
         self.id = id
         self.celular = celular
         self.documento = documento

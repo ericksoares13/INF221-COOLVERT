@@ -1,19 +1,24 @@
 from BancoDeDados import BancoDeDados
 from datetime import date, timedelta
-from mock_models import Demanda, MomentoPagamentoEnum, TipoIncorretoError, TipoPagamentoEnum, ValorNuloError
+from mock_models import (
+    Demanda,
+    MomentoPagamentoEnum,
+    TipoIncorretoError,
+    TipoPagamentoEnum,
+    ValorNuloError,
+)
 from unittest.mock import MagicMock, patch
 import unittest
 
 
 class DemandaTest(unittest.TestCase):
-
     @patch("BancoDeDados.Demanda")
     @patch("BancoDeDados.bd.session.add")
     @patch("BancoDeDados.bd.session.commit")
     @patch("BancoDeDados.Contratante.query.get")
     @patch("BancoDeDados.EstiloMusical.query.filter_by")
     def test_CriaDemanda(
-            self, mock_filter_by, mock_contratante_get, mock_commit, mock_add, mock_demanda
+        self, mock_filter_by, mock_contratante_get, mock_commit, mock_add, mock_demanda
     ):
         mock_estilo = MagicMock()
         mock_filter_by.return_value.first.return_value = mock_estilo
@@ -457,7 +462,7 @@ class DemandaTest(unittest.TestCase):
     def test_VerificaEstiloMusical(self, mock_filter_by):
         mock_filter_by.return_value.first.return_value = None
 
-        nome = 'Rock'
+        nome = "Rock"
         result = BancoDeDados.VerificaEstiloMusical(nome)
         self.assertTrue(result)
 
@@ -465,7 +470,7 @@ class DemandaTest(unittest.TestCase):
     def test_VerificaEstiloMusical_Exists(self, mock_filter_by):
         mock_filter_by.return_value.first.return_value = MagicMock()
 
-        nome = 'Rock'
+        nome = "Rock"
         result = BancoDeDados.VerificaEstiloMusical(nome)
         self.assertFalse(result)
 
@@ -473,7 +478,7 @@ class DemandaTest(unittest.TestCase):
     @patch("BancoDeDados.bd.session.add")
     @patch("BancoDeDados.bd.session.commit")
     def test_CriaEstiloMusical(self, mock_commit, mock_add, mock_estilo):
-        nome = 'Rock'
+        nome = "Rock"
         BancoDeDados.CriaEstiloMusical(nome)
 
         mock_estilo.assert_called_once_with(nome=nome)
@@ -484,7 +489,9 @@ class DemandaTest(unittest.TestCase):
     @patch("BancoDeDados.EstiloMusical.query.with_entities")
     def test_GetEstilosMusicais(self, mock_with_entities, mock_filter_by):
         mock_estilo = MagicMock()
-        mock_with_entities.return_value.filter_by.return_value.first.return_value = ['Rock']
+        mock_with_entities.return_value.filter_by.return_value.first.return_value = [
+            "Rock"
+        ]
         mock_filter_by.return_value.all.return_value = [mock_estilo]
 
         id_demanda = 1
@@ -492,7 +499,7 @@ class DemandaTest(unittest.TestCase):
 
         mock_filter_by.assert_called_once_with(demanda=id_demanda)
         mock_with_entities.assert_called_once()
-        self.assertEqual(result, ['Rock'])
+        self.assertEqual(result, ["Rock"])
 
     @patch("BancoDeDados.Demanda.query.get")
     def test_GetDemanda(self, mock_get):
@@ -535,7 +542,9 @@ class DemandaTest(unittest.TestCase):
     @patch("BancoDeDados.Demanda.query.get")
     @patch("BancoDeDados.Match.query.get")
     @patch("BancoDeDados.bd.session.commit")
-    def test_FechaDemanda_demanda_invalida(self, mock_commit, mock_match_get, mock_demanda_get):
+    def test_FechaDemanda_demanda_invalida(
+        self, mock_commit, mock_match_get, mock_demanda_get
+    ):
         mock_match = MagicMock()
         mock_match_get.return_value = mock_match
         mock_demanda_get.return_value = None
@@ -567,7 +576,9 @@ class DemandaTest(unittest.TestCase):
     @patch("BancoDeDados.Match.query.get")
     @patch("BancoDeDados.Demanda.query.get")
     @patch("BancoDeDados.bd.session.commit")
-    def test_LiberaDemanda_demanda_invalida(self, mock_commit, mock_demanda_get, mock_match_get):
+    def test_LiberaDemanda_demanda_invalida(
+        self, mock_commit, mock_demanda_get, mock_match_get
+    ):
         mock_match = MagicMock()
         mock_match_get.return_value = mock_match
         mock_demanda_get.return_value = None
