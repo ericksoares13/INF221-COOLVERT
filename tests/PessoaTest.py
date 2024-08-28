@@ -2,7 +2,7 @@ from BancoDeDados import BancoDeDados
 from mock_models import Pessoa, TipoIncorretoError, ValorNuloError
 from unittest.mock import MagicMock, patch
 import unittest
-
+import bcrypt
 
 class PessoaTest(unittest.TestCase):
     @patch("BancoDeDados.Pessoa")
@@ -96,7 +96,12 @@ class PessoaTest(unittest.TestCase):
 
     @patch("BancoDeDados.Pessoa.query")
     def test_GetUser(self, mock_query):
-        self.user_obj = Pessoa()
+        self.user_obj = Pessoa(
+            nome="Test User", 
+            email="test@example.com", 
+            senha=bcrypt.hashpw("ABcd123!".encode("utf-8"), bcrypt.gensalt()),
+            tipo='M'
+        )
 
         def get_side_effect(id_user):
             return self.user_obj if id_user == 1 else None
@@ -110,7 +115,12 @@ class PessoaTest(unittest.TestCase):
 
     @patch("BancoDeDados.Pessoa.query")
     def test_GetUserNone(self, mock_query):
-        self.user_obj = Pessoa()
+        self.user_obj = Pessoa(
+            nome="Test User", 
+            email="test@example.com", 
+            senha=bcrypt.hashpw("ABcd123!".encode("utf-8"), bcrypt.gensalt()),
+            tipo='M'
+        )
 
         def get_side_effect(id_user):
             return self.user_obj if id_user == 1 else None
