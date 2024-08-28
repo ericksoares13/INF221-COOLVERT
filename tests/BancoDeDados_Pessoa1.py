@@ -13,7 +13,7 @@ bd = SQLAlchemy(app)
 
 class BancoDeDados: 
     # Pessoa 1
-    session = bd.session
+  
     @staticmethod
     def CriaPessoa(obj):
         with app.app_context():
