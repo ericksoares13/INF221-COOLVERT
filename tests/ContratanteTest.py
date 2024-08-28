@@ -3,7 +3,6 @@ from mock_models import Contratante, TipoIncorretoError, ValorNuloError
 from unittest.mock import patch
 import unittest
 
-
 class ContratanteTest(unittest.TestCase):
     @patch("BancoDeDados.BancoDeDados.CriaPessoa", return_value=1)
     @patch("BancoDeDados.BancoDeDados.CriaUsuario")
@@ -79,7 +78,16 @@ class ContratanteTest(unittest.TestCase):
 
     @patch("BancoDeDados.Contratante.query")
     def test_GetContratante(self, mock_query):
-        self.contratante_obj = Contratante()
+        self.contratante_obj = Contratante(
+            id=1,
+            nome_estabelecimento="Estabelecimento",
+            cep="12345-678",
+            estado="SP",
+            cidade="Cidade",
+            bairro="Bairro",
+            numero="123",
+            complemento="Apto 1",
+        )
 
         def get_side_effect(id_contratante):
             return self.contratante_obj if id_contratante == 1 else None
@@ -95,7 +103,16 @@ class ContratanteTest(unittest.TestCase):
 
     @patch("BancoDeDados.Contratante.query")
     def test_GetContratanteNone(self, mock_query):
-        self.contratante_obj = Contratante()
+        self.contratante_obj = Contratante(
+            id=1,
+            nome_estabelecimento="Estabelecimento",
+            cep="12345-678",
+            estado="SP",
+            cidade="Cidade",
+            bairro="Bairro",
+            numero="123",
+            complemento="Apto 1",
+        )
 
         def get_side_effect(id_contratante):
             return self.contratante_obj if id_contratante == 1 else None
