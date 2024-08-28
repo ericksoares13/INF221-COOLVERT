@@ -21,7 +21,7 @@ class ContratanteTest(unittest.TestCase):
             "nome": "Test User",
             "email": "test@example.com",
             "senha": "123456",
-            "tipo": "contratante",
+            "tipo": "C",
             "nome_estabelecimento": "Estabelecimento",
             "cep": "12345-678",
             "estado": "SP",
@@ -52,6 +52,98 @@ class ContratanteTest(unittest.TestCase):
         self.assertEqual(result_id, 1)
 
     def test_validacoes_contratante(self):
+        
+        #Testes de ValorNuloError
+        with self.assertRaises(ValorNuloError):
+            Contratante(
+                id=None,
+                nome_estabelecimento="nome_estabelecimento",
+                cep="12345-678",
+                estado="SP",
+                cidade="Cidade",
+                bairro="Bairro",
+                numero="123",
+                complemento="Apto 1",
+            )
+        with self.assertRaises(ValorNuloError):    
+            Contratante(
+                id=1,
+                nome_estabelecimento=None,
+                cep="12345-678",
+                estado="SP",
+                cidade="Cidade",
+                bairro="Bairro",
+                numero="123",
+                complemento="Apto 1",
+            )
+        with self.assertRaises(ValorNuloError):
+            Contratante(
+                id=1,
+                nome_estabelecimento="nome_estabelecimento",
+                cep=None,
+                estado="SP",
+                cidade="Cidade",
+                bairro="Bairro",
+                numero="123",
+                complemento="Apto 1",
+            )
+        with self.assertRaises(ValorNuloError):    
+            Contratante(
+                id=1,
+                nome_estabelecimento="nome_estabelecimento",
+                cep="12345-678",
+                estado=None,
+                cidade="Cidade",
+                bairro="Bairro",
+                numero="123",
+                complemento="Apto 1",
+            )
+        with self.assertRaises(ValorNuloError):
+            Contratante(
+                id=1,
+                nome_estabelecimento="nome_estabelecimento",
+                cep="12345-678",
+                estado="SP",
+                cidade=None,
+                bairro="Bairro",
+                numero="123",
+                complemento="Apto 1",
+            )
+        with self.assertRaises(ValorNuloError):
+            Contratante(
+                id=1,
+                nome_estabelecimento="nome_estabelecimento",
+                cep="12345-678",
+                estado="SP",
+                cidade="Cidade",
+                bairro=None,
+                numero="123",
+                complemento="Apto 1",
+            )
+        with self.assertRaises(ValorNuloError):
+            Contratante(
+                id=1,
+                nome_estabelecimento="nome_estabelecimento",
+                cep="12345-678",
+                estado="SP",
+                cidade="Cidade",
+                bairro="Bairro",
+                numero=None,
+                complemento="Apto 1",
+            )
+        with self.assertRaises(ValorNuloError):
+            Contratante(
+                id=1,
+                nome_estabelecimento="nome_estabelecimento",
+                cep="12345-678",
+                estado="SP",
+                cidade="Cidade",
+                bairro="Bairro",
+                numero="123",
+                complemento=None,
+            )
+        #Testes de TipoIncorretoError  
+        
         with self.assertRaises(TipoIncorretoError):
             Contratante(
                 id="abc",
@@ -63,11 +155,10 @@ class ContratanteTest(unittest.TestCase):
                 numero="123",
                 complemento="Apto 1",
             )
-
-        with self.assertRaises(ValorNuloError):
+        with self.assertRaises(TipoIncorretoError):
             Contratante(
                 id=1,
-                nome_estabelecimento="",
+                nome_estabelecimento=123,
                 cep="12345-678",
                 estado="SP",
                 cidade="Cidade",
@@ -75,6 +166,74 @@ class ContratanteTest(unittest.TestCase):
                 numero="123",
                 complemento="Apto 1",
             )
+        with self.assertRaises(TipoIncorretoError):
+            Contratante(
+                id=1,
+                nome_estabelecimento="Estabelecimento",
+                cep=123,
+                estado="SP",
+                cidade="Cidade",
+                bairro="Bairro",
+                numero="123",
+                complemento="Apto 1",
+            )
+        with self.assertRaises(TipoIncorretoError):
+            Contratante(
+                id=1,
+                nome_estabelecimento="Estabelecimento",
+                cep="12345-678",
+                estado=123,
+                cidade="Cidade",
+                bairro="Bairro",
+                numero="123",
+                complemento="Apto 1",
+            )
+        with self.assertRaises(TipoIncorretoError):
+            Contratante(
+                id=1,
+                nome_estabelecimento="Estabelecimento",
+                cep="12345-678",
+                estado="SP",
+                cidade=123,
+                bairro="Bairro",
+                numero="123",
+                complemento="Apto 1",
+            )
+        with self.assertRaises(TipoIncorretoError):
+            Contratante(
+                id=1,
+                nome_estabelecimento="Estabelecimento",
+                cep="12345-678",
+                estado="SP",
+                cidade="Cidade",
+                bairro=123,
+                numero="123",
+                complemento="Apto 1",
+            )
+        with self.assertRaises(TipoIncorretoError):
+            Contratante(
+                id=1,
+                nome_estabelecimento="Estabelecimento",
+                cep="12345-678",
+                estado="SP",
+                cidade="Cidade",
+                bairro="Bairro",
+                numero=123,
+                complemento="Apto 1",
+            )
+        with self.assertRaises(TipoIncorretoError):
+            Contratante(
+                id=1,
+                nome_estabelecimento="Estabelecimento",
+                cep="12345-678",
+                estado="SP",
+                cidade="Cidade",
+                bairro="Bairro",
+                numero="123",
+                complemento=123,
+            )
+
+       
 
     @patch("BancoDeDados.Contratante.query")
     def test_GetContratante(self, mock_query):

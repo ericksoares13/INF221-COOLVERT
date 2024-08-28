@@ -17,7 +17,7 @@ class PessoaTest(unittest.TestCase):
             "nome": "Test User",
             "email": "test@example.com",
             "senha": "123456",
-            "tipo": "user",
+            "tipo": "C",
         }
         pessoa_id = BancoDeDados.CriaPessoa(obj)
 
@@ -28,21 +28,38 @@ class PessoaTest(unittest.TestCase):
         self.assertEqual(pessoa_id, 1)
 
     def test_validacoes_pessoa(self):
+        # Teste para ValorNuloError
         with self.assertRaises(ValorNuloError):
-            Pessoa(nome="", email="test@example.com", senha=b"123456", tipo="user")
+            Pessoa(nome=None, email="test@example.com", senha=b"123456", tipo="C")
 
         with self.assertRaises(ValorNuloError):
-            Pessoa(nome="Test User", email=None, senha=b"123456", tipo="user")
+            Pessoa(nome="Test User", email=None, senha=b"123456", tipo="C")
 
+        with self.assertRaises(ValorNuloError):
+            Pessoa(nome="Test User", email="test@example.com", senha=None, tipo="C")
+            
+        with self.assertRaises(ValorNuloError):
+            Pessoa(nome="Test User", email="test@example.com", senha=b"123456", tipo= None)
+
+        # Teste para TipoIncorretoError
         with self.assertRaises(TipoIncorretoError):
             Pessoa(
-                nome="Test User", email="test@example.com", senha="123456", tipo="user"
+                nome=1, email="test@example.com", senha=b"123456", tipo="C"
             )
 
         with self.assertRaises(TipoIncorretoError):
             Pessoa(
-                nome="Test User", email="test@example.com", senha=b"123456", tipo=123
+                nome="Test User", email=1, senha=b"123456", tipo="C"
             )
+        with self.assertRaises(TipoIncorretoError):
+            Pessoa(
+                nome="Test User", email= "test@example.com", senha="123456", tipo="C"
+            )
+        with self.assertRaises(TipoIncorretoError):
+            Pessoa(
+                nome="Test User", email= "test@example.com", senha=b"123456", tipo=1
+            )
+            
 
     @patch("BancoDeDados.Pessoa.query.filter_by")
     def test_Login(self, mock_filter_by):

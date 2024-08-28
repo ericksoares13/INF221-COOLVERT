@@ -8,6 +8,8 @@ class Contratante:
     def __init__(
         self, id, nome_estabelecimento, cep, estado, cidade, bairro, numero, complemento
     ):
+        if not id:
+            raise ValorNuloError("O campo 'id' deve ser um inteiro não nulo.")
         if not isinstance(id, int):
             raise TipoIncorretoError("O campo 'id' deve ser um inteiro não nulo.")
 
