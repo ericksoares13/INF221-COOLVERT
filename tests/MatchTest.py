@@ -1,34 +1,14 @@
+from BancoDeDados import BancoDeDados
+from mock_models import Match, TipoIncorretoError, ValorNuloError
+from unittest.mock import MagicMock, patch
 import unittest
-from unittest.mock import patch
-from BancoDeDados_Pessoa4 import BancoDeDados
-from mock_models import *
 
 
-class TestBancoDeDados(unittest.TestCase):
+class MatchTest(unittest.TestCase):
 
-    @patch('BancoDeDados_Pessoa4.Pessoa.query.get')
-    def test_GetNomeUsuario_valido(self, mock_get):
-        mock_pessoa = MagicMock()
-        mock_pessoa.nome = "João"
-        mock_get.return_value = mock_pessoa
-
-        result = BancoDeDados.GetNomeUsuario(1)
-
-        mock_get.assert_called_once_with(1)
-        self.assertEqual(result, "João")
-
-    @patch('BancoDeDados_Pessoa4.Pessoa.query.get')
-    def test_GetNomeUsuario_invalido(self, mock_get):
-        mock_get.return_value = None
-
-        result = BancoDeDados.GetNomeUsuario(999)
-
-        mock_get.assert_called_once_with(999)
-        self.assertIsNone(result)
-
-    @patch('BancoDeDados_Pessoa4.Match')
-    @patch('BancoDeDados_Pessoa4.bd.session.commit')
-    @patch('BancoDeDados_Pessoa4.bd.session.add')
+    @patch('BancoDeDados.Match')
+    @patch('BancoDeDados.bd.session.commit')
+    @patch('BancoDeDados.bd.session.add')
     def test_CriaMatch(self, mock_add, mock_commit, mock_match):
         mock_match.return_value.id = 1
 
@@ -57,7 +37,7 @@ class TestBancoDeDados(unittest.TestCase):
         with self.assertRaises(TipoIncorretoError):
             Match(1, "string")
 
-    @patch('BancoDeDados_Pessoa4.Match.query.get')
+    @patch('BancoDeDados.Match.query.get')
     def test_GetMatch_valido(self, mock_get):
         mock_match = MagicMock()
         mock_get.return_value = mock_match
@@ -67,7 +47,7 @@ class TestBancoDeDados(unittest.TestCase):
         mock_get.assert_called_once_with(1)
         self.assertEqual(result, mock_match)
 
-    @patch('BancoDeDados_Pessoa4.Match.query.get')
+    @patch('BancoDeDados.Match.query.get')
     def test_GetMatch_invalido(self, mock_get):
         mock_get.return_value = None
 
@@ -76,7 +56,7 @@ class TestBancoDeDados(unittest.TestCase):
         mock_get.assert_called_once_with(999)
         self.assertIsNone(result)
 
-    @patch('BancoDeDados_Pessoa4.Match.query.filter_by')
+    @patch('BancoDeDados.Match.query.filter_by')
     def test_GetMatches(self, mock_filter_by):
         mock_filter_by.return_value.all.return_value = [MagicMock(), MagicMock()]
 
@@ -85,7 +65,7 @@ class TestBancoDeDados(unittest.TestCase):
         mock_filter_by.assert_called_once_with(id_demanda=1)
         self.assertEqual(len(result), 2)
 
-    @patch('BancoDeDados_Pessoa4.Match.query.filter_by')
+    @patch('BancoDeDados.Match.query.filter_by')
     def test_GetMatches_id_inexistente(self, mock_filter_by):
         mock_filter_by.return_value.all.return_value = []
 
@@ -94,7 +74,7 @@ class TestBancoDeDados(unittest.TestCase):
         mock_filter_by.assert_called_once_with(id_demanda=999)
         self.assertEqual(len(result), 0)
 
-    @patch('BancoDeDados_Pessoa4.Match.query.filter_by')
+    @patch('BancoDeDados.Match.query.filter_by')
     def test_GetMatches_erro_consulta(self, mock_filter_by):
         mock_filter_by.side_effect = Exception("Erro na consulta")
 
@@ -103,7 +83,7 @@ class TestBancoDeDados(unittest.TestCase):
 
         self.assertEqual(str(context.exception), "Erro na consulta")
 
-    @patch('BancoDeDados_Pessoa4.Match.query.filter_by')
+    @patch('BancoDeDados.Match.query.filter_by')
     def test_GetMatchesMusico(self, mock_filter_by):
         mock_filter_by.return_value.all.return_value = [MagicMock(), MagicMock()]
 
@@ -112,7 +92,7 @@ class TestBancoDeDados(unittest.TestCase):
         mock_filter_by.assert_called_once_with(id_musico=1)
         self.assertEqual(len(result), 2)
 
-    @patch('BancoDeDados_Pessoa4.Match.query.filter_by')
+    @patch('BancoDeDados.Match.query.filter_by')
     def test_GetMatchesMusico_id_inexistente(self, mock_filter_by):
         mock_filter_by.return_value.all.return_value = []
 
@@ -121,7 +101,7 @@ class TestBancoDeDados(unittest.TestCase):
         mock_filter_by.assert_called_once_with(id_musico=999)
         self.assertEqual(len(result), 0)
 
-    @patch('BancoDeDados_Pessoa4.Match.query.with_entities')
+    @patch('BancoDeDados.Match.query.with_entities')
     def test_GetMusicos(self, mock_with_entities):
         mock_with_entities.return_value.filter_by.return_value.all.return_value = [(1,), (2,)]
 
@@ -130,7 +110,7 @@ class TestBancoDeDados(unittest.TestCase):
         mock_with_entities.assert_called_once()
         self.assertEqual(result, [1, 2])
 
-    @patch('BancoDeDados_Pessoa4.Match.query.with_entities')
+    @patch('BancoDeDados.Match.query.with_entities')
     def test_GetMusicos_erro_consulta(self, mock_with_entities):
         mock_with_entities.side_effect = Exception("Erro na consulta")
 
@@ -138,7 +118,3 @@ class TestBancoDeDados(unittest.TestCase):
             BancoDeDados.GetMusicos(1)
 
         self.assertEqual(str(context.exception), "Erro na consulta")
-
-
-if __name__ == '__main__':
-    unittest.main()
