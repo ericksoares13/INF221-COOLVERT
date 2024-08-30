@@ -3,6 +3,12 @@
 
 **Descrição:** Esse é o projeto de um aplicativo que liga músicos a contratantes.
 
+## Tecnologias usadas no trabalho
+* Back-end: Python.
+* Front-end: Flask e Bootstrap.
+* Banco de Dados: SQLAlchemy em uma base de dados SQLite.
+* Testes: Biblioteca nativa do Python UnitTest.
+
 ## Configuração do Ambiente
 
 ### 1. Criar o ambiente virtual
@@ -44,5 +50,5 @@ python run.py
 ## Para executar os testes
   Dentro da pasta tests execute o comando:
 ```bash
-python -m unittest arquivo_de_teste.py
+python -m unittest UnitTests.py
 ```
